@@ -1,19 +1,21 @@
 package app;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Country {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int country_id;
+    @Column(name = "country_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_country_id_seq")
+    @SequenceGenerator(
+            name="country_country_id_seq",
+            sequenceName="country_country_id_seq"
+    )
+    private int countryId;
     private String country;
 
-    public int getCountry_id() {
-        return country_id;
+    public int getCountryId() {
+        return countryId;
     }
 
     public String getCountry() {

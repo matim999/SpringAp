@@ -16,18 +16,18 @@ public class Store {
             name="store_store_id_seq",
             sequenceName="store_store_id_seq"
     )
-    private int store_id;
-    private int manager_staff_id;
+    private int storeId;
+    private int managerStaffId;
     private int addressId;
     @JsonFormat(pattern="yyyy-MM-dd kk:mm:ss.SS")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalDateTime lastUpdate;
 
-    public int getStore_id() {
-        return store_id;
+    public int getStoreId() {
+        return storeId;
     }
-    public int getManager_staff_id() {
-        return manager_staff_id;
+    public int getManagerStaffId() {
+        return managerStaffId;
     }
     public int getAddressId() {
         return addressId;

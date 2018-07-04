@@ -6,8 +6,8 @@ import javax.persistence.*;
 public class Payment {
     @Id
     @Column(name = "payment_id")
-    private int payment_id;
-    private int customer_id;
+    private int PaymentId;
+    private int customerIdd;
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = Staff.class)
     @JoinColumn(name = "staff_id")
     private Staff staff;
@@ -15,13 +15,13 @@ public class Payment {
     @JoinColumn(name = "rental_id")
     private Rental rental;
     private int amount;
-    private String payment_date;
+    private String paymentDate;
 
-    public int getPayment_id() {
-        return payment_id;
+    public int getPaymentId() {
+        return PaymentId;
     }
-    public int getCustomer_id() {
-        return customer_id;
+    public int getCustomerIdd() {
+        return customerIdd;
     }
     public Staff getStaff() {
         return staff;
@@ -32,7 +32,7 @@ public class Payment {
     public int getAmount() {
         return amount;
     }
-    public String getPayment_date() {
-        return payment_date;
+    public String getPaymentDate() {
+        return paymentDate;
     }
 }

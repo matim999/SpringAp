@@ -8,12 +8,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Staff")
+@PersistenceContext
 public class Staff {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_staff_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_store_id_seq")
     @SequenceGenerator(
-            name="store_staff_id_seq",
-            sequenceName="store_staff_id_seq"
+            name="store_store_id_seq",
+            sequenceName="store_store_id_seq"
     )
     private int staffId;
     private String firstName;
@@ -26,7 +27,7 @@ public class Staff {
     @JsonFormat(pattern="yyyy-MM-dd kk:mm:ss.SS")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalDateTime lastUpdate;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name="store_id")
     private Store store;
 
