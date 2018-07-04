@@ -1,43 +1,50 @@
 package app;
 
-import controller.StoreController;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Staff")
 public class Staff {
     @Id
-    @Column(name = "staff_id")
-    private int staff_id;
-    private String first_name;
-    private String last_name;
-    private int address_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_staff_id_seq")
+    @SequenceGenerator(
+            name="store_staff_id_seq",
+            sequenceName="store_staff_id_seq"
+    )
+    private int staffId;
+    private String firstName;
+    private String lastName;
+    private int addressId;
     private String email;
     private boolean active;
     private String username;
     private String password;
-    private String last_update;
-    @OneToOne
+    @JsonFormat(pattern="yyyy-MM-dd kk:mm:ss.SS")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalDateTime lastUpdate;
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="store_id")
     private Store store;
 
-    public int getStaff_id() {
-        return staff_id;
+    public int getStaffId() {
+        return staffId;
     }
 
     public Store getStore() {
         return store;
     }
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
-    public int getAddress_id() {
-        return address_id;
+    public int getAddressId() {
+        return addressId;
     }
     public String getEmail() {
         return email;
@@ -51,7 +58,7 @@ public class Staff {
     public String getPassword() {
         return password;
     }
-    public String getLast_update() {
-        return last_update;
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
     }
 }

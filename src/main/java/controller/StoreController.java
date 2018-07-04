@@ -24,9 +24,10 @@ public class StoreController {
         return repo.findAll();
     }
 
-    @GetMapping
+    @PostMapping(path="/add")
     public @ResponseBody
-    Optional<Store> getStore(@RequestParam int store_id){
-        return repo.findById(store_id);
+    String addStore(@RequestBody Store store) {
+        repo.save(store);
+        return "Done";
     }
 }

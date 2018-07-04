@@ -34,5 +34,10 @@ public class StaffController {
         staff = repo.findById(staff_id);
         return staff;
     }
-
+    @PostMapping(path="/add")
+    public @ResponseBody
+    String addStore(@RequestBody Staff staff) {
+        repo.save(staff);
+        return "Done";
+    }
 }
