@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface RepositoryRental extends JpaRepository<Rental, Integer> {
-    List findAllByInventory_id(int customer_id);
+    List findAllByCustomerId(int customer_id);
 }

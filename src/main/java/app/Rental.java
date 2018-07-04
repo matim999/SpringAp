@@ -1,5 +1,7 @@
 package app;
 
+import org.jboss.logging.Field;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +11,7 @@ public class Rental {
     private int rental_id;
     private String rental_date;
     private int inventory_id;
-    private int customer_id;
+    private int customerId;
     private String return_date;
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = Staff.class)
     @JoinColumn(name = "staff_id")
@@ -25,8 +27,8 @@ public class Rental {
     public int getInventory_id() {
         return inventory_id;
     }
-    public int getCustomer_id() {
-        return customer_id;
+    public int customerId() {
+        return customerId;
     }
     public String getReturn_date() {
         return return_date;

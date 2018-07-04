@@ -6,6 +6,8 @@ import app.RepositoryRental;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Query;
@@ -14,6 +16,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/rental")
+@EntityScan("app")
+@ComponentScan("app")
 public class RentalController {
     @Autowired
     private RepositoryRental repo;
@@ -32,8 +36,7 @@ public class RentalController {
 
     @GetMapping(path="/specificc")
         public @ResponseBody
-        List GetRentalByCustomer(int customer_id) {
-            customer_id = 300;
-            return repo.findAllByInventory_id(customer_id);
+        List GetRentalByCustomer(@RequestParam int customer_id) {
+            return repo.findAllByCustomerId(customer_id);
         }
 }
