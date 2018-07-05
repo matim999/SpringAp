@@ -1,4 +1,4 @@
-package app;
+package app.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +14,8 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_store_id_seq")
     @SequenceGenerator(
             name="store_store_id_seq",
-            sequenceName="store_store_id_seq"
+            sequenceName="store_store_id_seq",
+            allocationSize = 1
     )
     private int store_id;
     private int managerStaffId;

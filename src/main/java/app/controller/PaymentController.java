@@ -1,16 +1,9 @@
-package controller;
+package app.controller;
 
-import app.Country;
-import app.Payment;
-import app.RepositoryCountry;
-import app.RepositoryPayment;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import app.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.Query;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +11,7 @@ import java.util.Optional;
 @RequestMapping("/payment")
 public class PaymentController {
     @Autowired
-    private RepositoryPayment repo;
+    private PaymentRepository repo;
 
     @GetMapping(path="/all")
     public @ResponseBody

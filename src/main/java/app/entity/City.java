@@ -1,4 +1,4 @@
-package app;
+package app.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +12,8 @@ public class City {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "city_city_id_seq")
     @SequenceGenerator(
             name="city_city_id_seq",
-            sequenceName="city_city_id_seq"
+            sequenceName="city_city_id_seq",
+            allocationSize = 1
     )
     @Column(name = "city_id")
     private int cityId;
@@ -38,5 +39,9 @@ public class City {
 
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }
