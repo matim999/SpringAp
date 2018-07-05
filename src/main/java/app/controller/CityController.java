@@ -23,7 +23,7 @@ public class CityController {
     @GetMapping
     public @ResponseBody
     ResponseEntity getAllCity() {
-        return new ResponseEntity(cityFinder.findAll(), HttpStatus.FOUND);
+        return new ResponseEntity(cityFinder.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/")
@@ -41,26 +41,26 @@ public class CityController {
     @DeleteMapping(path="/{id}")
     public @ResponseBody
     ResponseEntity deleteCityById(@PathVariable int id) {
-        return cityService.deleteCityById(id);
+        return new ResponseEntity(cityService.deleteCityById(id));
     }
 
     @PutMapping
     public @ResponseBody
     ResponseEntity updateCity(@RequestBody City city)
     {
-        return cityService.updateCity(city);
+        return new ResponseEntity(cityService.updateCity(city));
     }
 
     @PostMapping
     public @ResponseBody
     ResponseEntity addNewCity(@RequestBody City city)
     {
-        return cityService.addNewCity(city);
+        return new ResponseEntity(cityService.addNewCity(city));
     }
 
     @GetMapping(path="/{id}/country")
     public @ResponseBody
-    ResponseEntity getCityCoutnry(@PathVariable int id) {
-        return cityFinder.findCountry(id);
+    ResponseEntity getCityCountry(@PathVariable int id) {
+        return new ResponseEntity(cityFinder.findCityCountry(id), HttpStatus.OK);
     }
 }

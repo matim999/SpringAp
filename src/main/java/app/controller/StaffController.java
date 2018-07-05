@@ -31,7 +31,7 @@ public class StaffController {
     @GetMapping(path = "/specific")
     public @ResponseBody
     Optional getSpecificStaff(){
-        int staff_id = 1;
+        int staff_id = 0;
         Optional<Staff> staff;
         staff = repo.findById(staff_id);
         return staff;
