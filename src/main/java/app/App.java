@@ -1,18 +1,16 @@
 package app;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
 
 @SpringBootApplication
-@ComponentScan("controller")
 public class App {
     public static void main (String [] args)
     {
+        System.out.println(HttpStatus.OK);
         SpringApplication.run(App.class, args);
     }
 }

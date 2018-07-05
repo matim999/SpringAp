@@ -1,16 +1,11 @@
-package controller;
+package app.controller;
 
-import app.Country;
-import app.RepositoryCountry;
-import app.RepositoryRental;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import app.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +15,7 @@ import java.util.Optional;
 @ComponentScan("app")
 public class RentalController {
     @Autowired
-    private RepositoryRental repo;
+    private RentalRepository repo;
 
     @GetMapping(path="/all")
     public @ResponseBody

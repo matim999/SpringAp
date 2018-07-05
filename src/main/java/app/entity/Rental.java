@@ -1,6 +1,10 @@
-package app;
+package app.entity;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Rental {
@@ -14,9 +18,11 @@ public class Rental {
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = Staff.class)
     @JoinColumn(name = "staff_id")
     private Staff staff;
-    private String lastUpdate;
+    @JsonFormat(pattern="yyyy-MM-dd kk:mm:ss.SS")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalDateTime lastUpdate;
 
-    public int getRentald() {
+    public int getRental_id() {
         return rentalId;
     }
     public String getRentalDate() {
@@ -34,7 +40,7 @@ public class Rental {
     public Staff getStaff() {
         return staff;
     }
-    public String getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 }
