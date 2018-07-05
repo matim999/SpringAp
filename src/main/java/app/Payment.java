@@ -1,13 +1,17 @@
 package app;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Payment {
     @Id
     @Column(name = "payment_id")
-    private int payment_id;
-    private int customer_id;
+    private int paymentId;
+    private int customerId;
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = Staff.class)
     @JoinColumn(name = "staff_id")
     private Staff staff;
@@ -15,13 +19,15 @@ public class Payment {
     @JoinColumn(name = "rental_id")
     private Rental rental;
     private int amount;
-    private String payment_date;
+    @JsonFormat(pattern="yyyy-MM-dd kk:mm:ss.SS")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalDateTime paymentDate;
 
-    public int getPayment_id() {
-        return payment_id;
+    public int getPaymentId() {
+        return paymentId;
     }
-    public int getCustomer_id() {
-        return customer_id;
+    public int getCustomerId() {
+        return customerId;
     }
     public Staff getStaff() {
         return staff;
@@ -32,7 +38,7 @@ public class Payment {
     public int getAmount() {
         return amount;
     }
-    public String getPayment_date() {
-        return payment_date;
+    public LocalDateTime getPaymentDate() {
+        return paymentDate;
     }
 }

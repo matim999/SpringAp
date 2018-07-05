@@ -1,42 +1,46 @@
 package app;
 
-import org.jboss.logging.Field;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Rental {
     @Id
     @Column(name = "rental_id")
-    private int rental_id;
-    private String rental_date;
-    private int inventory_id;
+    private int rentalId;
+    private String rentalDate;
+    private int inventoryId;
     private int customerId;
-    private String return_date;
+    private String returnDate;
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = Staff.class)
     @JoinColumn(name = "staff_id")
     private Staff staff;
-    private String last_update;
+    @JsonFormat(pattern="yyyy-MM-dd kk:mm:ss.SS")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalDateTime lastUpdate;
 
     public int getRental_id() {
-        return rental_id;
+        return rentalId;
     }
-    public String getRental_date() {
-        return rental_date;
+    public String getRentalDate() {
+        return rentalDate;
     }
-    public int getInventory_id() {
-        return inventory_id;
+    public int getInventoryId() {
+        return inventoryId;
     }
     public int customerId() {
         return customerId;
     }
-    public String getReturn_date() {
-        return return_date;
+    public String getReturnDate() {
+        return returnDate;
     }
     public Staff getStaff() {
         return staff;
     }
-    public String getLast_update() {
-        return last_update;
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
     }
 }
