@@ -1,7 +1,6 @@
 package app.finder;
 
 import app.entity.City;
-import app.entity.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

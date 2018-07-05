@@ -3,7 +3,6 @@ package app.finder;
 import app.entity.Country;
 import app.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

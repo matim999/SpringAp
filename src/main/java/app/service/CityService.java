@@ -43,8 +43,10 @@ public class CityService {
         }
         if(existingCountry != null) {
             city.setCountry(existingCountry);
+            cityRepository.save(city);
             return new ResponseEntity(HttpStatus.ACCEPTED);
         }
+        cityRepository.save(city);
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
