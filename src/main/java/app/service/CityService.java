@@ -22,17 +22,22 @@ public class CityService {
         this.countryRepository = countryRepository;
     }
 
+    private HttpStatus updateCountry(City city, Country country)
+    {
+        if(country.getCountry().equals(city.getCountry().getCountry())) {
+            return HttpStatus.CONFLICT;
+        }
+        city.setCountry(country);
+        cityRepository.flush();
+        return HttpStatus.OK;
+    }
     public HttpStatus updateCity(City city)
     {
         City existingCity = (City) cityRepository.findByCity(city.getCity()).get(0);
         Country existingCountry = countryRepository.findByCountry(city.getCountry().getCountry());
         if(existingCity != null) {
             if(existingCountry != null) {
-                if(existingCountry.getCountry().equals(existingCity.getCountry().getCountry())) {
-                    return HttpStatus.CONFLICT;
-                }
-                existingCity.setCountry(existingCountry);
-                return HttpStatus.OK;
+                return updateCountry(existingCity, existingCountry);
             }
             else{
                 countryRepository.save(city.getCountry());
