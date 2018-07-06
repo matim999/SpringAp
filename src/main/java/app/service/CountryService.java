@@ -5,9 +5,9 @@ import app.entity.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class CountryService {
     private final CountryRepository countryRepository;
 
@@ -16,16 +16,32 @@ public class CountryService {
         this.countryRepository = countryRepository;
     }
 
-    public ResponseEntity addNewCountry(Country country){
+    public HttpStatus addNewCountry(Country country){
         Country existingCountry = countryRepository.findByCountry(country.getCountry());
         if(existingCountry != null)
-            return new ResponseEntity(HttpStatus.CONFLICT);
+            return HttpStatus.CONFLICT;
         countryRepository.save(country);
-        return new ResponseEntity(HttpStatus.OK);
+        return HttpStatus.OK;
     }
 
-    public ResponseEntity deleteCountryById(int id){
+    public HttpStatus deleteCountryById(int id){
         countryRepository.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return HttpStatus.OK;
+    }
+
+    public HttpStatus updateCountryByID(int id, Country country)
+    {
+        Country existingCountry = countryRepository.findById(id).get();
+        if(existingCountry != null) {
+            if(existingCountry.getCountry().equals(country.getCountry())) {
+                return HttpStatus.CONFLICT;
+            }
+            existingCountry = country;
+            countryRepository.save(existingCountry);
+            countryRepository.flush();
+            return HttpStatus.OK;
+        }
+        countryRepository.save(country);
+        return HttpStatus.OK;
     }
 }

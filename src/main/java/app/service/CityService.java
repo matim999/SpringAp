@@ -22,7 +22,37 @@ public class CityService {
         this.countryRepository = countryRepository;
     }
 
-    private HttpStatus updateCountry(City city, Country country)
+    public HttpStatus updateCityCountryId(int cityId, int countryId)
+    {
+        City existingCity = cityRepository.findById(cityId).get();
+        Country existingCountry = countryRepository.findById(countryId).get();
+        if(existingCity != null && existingCity != null) {
+            existingCity.setCountry(existingCountry);
+            cityRepository.saveAndFlush(existingCity);
+            return HttpStatus.OK;
+        }
+        else if (existingCity != null) {
+            Country country = new Country();
+            countryRepository.save(country);
+            existingCity.setCountry(country);
+            cityRepository.saveAndFlush(existingCity);
+            return HttpStatus.OK;
+        }
+        else if (existingCountry != null){
+            City city = new City();
+            city.setCountry(existingCountry);
+            cityRepository.saveAndFlush(city);
+            return HttpStatus.OK;
+        }
+        City city = new City();
+        Country country = new Country();
+        city.setCountry(country);
+        countryRepository.saveAndFlush(country);
+        cityRepository.saveAndFlush(city);
+        return HttpStatus.OK;
+    }
+
+    private HttpStatus updateCityCountry(City city, Country country)
     {
         if(country.getCountry().equals(city.getCountry().getCountry())) {
             return HttpStatus.CONFLICT;
@@ -31,23 +61,20 @@ public class CityService {
         cityRepository.flush();
         return HttpStatus.OK;
     }
-    public HttpStatus updateCity(City city)
+    public HttpStatus updateCity(int id, City city)
     {
-        City existingCity = (City) cityRepository.findByCity(city.getCity()).get(0);
+        City existingCity = cityRepository.findById(id).get();
         Country existingCountry = countryRepository.findByCountry(city.getCountry().getCountry());
-        if(existingCity != null) {
-            if(existingCountry != null) {
-                return updateCountry(existingCity, existingCountry);
-            }
-            else{
-                countryRepository.save(city.getCountry());
-                existingCountry = countryRepository.findByCountry(city.getCountry().getCountry());
-                existingCity.setCountry(existingCountry);
-                cityRepository.flush();
-                return HttpStatus.OK;
-            }
+        if(existingCity != null && existingCountry != null)
+            return updateCityCountry(existingCity, existingCountry);
+        else if(existingCity != null) {
+            countryRepository.save(city.getCountry());
+            existingCountry = countryRepository.findByCountry(city.getCountry().getCountry());
+            existingCity.setCountry(existingCountry);
+            cityRepository.flush();
+            return HttpStatus.OK;
         }
-        if(existingCountry != null) {
+        else if(existingCountry != null){
             city.setCountry(existingCountry);
             cityRepository.save(city);
             return HttpStatus.OK;

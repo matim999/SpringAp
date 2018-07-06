@@ -39,4 +39,8 @@ public class CityFinder {
         else
             return cityRepository.findByCountry_Country(country);
     }
+
+    public List findCityByCountry(String country) {
+        return cityRepository.findByCountry_Country(country);
+    }
 }
