@@ -41,7 +41,7 @@ public class AddressFinder {
         return result;
     }
 
-    public Address findAddressQuery(String address, String district, /*int cityId,*/ String city, /*int countryId,*/ String country, String postalCode, String phone) {
+    public List findAddressQuery(String address, String district, /*int cityId,*/ String city, /*int countryId,*/ String country, String postalCode, String phone) {
         return addressRepository.findQuery(address, district, /*cityId,*/ city, /*countryId,*/ country, postalCode, phone);
     }
 }

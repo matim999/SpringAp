@@ -34,7 +34,7 @@ public class AddressController {
 
     @GetMapping(path = "/a/")
     public @ResponseBody
-    ResponseEntity getAddressByQuery(@RequestParam(required = false)String address,
+    ResponseEntity getAddressByQuery(  @RequestParam(required = false)String address,
                                        @RequestParam(required = false)String district,
 //                                       @RequestParam(required = false)Integer cityId,
                                        @RequestParam(required = false)String city,
