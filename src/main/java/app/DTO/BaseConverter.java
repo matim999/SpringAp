@@ -11,7 +11,7 @@ public interface BaseConverter<F,T> {
     default Collection<T> convertAll(Collection<F> fElements){
         Collection<T> convertedElement =
                 fElements.stream()
-                        .map(element -> convert(element))
+                        .map(this::convert)
                         .collect(Collectors.toList());
 
         return convertedElement;

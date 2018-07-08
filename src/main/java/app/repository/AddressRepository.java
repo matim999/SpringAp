@@ -23,6 +23,7 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
     List findAllByCity_Country_CountryId(int countryId);
     List findAllByCity_Country_Country(String country);
 
+
 //    @Query(value = "SELECT * from ADDRESS a " +
 //            "inner join CITY c on a.city_id = c.city_id " +
 //            "inner join COUNTRY co on c.country_id = co.country_id where " +
@@ -51,5 +52,4 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
                    @Param("ccountry")String country,
                    @Param("ppostalCode")String postalCode,
                    @Param("pphone")String phone);
-    void findBy();
 }
