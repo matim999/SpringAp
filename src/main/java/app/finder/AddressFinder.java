@@ -25,9 +25,10 @@ public class AddressFinder {
         return addressRepository.findAllByCity_Country_Country(country);
     }
 
-    public List findAddresBy(String address, String district, int cityId, String city, int countryId, String country, String postalCode, String phone) {
+    public List findAddressBy(String address, String district, int cityId, String city, int countryId, String country, String postalCode, String phone) {
         List<Address> addresses = addressRepository.findAll();
         List<Address> result = addresses.stream()
+                .filter(a -> address != null ? a.getAddress().equals(address) : true)
                 .filter(a -> address != null ? a.getAddress().equals(address) : true)
                 .filter(a -> district != null ? a.getDistrict().equals(district) : true)
                 .filter(a -> cityId != 0 ? a.getCity().getCityId() == cityId : true)

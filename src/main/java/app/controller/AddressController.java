@@ -36,7 +36,7 @@ public class AddressController {
                                        @RequestParam(required = false)String postalCode,
                                        @RequestParam(required = false)String phone)
     {
-        return new ResponseEntity(addressConverter.convertAll(addressFinder.findAddresBy(address, district, cityId, city, countryId, country, postalCode, phone)), HttpStatus.OK);
+        return new ResponseEntity(addressConverter.convertAll(addressFinder.findAddressBy(address, district, cityId, city, countryId, country, postalCode, phone)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
