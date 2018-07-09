@@ -61,8 +61,7 @@ public class CityController {
 
     @PostMapping
     public @ResponseBody
-    ResponseEntity addNewCity(@RequestBody City city)
-    {
+    ResponseEntity addNewCity(@RequestBody City city) {
         return new ResponseEntity(cityService.addNewCity(city));
     }
 

@@ -1,26 +1,16 @@
 package app.repository;
 
 import app.entity.Address;
-import app.entity.City;
-import app.entity.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
-import javax.persistence.TemporalType;
 import java.util.List;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Integer> {
-    List findAllByAddress(String address);
-    List findAllByDistrict(String district);
-    List findAllByPostalCode(String postalCode);
-    List findAllByPhone(String phone);
-    List findAllByCity_CityId(int cityId);
-    List findAllByCity_City(String city);
-    List findAllByCity_Country_CountryId(int countryId);
     List findAllByCity_Country_Country(String country);
 
 

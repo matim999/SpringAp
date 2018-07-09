@@ -22,7 +22,6 @@ public class CityConverter implements BaseConverter<City, CityDto> {
         cityDto.setCityId(from.getCityId());
         cityDto.setCity(from.getCity());
         cityDto.setCountry(countryConverter.convert(from.getCountry()));
-        cityDto.setLastUpdate(from.getLastUpdate());
         return cityDto;
     }
 

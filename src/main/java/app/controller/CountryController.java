@@ -43,8 +43,8 @@ public class CountryController {
     @GetMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity getAllCountry(@PathVariable int id) {
-        CountryDto list = countryConverter.convertAll(countryFinder.findCountryById(id));
-        return new ResponseEntity(list, HttpStatus.OK);
+        //CountryDto list = countryConverter.convertAll(countryFinder.findCountryById(id));
+        return new ResponseEntity(countryFinder.findCountryById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

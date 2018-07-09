@@ -16,10 +16,12 @@ public class InfoService {
     String title;
     @Value("${description}")
     String description;
+    @Value("${profile}")
+    String profile;
     private InfoDto infoDto;
 
     public InfoDto getInfo(){
-        infoDto = new InfoDto(title, description);
+        infoDto = new InfoDto(title, description, profile);
         return infoDto;
     }
 }

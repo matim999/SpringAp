@@ -26,7 +26,6 @@ public class AddressConverter implements BaseConverter<Address, AddressDto> {
         addressDto.setCity(cityConverter.convert(from.getCity()));
         addressDto.setPostalCode(from.getPostalCode());
         addressDto.setPhone(from.getPhone());
-        addressDto.setLastUpdate(from.getLastUpdate());
         return addressDto;
     }
 

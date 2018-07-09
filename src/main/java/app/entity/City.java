@@ -21,9 +21,6 @@ public class City {
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "country_id")
     private Country country;
-    @JsonFormat(pattern="yyyy-MM-dd kk:mm:ss.SS")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    private LocalDateTime lastUpdate;
 
     public int getCityId() {
         return cityId;
@@ -35,10 +32,6 @@ public class City {
 
     public Country getCountry() {
         return country;
-    }
-
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
     }
 
     public void setCountry(Country country) {

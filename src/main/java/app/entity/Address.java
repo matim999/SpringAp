@@ -24,9 +24,6 @@ public class Address {
     private City city;
     private String postalCode;
     private String phone;
-    @JsonFormat(pattern="yyyy-MM-dd kk:mm:ss.SS")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    private LocalDateTime lastUpdate;
 
     public int getAddressId() {
         return addressId;
@@ -54,9 +51,5 @@ public class Address {
 
     public String getPhone() {
         return phone;
-    }
-
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
     }
 }

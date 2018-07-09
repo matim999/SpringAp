@@ -1,11 +1,13 @@
 package app.finder;
 
 import app.entity.Country;
+import app.exceptions.MyNotFoundException;
 import app.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import static app.DTO.ErrorCode.*;
 
 @Component
 public class CountryFinder {
@@ -21,10 +23,9 @@ public class CountryFinder {
     }
     public Country findCountryById(int id)
     {
-        return countryRepository.findById(id).get();
+        return countryRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Country with given Id = " + id + ", does not exist", COUNTRY_NOT_FOUND_USING_ID));
     }
-    public Country findCountryByCountry(String country)
-    {
-        return countryRepository.findByCountry(country);
+    public Country findCountryByCountry(String country) {
+        return countryRepository.findByCountry(country).orElseThrow(() -> new MyNotFoundException("Country with given name = " + country + ", does not exist", COUNTRY_NOT_FOUND_USING_COUNTRY_NAME));
     }
 }
