@@ -1,5 +1,6 @@
 package app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -18,6 +19,11 @@ public class Category {
     @Column(name = "category_id")
     private @Getter int categoryId;
     private @Getter String name;
-    @ManyToMany(mappedBy = "categories")
-    private @Getter List<Film> films = new ArrayList<>();
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    private List<Film> films = new ArrayList<>();
+
+    @JsonIgnore
+    public List<Film> getFilms() {
+        return films;
+    }
 }

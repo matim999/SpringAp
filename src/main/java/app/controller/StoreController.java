@@ -1,33 +1,40 @@
 package app.controller;
 
 import app.entity.Store;
+import app.finder.StoreFinder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import app.repository.RepositoryStore;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/store")
 public class StoreController {
-
-    private final RepositoryStore repo;
+    private final StoreFinder storeFinder;
 
     @Autowired
-    public StoreController(RepositoryStore repo) {
-        this.repo = repo;
+    public StoreController(StoreFinder storeFinder) {
+        this.storeFinder = storeFinder;
     }
 
-    @GetMapping(path="/all")
-    public @ResponseBody
-    List getAllStores() {
-        return repo.findAll();
+    @GetMapping
+    private @ResponseBody
+    ResponseEntity<List> findAllStore()
+    {
+        return new ResponseEntity<>(storeFinder.findAllStore(), HttpStatus.OK);
     }
 
-    @PostMapping(path="/add")
+    @GetMapping(path = "/{id}")
     public @ResponseBody
-    String addStore(@RequestBody Store store) {
-        repo.save(store);
-        return "Done";
+    ResponseEntity<Store> findStoreById(@PathVariable int id) {
+        return new ResponseEntity<>(storeFinder.findStoreById(id), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/")
+    public @ResponseBody
+    ResponseEntity<List> findAllStoreByStaffId(@RequestParam int staffId) {
+        return new ResponseEntity<>(storeFinder.findAllStoreByStaffStaffId(staffId), HttpStatus.OK);
     }
 }

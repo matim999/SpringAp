@@ -29,6 +29,6 @@ public class ActorFinder {
     }
 
     public List<Actor> findActorByFirstName(String name){
-        return actorRepository.findAllByFirstName(name).orElseThrow(() -> new MyNotFoundException("Actor with given Id not found", DIFFERENT));
+        return actorRepository.findAllByFirstName(name).orElseThrow(() -> new MyNotFoundException("Actor with given name not found", DIFFERENT));
     }
 }

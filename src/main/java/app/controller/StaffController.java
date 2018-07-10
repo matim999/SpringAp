@@ -1,43 +1,40 @@
 package app.controller;
 
 import app.entity.Staff;
+import app.finder.StaffFinder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import app.repository.StaffRepository;
-import app.repository.RepositoryStore;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/staff")
 public class StaffController {
-
-    private final StaffRepository repo;
+    private final StaffFinder staffFinder;
 
     @Autowired
-    public StaffController(StaffRepository repo) {
-        this.repo = repo;
+    public StaffController(StaffFinder staffFinder) {
+        this.staffFinder = staffFinder;
     }
 
-    @GetMapping(path="/all")
-    public @ResponseBody
-    List getAllUsers() {
-        return repo.findAll();
+    @GetMapping
+    private @ResponseBody
+    ResponseEntity<List> findAllStaff()
+    {
+        return new ResponseEntity<>(staffFinder.findAllStaff(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/specific")
+    @GetMapping(path = "/{id}")
     public @ResponseBody
-    Optional getSpecificStaff(){
-        int staff_id = 0;
-        Optional<Staff> staff;
-        staff = repo.findById(staff_id);
-        return staff;
+    ResponseEntity<Staff> findStaffById(@PathVariable int id) {
+        return new ResponseEntity<>(staffFinder.findStaffById(id), HttpStatus.OK);
     }
-    @PostMapping(path="/add")
+
+    @GetMapping(path = "/")
     public @ResponseBody
-    String addStore(@RequestBody Staff staff) {
-        repo.save(staff);
-        return "Done";
+    ResponseEntity<List> findAllStaffByFirstName(@RequestParam String fname) {
+        return new ResponseEntity<>(staffFinder.findAllStaffByFirstName(fname), HttpStatus.OK);
     }
 }

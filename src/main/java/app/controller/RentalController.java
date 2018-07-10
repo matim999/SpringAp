@@ -1,9 +1,15 @@
 package app.controller;
 
+import app.entity.Language;
+import app.entity.Rental;
+import app.finder.LanguageFinder;
+import app.finder.RentalFinder;
 import app.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,28 +20,29 @@ import java.util.Optional;
 @EntityScan("app")
 @ComponentScan("app")
 public class RentalController {
-    private final RentalRepository repo;
+    private final RentalFinder rentalFinder;
 
     @Autowired
-    public RentalController(RentalRepository repo) {
-        this.repo = repo;
+    public RentalController(RentalFinder rentalFinder) {
+        this.rentalFinder = rentalFinder;
     }
 
-    @GetMapping(path="/all")
+    @GetMapping
+    private @ResponseBody
+    ResponseEntity<List> findAllRental()
+    {
+        return new ResponseEntity<>(rentalFinder.findAllRental(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{id}")
     public @ResponseBody
-    List getAllRental() {
-        return repo.findAll();
+    ResponseEntity<Rental> findRentalById(@PathVariable int id) {
+        return new ResponseEntity<>(rentalFinder.findRentalById(id), HttpStatus.OK);
     }
 
-    @GetMapping(path="/specific/{id}")
+    @GetMapping(path = "/")
     public @ResponseBody
-    Optional getRental(@PathVariable int id) {
-        return repo.findById(id);
+    ResponseEntity<List> findAllRentalByRentalDate(@RequestParam String date) {
+        return new ResponseEntity<>(rentalFinder.findAllRentalByRentalDate(date), HttpStatus.OK);
     }
-
-    @GetMapping(path="/specific")
-        public @ResponseBody
-        List GetRentalByCustomer(@RequestParam int customer_id) {
-            return repo.findAllByCustomerCustomerId(customer_id);
-        }
 }
