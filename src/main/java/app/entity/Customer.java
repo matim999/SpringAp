@@ -3,7 +3,7 @@ package app.entity;
 import lombok.Getter;
 
 import javax.persistence.*;
-
+//gg
 @Entity
 public class Customer {
     @Id
