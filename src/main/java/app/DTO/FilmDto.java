@@ -4,6 +4,7 @@ import app.entity.Actor;
 import app.entity.Category;
 import app.entity.Language;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public @Data
 class FilmDto {
-    private int filmId;
+    @EqualsAndHashCode.Exclude private int filmId;
     private String title;
     private String description;
     private int releaseYear;

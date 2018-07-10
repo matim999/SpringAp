@@ -3,10 +3,11 @@ package app.DTO;
 import app.entity.Address;
 import app.entity.Store;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 public @Data
 class StaffDto {
-    private int staffId;
+    @EqualsAndHashCode.Exclude private int staffId;
     private String firstName;
     private String lastName;
     private AddressDto address;

@@ -1,9 +1,10 @@
 package app.DTO;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 public @Data
 class LanguageDto {
-    private int languageId;
+    @EqualsAndHashCode.Exclude private int languageId;
     private String name;
 }

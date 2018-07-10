@@ -19,7 +19,7 @@ public class CityFinder {
     public CityFinder(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
-    public City findById(int id) throws MyNotFoundException {
+    public City findById(int id) {
         City city = cityRepository.findById(id).orElse(null);
         if(city == null)
             throw new MyNotFoundException("City with id does not exist", CITY_NOT_FOUND_USING_ID);

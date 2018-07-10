@@ -1,9 +1,10 @@
 package app.DTO;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 public @Data
 class CategoryDto {
-    private int categoryId;
+    @EqualsAndHashCode.Exclude private int categoryId;
     private String name;
 }

@@ -1,6 +1,7 @@
 package app.DTO;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -8,6 +9,6 @@ import javax.persistence.*;
 @Component
 public @Data
 class CountryDto {
-    private int countryId;
+    @EqualsAndHashCode.Exclude private int countryId;
     private String country;
 }

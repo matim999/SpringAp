@@ -1,6 +1,7 @@
 package app.DTO;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 @Component
 public @Data
 class AddressDto {
-    private int addressId;
+    @EqualsAndHashCode.Exclude private int addressId;
     private String address;
     private String address2;
     private String district;
