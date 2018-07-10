@@ -1,5 +1,8 @@
 package app.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,18 +15,6 @@ public class Country {
             allocationSize = 1
     )
     @Column(name = "country_id")
-    private int countryId;
-    private String country;
-
-    public int getCountryId() {
-        return countryId;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
+    private @Getter int countryId;
+    private @Getter @Setter String country;
 }

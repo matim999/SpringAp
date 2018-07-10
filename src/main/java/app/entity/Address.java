@@ -1,5 +1,7 @@
 package app.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,41 +13,13 @@ public class Address {
             sequenceName="address_address_id_seq",
             allocationSize = 1
     )
-    private int addressId;
-    private String address;
-    private String address2;
-    private String district;
+    private @Getter int addressId;
+    private @Getter String address;
+    private @Getter String address2;
+    private @Getter String district;
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "city_id")
-    private City city;
-    private String postalCode;
-    private String phone;
-
-    public int getAddressId() {
-        return addressId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
+    private @Getter City city;
+    private @Getter String postalCode;
+    private @Getter String phone;
 }

@@ -1,5 +1,8 @@
 package app.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,25 +15,9 @@ public class City {
             allocationSize = 1
     )
     @Column(name = "city_id")
-    private int cityId;
-    private String city;
+    private @Getter int cityId;
+    private @Getter String city;
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "country_id")
-    private Country country;
-
-    public int getCityId() {
-        return cityId;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
+    private @Getter @Setter Country country;
 }
