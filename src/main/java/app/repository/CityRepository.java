@@ -4,10 +4,9 @@ import app.entity.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CityRepository extends JpaRepository<City, Integer> {
-    City findByCity(String city);
-    List findByCountry_Country(String country);
+    Optional<City> findByCity(String city);
 }

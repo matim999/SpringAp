@@ -18,8 +18,8 @@ public class InfoController {
 
     @GetMapping
     public @ResponseBody
-    ResponseEntity printInfo()
+    ResponseEntity<app.DTO.InfoDto> printInfo()
     {
-        return new ResponseEntity(infoService.getInfo(), HttpStatus.OK);
+        return new ResponseEntity<>(infoService.getInfo(), HttpStatus.OK);
     }
 }

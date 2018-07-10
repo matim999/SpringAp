@@ -9,12 +9,10 @@ public interface BaseConverter<F,T> {
     T convert(F from);
 
     default Collection<T> convertAll(Collection<F> fElements){
-        Collection<T> convertedElement =
-                fElements.stream()
-                        .map(this::convert)
-                        .collect(Collectors.toList());
 
-        return convertedElement;
+        return fElements.stream()
+                .map(this::convert)
+                .collect(Collectors.toList());
     }
 
     default T convertAll(F Element){

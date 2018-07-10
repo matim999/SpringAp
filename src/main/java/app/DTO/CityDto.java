@@ -9,11 +9,6 @@ public class CityDto {
     private int cityId;
     private String city;
     private CountryDto country;
-    private LocalDateTime lastUpdate;
-
-    public int getCityId() {
-        return cityId;
-    }
 
     public void setCityId(int cityId) {
         this.cityId = cityId;
@@ -33,13 +28,5 @@ public class CityDto {
 
     public void setCountry(CountryDto country) {
         this.country = country;
-    }
-
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 }

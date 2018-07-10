@@ -15,12 +15,4 @@ public class CountryConverter implements BaseConverter<Country, CountryDto> {
         countryDTO.setCountry(from.getCountry());
         return countryDTO;
     }
-
-    public List convert(List<Country> countries) {
-        List countryDtos = new ArrayList();
-        for (Country country : countries) {
-            countryDtos.add(convert(country));
-        }
-        return countryDtos;
-    }
 }

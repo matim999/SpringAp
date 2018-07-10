@@ -14,8 +14,12 @@ import java.util.Optional;
 @EntityScan("app")
 @ComponentScan("app")
 public class RentalController {
+    private final RentalRepository repo;
+
     @Autowired
-    private RentalRepository repo;
+    public RentalController(RentalRepository repo) {
+        this.repo = repo;
+    }
 
     @GetMapping(path="/all")
     public @ResponseBody

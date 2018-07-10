@@ -10,8 +10,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
+    private final PaymentRepository repo;
+
     @Autowired
-    private PaymentRepository repo;
+    public PaymentController(PaymentRepository repo) {
+        this.repo = repo;
+    }
 
     @GetMapping(path="/all")
     public @ResponseBody

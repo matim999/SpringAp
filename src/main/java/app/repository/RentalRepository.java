@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, Integer> {
-    List findAllByCustomerId(int customer_id);
+    List<Rental> findAllByCustomerId(int customer_id);
 }

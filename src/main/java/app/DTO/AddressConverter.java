@@ -4,9 +4,6 @@ import app.entity.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 public class AddressConverter implements BaseConverter<Address, AddressDto> {
     private final CityConverter cityConverter;
@@ -29,11 +26,4 @@ public class AddressConverter implements BaseConverter<Address, AddressDto> {
         return addressDto;
     }
 
-    public List convert(List<Address> addresses) {
-        List addressDtos = new ArrayList();
-        for (Address address : addresses) {
-            addressDtos.add(convert(address));
-        }
-        return addressDtos;
-    }
 }

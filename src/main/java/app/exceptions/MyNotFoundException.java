@@ -2,9 +2,7 @@ package app.exceptions;
 
 import app.DTO.ErrorCode;
 
-import java.util.function.Supplier;
-
-public class MyNotFoundException extends RuntimeException implements Supplier<MyNotFoundException> {
+public class MyNotFoundException extends RuntimeException{
     private ErrorCode errorCode;
     public MyNotFoundException(String message, ErrorCode errorCode)
     {
@@ -14,10 +12,5 @@ public class MyNotFoundException extends RuntimeException implements Supplier<My
 
     public ErrorCode getErrorCode() {
         return errorCode;
-    }
-
-    @Override
-    public MyNotFoundException get() {
-        return null;
     }
 }

@@ -24,12 +24,4 @@ public class CityConverter implements BaseConverter<City, CityDto> {
         cityDto.setCountry(countryConverter.convert(from.getCountry()));
         return cityDto;
     }
-
-    public List convert(List<City> cities) {
-        List cityDtos = new ArrayList();
-        for (City city : cities) {
-            cityDtos.add(convert(city));
-        }
-        return cityDtos;
-    }
 }

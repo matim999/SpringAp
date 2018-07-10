@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/country")
 public class CountryController {
@@ -29,8 +27,8 @@ public class CountryController {
 
     @GetMapping
     public @ResponseBody
-    ResponseEntity<List> getAllCountry() {
-        return new ResponseEntity(countryConverter.convertAll(countryFinder.findAllCountry()), HttpStatus.OK);
+    ResponseEntity<java.util.Collection<CountryDto>> getAllCountry() {
+        return new ResponseEntity<java.util.Collection<CountryDto>>(countryConverter.convertAll(countryFinder.findAllCountry()), HttpStatus.OK);
     }
 
     @PostMapping
@@ -43,9 +41,9 @@ public class CountryController {
 
     @GetMapping(path = "/{id}")
     public @ResponseBody
-    ResponseEntity getAllCountry(@PathVariable int id) {
+    ResponseEntity<CountryDto> getAllCountry(@PathVariable int id) {
         //CountryDto list = countryConverter.convertAll(countryFinder.findCountryById(id));
-        return new ResponseEntity(countryConverter.convertAll(countryFinder.findCountryById(id)), HttpStatus.OK);
+        return new ResponseEntity<>(countryConverter.convertAll(countryFinder.findCountryById(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -58,8 +56,8 @@ public class CountryController {
 
     @GetMapping(path = "/")
     public @ResponseBody
-    ResponseEntity getAllCountry(@RequestParam String country) {
-        return new ResponseEntity(countryConverter.convertAll(countryFinder.findCountryByCountry(country)), HttpStatus.OK);
+    ResponseEntity<CountryDto> getAllCountry(@RequestParam String country) {
+        return new ResponseEntity<>(countryConverter.convertAll(countryFinder.findCountryByCountry(country)), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}")

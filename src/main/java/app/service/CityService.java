@@ -5,10 +5,12 @@ import app.entity.City;
 import app.entity.Country;
 import app.exceptions.MyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import app.repository.CityRepository;
 import app.repository.CountryRepository;
+
+import java.util.logging.Logger;
+
 import static app.DTO.ErrorCode.*;
 
 
@@ -16,6 +18,7 @@ import static app.DTO.ErrorCode.*;
 public class CityService {
     private final CityRepository cityRepository;
     private final CountryRepository countryRepository;
+    private static final Logger logger = Logger.getLogger(CountryService.class.getName());
 
     @Autowired
     public CityService(CityRepository cityRepository, CountryRepository countryRepository) {
@@ -28,8 +31,15 @@ public class CityService {
         City existingCity = cityRepository.findById(cityId).orElse(null);
         Country existingCountry = countryRepository.findById(countryId).orElse(null);
         if(existingCity != null && existingCity != null) {
+            if (existingCountry.getCountryId() == existingCity.getCountry().getCountryId())
+                throw new ConflictException("City update country: City with given cityId = " + cityId + " already has a Country with given countryId = " + countryId,
+                        CITY_UPDATE_CITY_ID_ALREADY_HAS_THE_SAME_COUNTRY_ID);
+            Country recentCountry = existingCity.getCountry();
             existingCity.setCountry(existingCountry);
             cityRepository.saveAndFlush(existingCity);
+            logger.info("Updated country for City: cityId = " + existingCity.getCityId() + " name = " + existingCity.getCity() + " from countryId = "
+                    + recentCountry.getCountryId() +"(" + recentCountry.getCountry() + ") to countryId = " + recentCountry.getCountryId() +"(" + recentCountry.getCountry() + ")");
+            return;
         }
         else if (existingCity != null) {
             throw new MyNotFoundException("Update city: Not found country with given Id = " + countryId,
@@ -48,40 +58,58 @@ public class CityService {
         if(country.getCountry().equals(city.getCountry().getCountry())) {
             throw new ConflictException("Can't update data: City with given country already exists", CITY_UPDATE_CITY_WITH_GIVEN_COUNTRY_ALREADY_EXISTS);
         }
+        Country recentCountry = city.getCountry();
         city.setCountry(country);
         cityRepository.flush();
+        logger.info("Updated country for City: cityId = " + city.getCityId() + " name = " + city.getCity() + " from countryId = "
+                + recentCountry.getCountryId() +"(" + recentCountry.getCountry() + ") to countryId = " + recentCountry.getCountryId() +"(" + recentCountry.getCountry() + ")");
     }
     public void updateCity(int id, City city)
     {
         City existingCity = cityRepository.findById(id).orElse(null);
-        Country existingCountry = countryRepository.findByCountry(city.getCountry().getCountry()).get();
-        if(existingCity != null && existingCountry != null)
+        if(existingCity == null && cityRepository.findByCity(city.getCity()) != null)
+            throw new ConflictException("City update: City with given name already exists : cityId = " + cityRepository.findByCity(city.getCity()).get().getCity() + "("
+                + cityRepository.findByCity(city.getCity()).get().getCity() + ")", CITY_UPDATE_CITY_WITH_GIVEN_NAME_ALREADY_EXISTS);
+        Country existingCountry = countryRepository.findByCountry(city.getCountry().getCountry()).orElse(null);
+        if(existingCity != null && existingCountry != null) {
             updateCityCountry(existingCity, existingCountry);
+            return;
+        }
         else if(existingCity != null) {
             countryRepository.save(city.getCountry());
-            existingCountry = countryRepository.findByCountry(city.getCountry().getCountry()).get();
+            existingCountry = countryRepository.findByCountry(city.getCountry().getCountry()).orElse(null);
             existingCity.setCountry(existingCountry);
             cityRepository.flush();
+            logger.info("Updated country for City: cityId = " + city.getCityId() + " name = " + city.getCity() + ", added new country countryId = "
+                    + existingCountry.getCountryId() +"(" + existingCountry.getCountry() + ")");
+            return;
         }
         else if(existingCountry != null){
             city.setCountry(existingCountry);
             cityRepository.save(city);
+            logger.info("Added new city: cityId = " + city.getCityId() + " name = " + city.getCity() + ", set countryId = "
+                    + existingCountry.getCountryId() +"(" + existingCountry.getCountry() + ")");
+            return;
         }
         cityRepository.save(city);
+        logger.info("Added new city: cityId = " + city.getCityId() + " name = " + city.getCity() + ", added new countryId = "
+                + existingCity.getCountry().getCountryId() +"(" + existingCity.getCountry().getCountry() + ")");
     }
 
     public void deleteCityById(int id)
     {
-        cityRepository.findById(id).orElseThrow(() -> new MyNotFoundException("City with given Id = " + id + " not found", CITY_DELETE_CITY_NOT_FOUND_USING_ID));
+        City deletedCity = cityRepository.findById(id).orElseThrow(() -> new MyNotFoundException("City with given Id = " + id + " not found", CITY_DELETE_CITY_NOT_FOUND_USING_ID));
         cityRepository.deleteById(id);
+        logger.info("Deleted country: Id = " + id + " name = " + deletedCity.getCity());
     }
-    public void addNewCity(City city) throws ConflictException {
-        City existingCity = cityRepository.findByCity(city.getCity());
+    public void addNewCity(City city) {
+        City existingCity = cityRepository.findByCity(city.getCity()).orElse(null);
         if(existingCity != null)
             throw new ConflictException("City with that name already exists", CITY_ADD_CITY_WITH_NAME_ALREADY_EXISTS);
         Country existingCountry = countryRepository.findByCountry(city.getCountry().getCountry()).orElse(null);
         if (existingCountry == null)
             throw new MyNotFoundException("Country with given name doesn't exist", CITY_UPDATE_COUNTRY_WITH_GIVEN_NAME_NOT_FOUND);
         cityRepository.saveAndFlush(city);
+        logger.info("Added new city: Id = " + city.getCityId() + " name = " + city.getCity());
     }
 }

@@ -13,13 +13,11 @@ import java.util.Optional;
 @RequestMapping("/staff")
 public class StaffController {
 
-    @Autowired
     private final StaffRepository repo;
-    private final RepositoryStore repoStore;
 
-    public StaffController(StaffRepository repo, RepositoryStore repoStore, RepositoryStore repoStore1) {
+    @Autowired
+    public StaffController(StaffRepository repo) {
         this.repo = repo;
-        this.repoStore = repoStore1;
     }
 
     @GetMapping(path="/all")

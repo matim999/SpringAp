@@ -27,18 +27,17 @@ public class AddressFinder {
 
     public List findAddressBy(String address, String district, int cityId, String city, int countryId, String country, String postalCode, String phone) {
         List<Address> addresses = addressRepository.findAll();
-        List<Address> result = addresses.stream()
-                .filter(a -> address != null ? a.getAddress().equals(address) : true)
-                .filter(a -> address != null ? a.getAddress().equals(address) : true)
-                .filter(a -> district != null ? a.getDistrict().equals(district) : true)
-                .filter(a -> cityId != 0 ? a.getCity().getCityId() == cityId : true)
-                .filter(a -> postalCode != null ? a.getPostalCode().equals(postalCode) : true)
-                .filter(a -> phone != null ? a.getPhone().equals(phone) : true)
-                .filter(a -> city != null ? a.getCity().getCity().equals(city) : true)
-                .filter(a -> countryId != 0 ? a.getCity().getCountry().getCountryId() == countryId : true)
-                .filter(a -> country != null ? a.getCity().getCountry().getCountry().equals(country) : true)
+        return addresses.stream()
+                .filter(a -> address == null || a.getAddress().equals(address))
+                .filter(a -> address == null || a.getAddress().equals(address))
+                .filter(a -> district == null || a.getDistrict().equals(district))
+                .filter(a -> cityId == 0 || a.getCity().getCityId() == cityId)
+                .filter(a -> postalCode == null || a.getPostalCode().equals(postalCode))
+                .filter(a -> phone == null || a.getPhone().equals(phone))
+                .filter(a -> city == null || a.getCity().getCity().equals(city))
+                .filter(a -> countryId == 0 || a.getCity().getCountry().getCountryId() == countryId)
+                .filter(a -> country == null || a.getCity().getCountry().getCountry().equals(country))
                 .collect(Collectors.toList());
-        return result;
         //return addressRepository.findQuery(address, district, /*cityId,*/ city, /*countryId,*/ country, postalCode, phone);
     }
 }

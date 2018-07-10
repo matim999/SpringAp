@@ -13,7 +13,6 @@ public class AddressDto {
     private CityDto city;
     private String postalCode;
     private String phone;
-    private LocalDateTime lastUpdate;
 
     public int getAddressId() {
         return addressId;
@@ -71,11 +70,4 @@ public class AddressDto {
         this.phone = phone;
     }
 
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
 }
