@@ -37,21 +37,23 @@ public class CountryController {
     public @ResponseBody
     ResponseEntity addNewCountry(@RequestBody Country country)
     {
-        return new ResponseEntity(countryService.addNewCountry(country));
+        countryService.addNewCountry(country);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity getAllCountry(@PathVariable int id) {
         //CountryDto list = countryConverter.convertAll(countryFinder.findCountryById(id));
-        return new ResponseEntity(countryFinder.findCountryById(id), HttpStatus.OK);
+        return new ResponseEntity(countryConverter.convertAll(countryFinder.findCountryById(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public @ResponseBody
     ResponseEntity deleteCountryById(@PathVariable int id)
     {
-        return new ResponseEntity(countryService.deleteCountryById(id), HttpStatus.OK);
+        countryService.deleteCountryById(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(path = "/")
@@ -63,6 +65,7 @@ public class CountryController {
     @PutMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity updateCountryById(@RequestBody Country country, @PathVariable int id){
-        return new ResponseEntity(countryService.updateCountryByID(id, country));
+        countryService.updateCountryByID(id, country);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

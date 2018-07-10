@@ -49,20 +49,23 @@ public class CityController {
     @DeleteMapping(path="city/{id}")
     public @ResponseBody
     ResponseEntity deleteCityById(@PathVariable int id) {
-        return new ResponseEntity(cityService.deleteCityById(id));
+        cityService.deleteCityById(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping(path = "/city/{id}")
     public @ResponseBody
     ResponseEntity updateCity(@RequestBody City city, @PathVariable int id)
     {
-        return new ResponseEntity(cityService.updateCity(id, city));
+        cityService.updateCity(id, city);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping
     public @ResponseBody
     ResponseEntity addNewCity(@RequestBody City city) {
-        return new ResponseEntity(cityService.addNewCity(city));
+        cityService.addNewCity(city);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(path="city/{id}/country")
@@ -74,6 +77,7 @@ public class CityController {
     @PutMapping(path="city/{id}/country/{countryId}")
     public @ResponseBody
     ResponseEntity getCityCountry(@PathVariable int id, @PathVariable int countryId) {
-        return new ResponseEntity(cityService.updateCityCountryId(id, countryId));
+        cityService.updateCityCountryId(id, countryId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
