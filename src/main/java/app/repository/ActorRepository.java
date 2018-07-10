@@ -1,12 +1,12 @@
 package app.repository;
 
-import app.entity.Rental;
+import app.entity.Actor;
+import app.entity.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface RentalRepository extends JpaRepository<Rental, Integer> {
-    List<Rental> findAllByCustomerCustomerId(int customer_id);
+public interface ActorRepository extends JpaRepository<Actor, Integer> {
 }

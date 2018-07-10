@@ -1,6 +1,7 @@
 package app.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,21 +12,26 @@ import java.time.LocalDateTime;
 @Table(name = "Staff")
 public class Staff {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_staff_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "staff_staff_id_seq")
     @SequenceGenerator(
-            name="store_staff_id_seq",
-            sequenceName="store_staff_id_seq",
+            name="staff_staff_id_seq",
+            sequenceName="staff_staff_id_seq",
             allocationSize = 1
     )
+    @Column(name = "staff_id")
     private @Getter int staffId;
     private @Getter String firstName;
     private @Getter String lastName;
-    private @Getter int addressId;
+    @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "address_id")
+    private @Getter Address address;
     private @Getter String email;
     private @Getter boolean active;
     private @Getter String username;
     private @Getter String password;
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name="store_id")
+    @OneToOne(mappedBy = "staff", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    @PrimaryKeyJoinColumn
+    @JsonIgnore
     private @Getter Store store;
 }

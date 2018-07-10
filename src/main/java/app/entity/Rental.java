@@ -10,11 +10,20 @@ import java.time.LocalDateTime;
 @Entity
 public class Rental {
     @Id
+    @SequenceGenerator(
+            name="rental_rental_id_seq",
+            sequenceName="rental_rental_id_seq",
+            allocationSize = 1
+    )
     @Column(name = "rental_id")
     private @Getter int rentalId;
     private @Getter String rentalDate;
-    private @Getter int inventoryId;
-    private @Getter int customerId;
+    @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "inventory_id")
+    private @Getter Inventory inventory;
+    @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "customer_id")
+    private @Getter Customer customer;
     private @Getter String returnDate;
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = Staff.class)
     @JoinColumn(name = "staff_id")

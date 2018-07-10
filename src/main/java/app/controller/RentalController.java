@@ -27,15 +27,15 @@ public class RentalController {
         return repo.findAll();
     }
 
-    @GetMapping(path="/specific")
+    @GetMapping(path="/specific/{id}")
     public @ResponseBody
-    Optional getRental(@RequestParam int rental_id) {
-        return repo.findById(rental_id);
+    Optional getRental(@PathVariable int id) {
+        return repo.findById(id);
     }
 
-    @GetMapping(path="/specificc")
+    @GetMapping(path="/specific")
         public @ResponseBody
         List GetRentalByCustomer(@RequestParam int customer_id) {
-            return repo.findAllByCustomerId(customer_id);
+            return repo.findAllByCustomerCustomerId(customer_id);
         }
 }

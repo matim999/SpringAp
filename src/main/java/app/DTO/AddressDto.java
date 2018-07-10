@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-public @Data class AddressDto {
+public @Data
+class AddressDto {
     private int addressId;
     private String address;
     private String address2;

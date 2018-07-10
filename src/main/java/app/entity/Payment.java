@@ -10,13 +10,21 @@ import java.time.LocalDateTime;
 @Entity
 public class Payment {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_payment_id_seq")
+    @SequenceGenerator(
+            name="payment_payment_id_seq",
+            sequenceName="payment_payment_id_seq",
+            allocationSize = 1
+    )
     @Column(name = "payment_id")
     private @Getter int paymentId;
-    private @Getter int customerId;
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Staff.class)
+    @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "customer_id")
+    private @Getter Customer customer;
+    @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "staff_id")
     private @Getter Staff staff;
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Rental.class)
+    @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "rental_id")
     private @Getter Rental rental;
     private @Getter int amount;
