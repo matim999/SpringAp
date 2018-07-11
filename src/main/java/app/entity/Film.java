@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,6 +20,10 @@ import java.util.List;
 
 @Entity
 @EqualsAndHashCode
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_film_id_seq")
@@ -38,8 +44,9 @@ public class Film {
     private @Getter double rentalRate;
     private @Getter int length;
     private @Getter double replacementCost;
-    @Enumerated(EnumType.ORDINAL)
-    @Column(length = 8)
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "mpaa_rating")
+    @Type( type = "pgsql_enum" )
     private @Getter Mpaa_rating rating;
     private @Getter String specialFeatures;
     @ManyToMany
