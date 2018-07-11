@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.DTO.responseDTO.InfoDto;
 import app.service.InfoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class InfoController {
 
     @GetMapping
     public @ResponseBody
-    ResponseEntity<app.DTO.InfoDto> printInfo()
+    ResponseEntity<InfoDto> printInfo()
     {
         return new ResponseEntity<>(infoService.getInfo(), HttpStatus.OK);
     }

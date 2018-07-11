@@ -1,6 +1,6 @@
 package app.restControllerAdvice;
 
-import app.DTO.ResponseMsg;
+import app.DTO.responseDTO.ResponseMsg;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
 import org.springframework.http.HttpStatus;

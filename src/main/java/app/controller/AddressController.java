@@ -1,7 +1,7 @@
 package app.controller;
 
-import app.DTO.AddressDto;
-import app.DTO.BaseConverter;
+import app.DTO.responseDTO.AddressDto;
+import app.DTO.converter.BaseConverter;
 import app.entity.Address;
 import app.finder.AddressFinder;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,12 @@
 package app.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
 //gg
 @Entity
+@EqualsAndHashCode
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_customer_id_seq")
@@ -14,7 +16,7 @@ public class Customer {
             allocationSize = 1
     )
     @Column(name = "customer_id")
-    private @Getter int customerId;
+    @EqualsAndHashCode.Exclude private @Getter int customerId;
     private @Getter int storeId;
     private @Getter String firstName;
     private @Getter String lastName;

@@ -1,11 +1,13 @@
 package app.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
-@Entity
+@Entity @ToString @EqualsAndHashCode
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_country_id_seq")
@@ -15,6 +17,6 @@ public class Country {
             allocationSize = 1
     )
     @Column(name = "country_id")
-    private @Getter int countryId;
+    @EqualsAndHashCode.Exclude private @Getter int countryId;
     private @Getter @Setter String country;
 }

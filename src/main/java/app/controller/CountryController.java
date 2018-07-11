@@ -1,7 +1,7 @@
 package app.controller;
 
-import app.DTO.BaseConverter;
-import app.DTO.CountryDto;
+import app.DTO.converter.BaseConverter;
+import app.DTO.responseDTO.CountryDto;
 import app.entity.Country;
 import app.finder.CountryFinder;
 import app.service.CountryService;

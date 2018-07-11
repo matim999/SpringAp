@@ -14,4 +14,5 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
     @Query(value = "select * from Actor where first_name like ?1", nativeQuery = true)
     List<Actor> findByQuery(String fname);
     Optional<List<Actor>> findAllByFirstName(String firstName);
+    Optional<List<Actor>> findAllByFirstNameAndLastName(String fname, String lname);
 }

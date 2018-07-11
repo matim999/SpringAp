@@ -1,8 +1,8 @@
 package app.controller;
 
-import app.entity.Actor;
+import app.DTO.converter.BaseConverter;
+import app.DTO.responseDTO.CategoryDto;
 import app.entity.Category;
-import app.finder.ActorFinder;
 import app.finder.CategoryFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,27 +15,29 @@ import java.util.List;
 @RequestMapping(path = "/category")
 public class CategoryController {
     private final CategoryFinder categoryFinder;
+    private final BaseConverter<Category, CategoryDto> categoryConverter;
 
     @Autowired
-    public CategoryController(CategoryFinder categoryFinder) {
+    public CategoryController(CategoryFinder categoryFinder, BaseConverter<Category, CategoryDto> categoryConverter) {
         this.categoryFinder = categoryFinder;
+        this.categoryConverter = categoryConverter;
     }
 
     @GetMapping
     public @ResponseBody
     ResponseEntity<List> findAllCategory() {
-        return new ResponseEntity<>(categoryFinder.findAllCategory(), HttpStatus.OK);
+        return new ResponseEntity(categoryConverter.convertAll(categoryFinder.findAllCategory()), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public @ResponseBody
-    ResponseEntity<Category> findCategoryById(@PathVariable int id) {
-        return new ResponseEntity<>(categoryFinder.findCategoryById(id), HttpStatus.OK);
+    ResponseEntity<CategoryDto> findCategoryById(@PathVariable int id) {
+        return new ResponseEntity(categoryConverter.convertAll(categoryFinder.findCategoryById(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/")
     public @ResponseBody
     ResponseEntity<List> findCategoryByName(@RequestParam String name) {
-        return new ResponseEntity<>(categoryFinder.findAllCategoryByName(name), HttpStatus.OK);
+        return new ResponseEntity(categoryConverter.convertAll(categoryFinder.findAllCategoryByName(name)), HttpStatus.OK);
     }
 }

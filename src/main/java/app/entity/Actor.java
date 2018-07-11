@@ -1,6 +1,8 @@
 package app.entity;
 
+import app.DTO.responseDTO.ActorDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@EqualsAndHashCode
 public class Actor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "actor_actor_id_seq")
@@ -18,16 +21,11 @@ public class Actor implements Serializable {
             allocationSize = 1
     )
     @Column(name = "actor_id")
-    private @Getter int actorId;
+    @EqualsAndHashCode.Exclude private @Getter int actorId;
     private @Getter String firstName;
     private @Getter String lastName;
-    @ManyToMany
-    @JoinTable(
-            joinColumns = @JoinColumn(name = "actor_id"),
-            inverseJoinColumns = @JoinColumn(name = "film_id")
-    )
-    private @Getter List<Film> films = new ArrayList<>();
-    @JsonIgnore
+    @ManyToMany(mappedBy = "actors")
+    @EqualsAndHashCode.Exclude private @Getter List<Film> films = new ArrayList<>();
     public List<Film> getFilms() {
         return films;
     }
@@ -35,4 +33,12 @@ public class Actor implements Serializable {
         films.add(film);
     }
 
+    public Actor(ActorDto actorDto) {
+        this.firstName = actorDto.getFirstName();
+        this.lastName = actorDto.getLastName();
+    }
+
+    public Actor() {
+        super();
+    }
 }

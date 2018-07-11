@@ -1,8 +1,8 @@
 package app.controller;
 
-import app.entity.Film;
+import app.DTO.converter.BaseConverter;
+import app.DTO.responseDTO.InventoryDto;
 import app.entity.Inventory;
-import app.finder.FilmFinder;
 import app.finder.InventoryFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,28 +15,30 @@ import java.util.List;
 @RequestMapping(path = "/inventory")
 public class InventoryController {
     private final InventoryFinder inventoryFinder;
+    private final BaseConverter<Inventory, InventoryDto> inventoryConverter;
 
     @Autowired
-    public InventoryController(InventoryFinder inventoryFinder) {
+    public InventoryController(InventoryFinder inventoryFinder, BaseConverter<Inventory, InventoryDto> inventoryConverter) {
         this.inventoryFinder = inventoryFinder;
+        this.inventoryConverter = inventoryConverter;
     }
 
     @GetMapping
     private @ResponseBody
     ResponseEntity<List> findAllInventory()
     {
-        return new ResponseEntity<>(inventoryFinder.findAllInventory(), HttpStatus.OK);
+        return new ResponseEntity(inventoryConverter.convertAll(inventoryFinder.findAllInventory()), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<Inventory> findInventoryById(@PathVariable int id) {
-        return new ResponseEntity<>(inventoryFinder.findInventoryById(id), HttpStatus.OK);
+        return new ResponseEntity(inventoryConverter.convertAll(inventoryFinder.findInventoryById(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/")
     public @ResponseBody
     ResponseEntity<List> findAllInventoryByFilmTitle(@RequestParam String title) {
-        return new ResponseEntity<>(inventoryFinder.findAllInventoryByFilmTitle(title), HttpStatus.OK);
+        return new ResponseEntity(inventoryConverter.convertAll(inventoryFinder.findAllInventoryByFilmTitle(title)), HttpStatus.OK);
     }
 }

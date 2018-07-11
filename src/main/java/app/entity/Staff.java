@@ -2,6 +2,7 @@ package app.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@EqualsAndHashCode
 @Table(name = "Staff")
 public class Staff {
     @Id
@@ -19,7 +21,7 @@ public class Staff {
             allocationSize = 1
     )
     @Column(name = "staff_id")
-    private @Getter int staffId;
+    @EqualsAndHashCode.Exclude private @Getter int staffId;
     private @Getter String firstName;
     private @Getter String lastName;
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})

@@ -1,10 +1,9 @@
 package app.controller;
 
-import app.entity.Language;
+import app.DTO.converter.BaseConverter;
+import app.DTO.responseDTO.RentalDto;
 import app.entity.Rental;
-import app.finder.LanguageFinder;
 import app.finder.RentalFinder;
-import app.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/rental")
@@ -21,28 +19,30 @@ import java.util.Optional;
 @ComponentScan("app")
 public class RentalController {
     private final RentalFinder rentalFinder;
+    private final BaseConverter<Rental, RentalDto> rentalConverter;
 
     @Autowired
-    public RentalController(RentalFinder rentalFinder) {
+    public RentalController(RentalFinder rentalFinder, BaseConverter<Rental, RentalDto> rentalConverter) {
         this.rentalFinder = rentalFinder;
+        this.rentalConverter = rentalConverter;
     }
 
     @GetMapping
     private @ResponseBody
     ResponseEntity<List> findAllRental()
     {
-        return new ResponseEntity<>(rentalFinder.findAllRental(), HttpStatus.OK);
+        return new ResponseEntity(rentalConverter.convertAll(rentalFinder.findAllRental()), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<Rental> findRentalById(@PathVariable int id) {
-        return new ResponseEntity<>(rentalFinder.findRentalById(id), HttpStatus.OK);
+        return new ResponseEntity(rentalConverter.convertAll(rentalFinder.findRentalById(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/")
     public @ResponseBody
     ResponseEntity<List> findAllRentalByRentalDate(@RequestParam String date) {
-        return new ResponseEntity<>(rentalFinder.findAllRentalByRentalDate(date), HttpStatus.OK);
+        return new ResponseEntity(rentalConverter.convertAll(rentalFinder.findAllRentalByRentalDate(date)), HttpStatus.OK);
     }
 }

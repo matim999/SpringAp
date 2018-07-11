@@ -1,43 +1,56 @@
 package app.controller;
 
-import app.entity.Customer;
+import app.DTO.converter.BaseConverter;
+import app.DTO.requestDTO.FilmDtoRequest;
+import app.DTO.responseDTO.FilmDto;
 import app.entity.Film;
 import app.finder.FilmFinder;
-import app.repository.FilmRepository;
+import app.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.transform.OutputKeys;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/film")
 public class FilmController {
     private final FilmFinder filmFinder;
+    private final FilmService filmService;
+    private final BaseConverter<Film, FilmDto> filmConverter;
 
     @Autowired
-    public FilmController(FilmFinder filmFinder) {
+    public FilmController(FilmFinder filmFinder, FilmService filmService, BaseConverter<Film, FilmDto> filmConverter) {
         this.filmFinder = filmFinder;
+        this.filmService = filmService;
+        this.filmConverter = filmConverter;
     }
 
     @GetMapping
     private @ResponseBody
     ResponseEntity<List> findAllFilm()
     {
-        return new ResponseEntity<>(filmFinder.findAllFilm(), HttpStatus.OK);
+        return new ResponseEntity(filmConverter.convertAll(filmFinder.findAllFilm()), HttpStatus.OK);
+    }
+
+    @PostMapping
+    private @ResponseBody
+    ResponseEntity<List> findAllFilm(@RequestBody FilmDtoRequest filmDtoRequest)
+    {
+        filmService.addNewFilm(filmDtoRequest);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<Film> findFilmById(@PathVariable int id) {
-        return new ResponseEntity<>(filmFinder.findFilmById(id), HttpStatus.OK);
+        return new ResponseEntity(filmConverter.convertAll(filmFinder.findFilmById(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/")
     public @ResponseBody
     ResponseEntity<List> findAllFilmByTitle(@RequestParam String name) {
-        return new ResponseEntity<>(filmFinder.findAllFilmByTitle(name), HttpStatus.OK);
+        return new ResponseEntity(filmConverter.convertAll(filmFinder.findAllFilmByTitle(name)), HttpStatus.OK);
     }
 }

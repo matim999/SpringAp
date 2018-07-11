@@ -1,6 +1,7 @@
 package app.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@EqualsAndHashCode
 public class Rental {
     @Id
     @SequenceGenerator(
@@ -16,7 +18,7 @@ public class Rental {
             allocationSize = 1
     )
     @Column(name = "rental_id")
-    private @Getter int rentalId;
+    @EqualsAndHashCode.Exclude private @Getter int rentalId;
     private @Getter String rentalDate;
     @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "inventory_id")

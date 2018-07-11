@@ -1,9 +1,8 @@
 package app.controller;
 
-import app.DTO.BaseConverter;
-import app.DTO.CityConverter;
-import app.DTO.CityDto;
-import app.DTO.CountryDto;
+import app.DTO.converter.BaseConverter;
+import app.DTO.responseDTO.CityDto;
+import app.DTO.responseDTO.CountryDto;
 import app.entity.City;
 import app.finder.CityFinder;
 import app.entity.Country;
