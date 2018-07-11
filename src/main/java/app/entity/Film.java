@@ -1,29 +1,30 @@
 package app.entity;
 
-import app.DTO.converter.BaseConverter;
-import app.DTO.converter.LanguageConverter;
 import app.DTO.responseDTO.FilmDto;
-import app.DTO.responseDTO.LanguageDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-
+import org.hibernate.annotations.TypeDefs;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
 @EqualsAndHashCode
-@TypeDef(
-        name = "pgsql_enum",
-        typeClass = PostgreSQLEnumType.class
-)
+@TypeDefs({
+    @TypeDef(
+            name = "pgsql_enum",
+            typeClass = PostgreSQLEnumType.class
+    ),
+    @TypeDef(
+            name = "string-array",
+            typeClass = StringArrayType.class
+    )
+})
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_film_id_seq")
@@ -33,7 +34,8 @@ public class Film {
             allocationSize = 1
     )
     @Column(name = "film_id")
-    @EqualsAndHashCode.Exclude private @Getter int filmId;
+    @EqualsAndHashCode.Exclude
+    private @Getter int filmId;
     private @Getter String title;
     private @Getter String description;
     private @Getter int releaseYear;
@@ -48,7 +50,9 @@ public class Film {
     @Column(columnDefinition = "mpaa_rating")
     @Type( type = "pgsql_enum" )
     private @Getter Mpaa_rating rating;
-    private @Getter String specialFeatures;
+    @Column(columnDefinition = "text[]")
+    @Type( type = "string-array" )
+    private @Getter String[] specialFeatures;
     @ManyToMany
     @JoinTable(name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id"),
@@ -65,6 +69,7 @@ public class Film {
     List<Category> categories;
 
     public Film(FilmDto filmDto) {
+        this.title = filmDto.getTitle();
         this.description = filmDto.getDescription();
         this.releaseYear = filmDto.getReleaseYear();
         this.language = null;

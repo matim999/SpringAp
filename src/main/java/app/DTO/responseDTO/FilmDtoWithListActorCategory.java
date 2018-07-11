@@ -20,8 +20,7 @@ class FilmDtoWithListActorCategory {
     private int length;
     private double replacementCost;
     private Mpaa_rating rating;
-    private String lastUpdate;
-    private String specialFeatures;
+    private String[] specialFeatures;
     private Collection<ActorDto> actors;
     private Collection<CategoryDto> category;
 }

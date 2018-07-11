@@ -4,7 +4,9 @@ import app.DTO.converter.BaseConverter;
 import app.DTO.requestDTO.FilmDtoRequest;
 import app.DTO.responseDTO.FilmDto;
 import app.entity.Film;
+import app.entity.Mpaa_rating;
 import app.finder.FilmFinder;
+import app.repository.FilmRepository;
 import app.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +18,14 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/film")
 public class FilmController {
+    private final FilmRepository filmRepository;
     private final FilmFinder filmFinder;
     private final FilmService filmService;
     private final BaseConverter<Film, FilmDto> filmConverter;
 
     @Autowired
-    public FilmController(FilmFinder filmFinder, FilmService filmService, BaseConverter<Film, FilmDto> filmConverter) {
+    public FilmController(FilmRepository filmRepository, FilmFinder filmFinder, FilmService filmService, BaseConverter<Film, FilmDto> filmConverter) {
+        this.filmRepository = filmRepository;
         this.filmFinder = filmFinder;
         this.filmService = filmService;
         this.filmConverter = filmConverter;
@@ -40,6 +44,13 @@ public class FilmController {
     {
         filmService.addNewFilm(filmDtoRequest);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/p/")
+    private @ResponseBody
+    ResponseEntity<List> f()
+    {
+        return new ResponseEntity(filmRepository.findByRating(Mpaa_rating.G), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")

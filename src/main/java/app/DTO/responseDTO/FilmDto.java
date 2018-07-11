@@ -23,8 +23,7 @@ class FilmDto {
     private int length;
     private double replacementCost;
     private Mpaa_rating rating;
-    private String lastUpdate;
-    private String specialFeatures;
+    private String[] specialFeatures;
     @EqualsAndHashCode.Exclude private Collection<ActorDtoNoFilm> actors = new ArrayList<>();
     @EqualsAndHashCode.Exclude private Collection<CategoryDtoNoFilm> categories = new ArrayList<>();
 }

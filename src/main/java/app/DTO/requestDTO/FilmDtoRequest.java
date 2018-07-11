@@ -22,8 +22,7 @@ class FilmDtoRequest {
     private int length;
     private double replacementCost;
     private Mpaa_rating rating;
-    private String lastUpdate;
-    private String specialFeatures;
+    private String[] specialFeatures;
     private Collection<Integer> actors;
     private Collection<Integer> categories;
 }
