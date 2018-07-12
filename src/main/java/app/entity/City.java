@@ -1,5 +1,8 @@
 package app.entity;
 
+import app.DTO.responseDTO.CityDto;
+import app.DTO.responseDTO.CountryDto;
+import app.repository.LanguageRepository;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +12,8 @@ import javax.persistence.*;
 
 @Entity
 @EqualsAndHashCode @ToString
+@Getter
+@Setter
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "city_city_id_seq")
@@ -18,9 +23,22 @@ public class City {
             allocationSize = 1
     )
     @Column(name = "city_id")
-    @EqualsAndHashCode.Exclude private @Getter int cityId;
-    private @Getter String city;
+    @EqualsAndHashCode.Exclude private  int cityId;
+    private String city;
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "country_id")
-    private @Getter @Setter Country country;
+    private Country country;
+
+    public City(CityDto cityDto, Country country) {
+        this.city = cityDto.getCity();
+        this.country = country;
+    }
+
+    public City(){
+        super();
+    }
+
+    public void update(CityDto cityDto) {
+        this.city = cityDto.getCity();
+    }
 }

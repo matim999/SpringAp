@@ -26,7 +26,7 @@ public class CustomerFinder {
         return customerRepository.findAll();
     }
 
-    public Customer findCustomeryById(int id){
+    public Customer findCustomerById(int id){
         return customerRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 

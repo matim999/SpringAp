@@ -61,11 +61,11 @@ public class FilmService {
         FilmDto filmDto = filmRequestConverter.convertAllToBase(filmDtoRequest);
         Film film = new Film(filmDto);
         film.setLanguage(languageRepository.findById(filmDtoRequest.getLanguageId()).orElseThrow(() -> new MyNotFoundException("Language with ID not found", ErrorCode.DIFFERENT)));
-        film.setActors(filmDtoRequest.getActors().stream()
+        film.addActor(filmDtoRequest.getActors().stream()
                 .map(id -> actorRepository.findById(id)
                         .orElseThrow(() -> new MyNotFoundException("Actor with ID not found", ErrorCode.DIFFERENT)))
                 .collect(Collectors.toList()));
-        film.setCategories(filmDtoRequest.getCategories().stream()
+        film.addCategory(filmDtoRequest.getCategories().stream()
                 .map(id -> categoryRepository.findById(id)
                         .orElseThrow(() -> new MyNotFoundException("Category with ID not found", ErrorCode.DIFFERENT)))
                 .collect(Collectors.toList()));

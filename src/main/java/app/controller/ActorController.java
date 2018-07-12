@@ -40,12 +40,6 @@ public class ActorController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public @ResponseBody
-    ResponseEntity<ActorDto> findByFirstName(@PathVariable int id) {
-        return new ResponseEntity(actorConverter.convertAll(actorFinder.findActorById(id)), HttpStatus.OK);
-    }
-
     @DeleteMapping("/{id}")
     public @ResponseBody
     ResponseEntity deleteActorByID(@PathVariable int id) {
@@ -53,9 +47,22 @@ public class ActorController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public @ResponseBody
+    ResponseEntity<ActorDto> findByFirstName(@PathVariable int id) {
+        return new ResponseEntity(actorConverter.convertAll(actorFinder.findActorById(id)), HttpStatus.OK);
+    }
+
     @GetMapping(path = "/")
     public @ResponseBody
     ResponseEntity<List> findByFirstName(@RequestParam String name) {
         return new ResponseEntity(actorConverter.convertAll(actorFinder.findActorByFirstName(name)), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public @ResponseBody
+    ResponseEntity updateActor(@PathVariable int id, @RequestBody ActorDtoRequest actorDtoRequest) {
+        actorService.updateActor(id, actorDtoRequest);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

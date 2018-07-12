@@ -1,5 +1,6 @@
 package app.entity;
 
+import app.DTO.responseDTO.AddressDto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -24,4 +25,24 @@ public class Address {
     private @Getter City city;
     private @Getter String postalCode;
     private @Getter String phone;
+
+    private Address() {
+    }
+
+    public Address(AddressDto addressDto, City city) {
+        this.address = addressDto.getAddress();
+        this.address2 = addressDto.getAddress2();
+        this.district = addressDto.getDistrict();
+        this.postalCode = addressDto.getPostalCode();
+        this.city = city;
+        this.phone = addressDto.getPhone();
+    }
+
+    public void update(AddressDto addressDto) {
+        this.address = addressDto.getAddress();
+        this.address2 = addressDto.getAddress2();
+        this.district = addressDto.getDistrict();
+        this.postalCode = addressDto.getPostalCode();
+        this.phone = addressDto.getPhone();
+    }
 }

@@ -4,6 +4,9 @@ import app.DTO.responseDTO.AddressDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public @Data
 class CustomerDtoRequest {
     private int storeId;
@@ -12,6 +15,6 @@ class CustomerDtoRequest {
     private String email;
     private Integer addressId;
     private boolean activebool;
-    private String createDate;
+    private Date createDate;
     private int active;
 }

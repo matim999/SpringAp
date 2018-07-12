@@ -38,6 +38,11 @@ public class Actor implements Serializable {
         this.lastName = actorDto.getLastName();
     }
 
+    public void update(ActorDto actorDto) {
+        this.firstName = actorDto.getFirstName();
+        this.lastName = actorDto.getLastName();
+    }
+
     public Actor() {
         super();
     }

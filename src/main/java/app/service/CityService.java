@@ -1,5 +1,9 @@
 package app.service;
 
+import app.DTO.ErrorCode;
+import app.DTO.converter.BaseConverter;
+import app.DTO.responseDTO.CityDto;
+import app.DTO.responseDTO.CountryDto;
 import app.exceptions.ConflictException;
 import app.entity.City;
 import app.entity.Country;
@@ -9,6 +13,8 @@ import org.springframework.stereotype.Service;
 import app.repository.CityRepository;
 import app.repository.CountryRepository;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import static app.DTO.ErrorCode.*;
@@ -18,12 +24,16 @@ import static app.DTO.ErrorCode.*;
 public class CityService {
     private final CityRepository cityRepository;
     private final CountryRepository countryRepository;
+    private final CountryService countryService;
+    private final BaseConverter<City, CityDto> cityConverter;
     private static final Logger logger = Logger.getLogger(CountryService.class.getName());
 
     @Autowired
-    public CityService(CityRepository cityRepository, CountryRepository countryRepository) {
+    public CityService(CityRepository cityRepository, CountryRepository countryRepository, CountryService countryService, BaseConverter<City, CityDto> cityConverter) {
         this.cityRepository = cityRepository;
         this.countryRepository = countryRepository;
+        this.countryService = countryService;
+        this.cityConverter = cityConverter;
     }
 
     public void updateCityCountryId(int cityId, int countryId)
@@ -68,8 +78,8 @@ public class CityService {
     {
         City existingCity = cityRepository.findById(id).orElse(null);
         if(existingCity == null && cityRepository.findByCity(city.getCity()) != null)
-            throw new ConflictException("City update: City with given name already exists : cityId = " + cityRepository.findByCity(city.getCity()).get().getCity() + "("
-                + cityRepository.findByCity(city.getCity()).get().getCity() + ")", CITY_UPDATE_CITY_WITH_GIVEN_NAME_ALREADY_EXISTS);
+            throw new ConflictException("City update: City with given name already exists : cityId = " + cityRepository.findByCity(city.getCity()).get().get(0) + "("
+                + cityRepository.findByCity(city.getCity()).get().get(0) + ")", CITY_UPDATE_CITY_WITH_GIVEN_NAME_ALREADY_EXISTS);
         Country existingCountry = countryRepository.findByCountry(city.getCountry().getCountry()).orElse(null);
         if(existingCity != null && existingCountry != null) {
             updateCityCountry(existingCity, existingCountry);
@@ -103,7 +113,7 @@ public class CityService {
         logger.info("Deleted country: Id = " + id + " name = " + deletedCity.getCity());
     }
     public void addNewCity(City city) {
-        City existingCity = cityRepository.findByCity(city.getCity()).orElse(null);
+        Collection existingCity = cityRepository.findByCity(city.getCity()).orElse(null);
         if(existingCity != null)
             throw new ConflictException("City with that name already exists", CITY_ADD_CITY_WITH_NAME_ALREADY_EXISTS);
         Country existingCountry = countryRepository.findByCountry(city.getCountry().getCountry()).orElse(null);
@@ -111,5 +121,25 @@ public class CityService {
             throw new MyNotFoundException("Country with given name doesn't exist", CITY_UPDATE_COUNTRY_WITH_GIVEN_NAME_NOT_FOUND);
         cityRepository.saveAndFlush(city);
         logger.info("Added new city: Id = " + city.getCityId() + " name = " + city.getCity());
+    }
+
+    public City checkForCity(CityDto cityDto){
+        CountryDto countryDto = cityDto.getCountry();
+        Collection<CityDto> existingCities = cityConverter.convertAll(cityRepository.findByCity(cityDto.getCity()).orElse(new ArrayList<>()));
+        if (existingCities.isEmpty()){
+            logger.info("1");
+            return saveCity(cityDto, countryDto);
+        }
+        return existingCities
+                .stream()
+                .filter(a -> a.equals(cityDto))
+                .findFirst()
+                .map(a -> cityRepository.findById(a.getCityId()).get())
+                .orElseGet(() -> saveCity(cityDto, countryDto));
+    }
+
+    private City saveCity(CityDto cityDto, CountryDto countryDto) {
+        Country country = countryService.checkForCountry(countryDto);
+        return cityRepository.saveAndFlush(new City(cityDto, country));
     }
 }

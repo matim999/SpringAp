@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@EqualsAndHashCode
 @Table(name = "Store")
 public class Store {
     @Id

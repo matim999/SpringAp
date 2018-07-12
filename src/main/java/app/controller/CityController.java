@@ -60,6 +60,13 @@ public class CityController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PutMapping(path = "/city/")
+    public @ResponseBody
+    ResponseEntity test(@RequestBody CityDto city)
+    {
+        return new ResponseEntity(cityService.checkForCity(city), HttpStatus.OK);
+    }
+
     @PostMapping
     public @ResponseBody
     ResponseEntity addNewCity(@RequestBody City city) {

@@ -1,5 +1,6 @@
 package app.entity;
 
+import app.DTO.responseDTO.StaffDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
@@ -10,7 +11,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@EqualsAndHashCode
 @Table(name = "Staff")
 public class Staff {
     @Id
@@ -36,4 +36,13 @@ public class Staff {
     @PrimaryKeyJoinColumn
     @JsonIgnore
     private @Getter Store store;
+
+    public void update(StaffDto staffDto) {
+        this.firstName = staffDto.getFirstName();
+        this.lastName = staffDto.getLastName();
+        this.email = staffDto.getEmail();
+        this.active = staffDto.isActive();
+        this.username = staffDto.getUsername();
+        this.password = staffDto.getPassword();
+    }
 }

@@ -1,5 +1,6 @@
 package app.entity;
 
+import app.DTO.responseDTO.LanguageDto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -18,4 +19,16 @@ public class Language {
     @Column(name = "language_id")
     @EqualsAndHashCode.Exclude private @Getter int languageId;
     private @Getter String name;
+
+    public Language(LanguageDto languageDto) {
+        this.name = languageDto.getName();
+    }
+
+    public void update(LanguageDto languageDto) {
+        this.name = languageDto.getName();
+    }
+
+    public Language() {
+        super();
+    }
 }

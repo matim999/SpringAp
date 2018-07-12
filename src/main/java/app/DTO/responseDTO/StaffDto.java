@@ -9,9 +9,9 @@ class StaffDto {
     @EqualsAndHashCode.Exclude private int staffId;
     private String firstName;
     private String lastName;
-    private AddressDto address;
+    @EqualsAndHashCode.Exclude private AddressDto address;
     private String email;
-    private boolean active;
+    @EqualsAndHashCode.Exclude private boolean active;
     private String username;
     private String password;
     private int storeId;

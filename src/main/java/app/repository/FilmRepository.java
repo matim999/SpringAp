@@ -12,5 +12,4 @@ import java.util.Optional;
 @Repository
 public interface FilmRepository extends JpaRepository<Film, Integer> {
     Optional<List> findAllByTitle(String title);
-    Film findByRating(Mpaa_rating rating);
 }

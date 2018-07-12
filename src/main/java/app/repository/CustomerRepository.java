@@ -12,4 +12,5 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Optional<List<Customer>> findAllByFirstName(String fname);
+    Optional<List<Customer>> findAllByFirstNameAndLastName(String fname, String lname);
 }

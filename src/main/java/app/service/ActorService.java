@@ -45,6 +45,15 @@ public class ActorService {
         actorRepository.save(new Actor(actorRequestConverter.convertAllToBase(actorDtoRequest)));
     }
 
+    public void updateActor(int id, ActorDtoRequest actorDtoRequest)
+    {
+        ActorDto actorDto = actorConverter.convertAll(actorRepository.findById(id)
+                .orElseThrow(
+                        () -> new MyNotFoundException("Blad", ErrorCode.DIFFERENT)));
+        System.out.println(this.getClass().getEnclosingMethod());
+        System.out.println(Thread.currentThread().getStackTrace());
+    }
+
     public void deleteActorById(int id)
     {
         actorRepository.findById(id).orElseThrow(() -> new MyNotFoundException("No Actor With Given Id", ErrorCode.DIFFERENT));

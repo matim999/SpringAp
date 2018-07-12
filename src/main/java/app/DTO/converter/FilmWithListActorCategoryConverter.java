@@ -38,7 +38,6 @@ public class FilmWithListActorCategoryConverter implements BaseConverter<Film, F
         filmDto.setRentalRate(from.getRentalRate());
         filmDto.setLength(from.getLength());
         filmDto.setReplacementCost(from.getReplacementCost());
-        filmDto.setRating(from.getRating());
         filmDto.setSpecialFeatures(from.getSpecialFeatures());
         filmDto.setActors(actorConverter.convertAll(from.getActors()));
         filmDto.setCategory(categoryConverter.convertAll(from.getCategories()));

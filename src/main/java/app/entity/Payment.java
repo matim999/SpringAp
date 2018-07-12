@@ -1,5 +1,6 @@
 package app.entity;
 
+import app.DTO.responseDTO.PaymentDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,4 +31,8 @@ public class Payment {
     @JoinColumn(name = "rental_id")
     private @Getter Rental rental;
     private @Getter int amount;
+
+    public void update(PaymentDto paymentDto) {
+        this.amount = paymentDto.getAmount();
+    }
 }

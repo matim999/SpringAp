@@ -19,4 +19,5 @@ public interface BaseConverter<F,T> {
         Element = (F) convert(Element);
         return (T) Element;
     }
+
 }

@@ -1,5 +1,6 @@
 package app.service;
 
+import app.DTO.responseDTO.CountryDto;
 import app.entity.Country;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
@@ -60,5 +61,9 @@ public class CountryService {
         }
         countryRepository.save(country);
         logger.info("Added new country: Id = " + country.getCountryId() + " name = " + country.getCountry());
+    }
+
+    Country checkForCountry(CountryDto countryDto){
+        return countryRepository.findByCountry(countryDto.getCountry()).orElse(new Country(countryDto));
     }
 }

@@ -19,7 +19,6 @@ class FilmDtoWithListActorCategory {
     private double rentalRate;
     private int length;
     private double replacementCost;
-    private Mpaa_rating rating;
     private String[] specialFeatures;
     private Collection<ActorDto> actors;
     private Collection<CategoryDto> category;

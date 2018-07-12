@@ -1,5 +1,7 @@
 package app.entity;
 
+import app.DTO.requestDTO.CategoryDtoRequest;
+import app.DTO.responseDTO.CategoryDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,5 +28,17 @@ public class Category {
 
     public List<Film> getFilms() {
         return films;
+    }
+
+    public Category(CategoryDto categoryDto) {
+        this.name = categoryDto.getName();
+    }
+
+    public void update (CategoryDto categoryDto) {
+        this.name = categoryDto.getName();
+    }
+
+    public Category() {
+        super();
     }
 }

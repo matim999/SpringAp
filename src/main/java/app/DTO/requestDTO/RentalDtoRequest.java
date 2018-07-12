@@ -6,11 +6,13 @@ import app.DTO.responseDTO.StaffDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+
 public @Data
 class RentalDtoRequest {
-    private String rentalDate;
+    private LocalDateTime rentalDate;
     private int inventoryId;
     private int customerId;
-    private String returnDate;
+    private LocalDateTime returnDate;
     private int staffId;
 }

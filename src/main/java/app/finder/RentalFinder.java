@@ -8,6 +8,7 @@ import app.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static app.DTO.ErrorCode.DIFFERENT;
@@ -30,7 +31,7 @@ public class RentalFinder {
         return rentalRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Rental> findAllRentalByRentalDate(String date){
+    public List<Rental> findAllRentalByRentalDate(LocalDateTime date){
         return rentalRepository.findAllByRentalDate(date).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

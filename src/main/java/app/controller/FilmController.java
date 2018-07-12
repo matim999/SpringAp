@@ -46,13 +46,6 @@ public class FilmController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping(path = "/p/")
-    private @ResponseBody
-    ResponseEntity<List> f()
-    {
-        return new ResponseEntity(filmRepository.findByRating(Mpaa_rating.G), HttpStatus.OK);
-    }
-
     @GetMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<Film> findFilmById(@PathVariable int id) {
@@ -61,7 +54,7 @@ public class FilmController {
 
     @GetMapping(path = "/")
     public @ResponseBody
-    ResponseEntity<List> findAllFilmByTitle(@RequestParam String name) {
-        return new ResponseEntity(filmConverter.convertAll(filmFinder.findAllFilmByTitle(name)), HttpStatus.OK);
+    ResponseEntity<List> findAllFilmByTitle(@RequestParam String title) {
+        return new ResponseEntity(filmConverter.convertAll(filmFinder.findAllFilmByTitle(title)), HttpStatus.OK);
     }
 }
