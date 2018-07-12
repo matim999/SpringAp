@@ -4,10 +4,11 @@ import app.DTO.converter.BaseConverter;
 import app.DTO.requestDTO.CustomerDtoRequest;
 import app.DTO.requestDTO.RentDto;
 import app.DTO.responseDTO.CustomerDto;
+import app.DTO.responseDTO.InventoryDto;
 import app.entity.Customer;
+import app.entity.Inventory;
 import app.finder.CustomerFinder;
 import app.service.CustomerService;
-import app.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,15 @@ import java.util.List;
 public class CustomerController {
     private final CustomerFinder categoryFinder;
     private final CustomerService customerService;
-    private final RentService rentService;
     private final BaseConverter<Customer, CustomerDto> customerConverter;
+    private final BaseConverter<Inventory, InventoryDto> inventoryConverter;
 
     @Autowired
-    public CustomerController(CustomerFinder categoryFinder, CustomerService customerService, RentService rentService, BaseConverter<Customer, CustomerDto> customerConverter) {
+    public CustomerController(CustomerFinder categoryFinder, CustomerService customerService, BaseConverter<Customer, CustomerDto> customerConverter, BaseConverter<Inventory, InventoryDto> inventoryConverter) {
         this.categoryFinder = categoryFinder;
         this.customerService = customerService;
-        this.rentService = rentService;
         this.customerConverter = customerConverter;
+        this.inventoryConverter = inventoryConverter;
     }
 
     @GetMapping
@@ -63,12 +64,11 @@ public class CustomerController {
         return new ResponseEntity(customerConverter.convertAll(categoryFinder.findAllCustomerByFirstName(name)), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/{id}/rent/{filmId}")
+    @GetMapping(path = "/{id}/rent/{filmId}")
     public @ResponseBody
-    ResponseEntity rentAFilm(@PathVariable int id, @PathVariable int filmId) {
+    ResponseEntity<Inventory> rentAFilm(@PathVariable int id, @PathVariable int filmId) {
         RentDto rentDto = new RentDto(id, filmId);
-//        Customer.rentAFilm();
-//        rentService.rentAFilm();
-        return new ResponseEntity(HttpStatus.OK);
+        Inventory inventory = customerService.rentAFilm(rentDto);
+        return new ResponseEntity(inventoryConverter.convertAll(inventory), HttpStatus.OK);
     }
 }

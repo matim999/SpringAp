@@ -1,6 +1,5 @@
 package app.service;
 
-import app.DTO.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.responseDTO.CityDto;
 import app.DTO.responseDTO.CountryDto;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
-import static app.DTO.ErrorCode.*;
+import static app.ErrorCode.*;
 
 
 @Service

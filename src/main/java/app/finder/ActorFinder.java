@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static app.DTO.ErrorCode.*;
+import static app.ErrorCode.*;
 
 @Component
 public class ActorFinder {

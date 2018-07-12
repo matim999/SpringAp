@@ -1,6 +1,6 @@
 package app.exceptions;
 
-import app.DTO.ErrorCode;
+import app.ErrorCode;
 import lombok.Getter;
 
 public class MyNotFoundException extends RuntimeException{

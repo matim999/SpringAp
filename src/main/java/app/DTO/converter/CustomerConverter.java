@@ -1,13 +1,11 @@
 package app.DTO.converter;
 
-import app.DTO.ErrorCode;
+import app.ErrorCode;
 import app.DTO.requestDTO.CustomerDtoRequest;
 import app.DTO.responseDTO.AddressDto;
 import app.DTO.responseDTO.CustomerDto;
-import app.DTO.responseDTO.StoreDto;
 import app.entity.Address;
 import app.entity.Customer;
-import app.entity.Store;
 import app.exceptions.MyNotFoundException;
 import app.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;

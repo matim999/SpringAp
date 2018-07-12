@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static app.DTO.ErrorCode.DIFFERENT;
+import static app.ErrorCode.DIFFERENT;
 
 @Component
 public class CategoryFinder {

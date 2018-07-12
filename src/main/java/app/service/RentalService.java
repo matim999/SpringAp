@@ -1,14 +1,10 @@
 package app.service;
 
-import app.DTO.ErrorCode;
+import app.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.RentalDtoRequest;
-import app.DTO.responseDTO.AddressDto;
-import app.DTO.responseDTO.CustomerDto;
 import app.DTO.responseDTO.RentalDto;
-import app.entity.Address;
-import app.entity.Customer;
 import app.entity.Rental;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;

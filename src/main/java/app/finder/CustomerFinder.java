@@ -1,16 +1,14 @@
 package app.finder;
 
-import app.entity.Category;
 import app.entity.Customer;
 import app.exceptions.MyNotFoundException;
-import app.repository.CategoryRepository;
 import app.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static app.DTO.ErrorCode.DIFFERENT;
+import static app.ErrorCode.DIFFERENT;
 
 @Component
 public class CustomerFinder {

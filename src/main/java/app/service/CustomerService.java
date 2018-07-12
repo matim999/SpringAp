@@ -1,6 +1,6 @@
 package app.service;
 
-import app.DTO.ErrorCode;
+import app.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.CustomerDtoRequest;
@@ -9,6 +9,7 @@ import app.DTO.responseDTO.AddressDto;
 import app.DTO.responseDTO.CustomerDto;
 import app.entity.Address;
 import app.entity.Customer;
+import app.entity.Inventory;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
 import app.repository.AddressRepository;
@@ -26,14 +27,16 @@ public class CustomerService {
     private final AddressService addressService;
     private final ToBaseConverter<CustomerDtoRequest, CustomerDto> customerRequestConverter;
     private final BaseConverter<Customer, CustomerDto> customerConverter;
+    private final InventoryAvailabilityChecker inventoryAvailabilityChecker;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository, AddressService addressService, ToBaseConverter<CustomerDtoRequest, CustomerDto> customerRequestConverter, BaseConverter<Customer, CustomerDto> customerConverter) {
+    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository, AddressService addressService, ToBaseConverter<CustomerDtoRequest, CustomerDto> customerRequestConverter, BaseConverter<Customer, CustomerDto> customerConverter, InventoryAvailabilityChecker inventoryAvailabilityChecker) {
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
         this.addressService = addressService;
         this.customerRequestConverter = customerRequestConverter;
         this.customerConverter = customerConverter;
+        this.inventoryAvailabilityChecker = inventoryAvailabilityChecker;
     }
 
     public void addNewCustomer(CustomerDtoRequest customerDtoRequest)
@@ -85,7 +88,7 @@ public class CustomerService {
         return customerRepository.saveAndFlush(new Customer(customerDto, address));
     }
 
-    public void rentAFilm(RentDto rentDto){
-
+    public Inventory rentAFilm(RentDto rentDto){
+        return inventoryAvailabilityChecker.checkAvailability(rentDto.getFilmID()).orElseThrow(() -> new MyNotFoundException("STH WRONG", ErrorCode.DIFFERENT));
     }
 }

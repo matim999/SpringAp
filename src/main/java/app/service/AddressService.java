@@ -1,12 +1,10 @@
 package app.service;
 
-import app.DTO.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.responseDTO.AddressDto;
 import app.DTO.responseDTO.CityDto;
 import app.entity.Address;
 import app.entity.City;
-import app.exceptions.ConflictException;
 import app.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

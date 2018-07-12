@@ -9,7 +9,7 @@ import app.repository.CityRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import static app.DTO.ErrorCode.*;
+import static app.ErrorCode.*;
 
 @Component
 public class CityFinder {

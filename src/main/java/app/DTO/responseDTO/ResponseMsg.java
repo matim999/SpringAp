@@ -1,6 +1,6 @@
 package app.DTO.responseDTO;
 
-import app.DTO.ErrorCode;
+import app.ErrorCode;
 import lombok.Data;
 
 public @Data

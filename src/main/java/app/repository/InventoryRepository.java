@@ -11,4 +11,6 @@ import java.util.Optional;
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
     Optional<List<Inventory>> findAllByFilmTitle(String filmTitle);
+    Optional<List<Inventory>> findAllByFilmFilmId(int id);
+    Optional<List<Inventory>> findAllByStoreIdAndFilmFilmId(int filmId, int inventoryId);
 }

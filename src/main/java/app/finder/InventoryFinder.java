@@ -1,16 +1,14 @@
 package app.finder;
 
-import app.entity.Film;
 import app.entity.Inventory;
 import app.exceptions.MyNotFoundException;
-import app.repository.FilmRepository;
 import app.repository.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static app.DTO.ErrorCode.DIFFERENT;
+import static app.ErrorCode.DIFFERENT;
 
 @Component
 public class InventoryFinder {

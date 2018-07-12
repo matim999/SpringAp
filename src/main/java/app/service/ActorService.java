@@ -1,6 +1,6 @@
 package app.service;
 
-import app.DTO.ErrorCode;
+import app.ErrorCode;
 import app.DTO.converter.ActorConverter;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;

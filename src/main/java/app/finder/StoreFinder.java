@@ -1,16 +1,14 @@
 package app.finder;
 
-import app.entity.Language;
 import app.entity.Store;
 import app.exceptions.MyNotFoundException;
-import app.repository.LanguageRepository;
 import app.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static app.DTO.ErrorCode.DIFFERENT;
+import static app.ErrorCode.DIFFERENT;
 
 @Component
 public class StoreFinder {

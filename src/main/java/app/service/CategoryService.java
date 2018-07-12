@@ -1,11 +1,10 @@
 package app.service;
 
-import app.DTO.ErrorCode;
+import app.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.CategoryDtoRequest;
 import app.DTO.responseDTO.CategoryDto;
-import app.entity.Actor;
 import app.entity.Category;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;

@@ -1,9 +1,7 @@
 package app.finder;
 
-import app.entity.Language;
 import app.entity.Rental;
 import app.exceptions.MyNotFoundException;
-import app.repository.LanguageRepository;
 import app.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static app.DTO.ErrorCode.DIFFERENT;
+import static app.ErrorCode.DIFFERENT;
 
 @Component
 public class RentalFinder {

@@ -7,5 +7,5 @@ public @Data
 class InventoryDto {
     @EqualsAndHashCode.Exclude private int inventoryId;
     private FilmDto film;
-    private StoreDto store;
+    private int storeId;
 }

@@ -1,16 +1,14 @@
 package app.finder;
 
-import app.entity.Inventory;
 import app.entity.Language;
 import app.exceptions.MyNotFoundException;
-import app.repository.InventoryRepository;
 import app.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static app.DTO.ErrorCode.DIFFERENT;
+import static app.ErrorCode.DIFFERENT;
 
 @Component
 public class LanguageFinder {

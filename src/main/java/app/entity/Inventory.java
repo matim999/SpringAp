@@ -1,5 +1,6 @@
 package app.entity;
 
+import app.DTO.requestDTO.InventoryDtoRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,7 +22,12 @@ public class Inventory {
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "film_id")
     private @Getter Film film;
-    @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private @Getter Store store;
+    private @Getter int storeId;
+
+    public Inventory(InventoryDtoRequest inventoryDtoRequest, Film film) {
+        this.film = film;
+        this.storeId = inventoryDtoRequest.getStoreId();
+    }
+
+    private Inventory(){};
 }

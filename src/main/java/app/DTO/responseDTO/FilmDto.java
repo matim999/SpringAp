@@ -4,6 +4,7 @@ import app.DTO.responseDTO.ActorDtoNoFilm;
 import app.DTO.responseDTO.CategoryDtoNoFilm;
 import app.DTO.responseDTO.LanguageDto;
 import app.entity.Mpaa_rating;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,14 +16,14 @@ public @Data
 class FilmDto {
     @EqualsAndHashCode.Exclude private int filmId;
     private String title;
-    private String description;
-    private int releaseYear;
-    private LanguageDto language;
+    @JsonIgnore private String description;
+    @JsonIgnore private int releaseYear;
+    @JsonIgnore private LanguageDto language;
     private int rentalDuration;
     private double rentalRate;
-    private int length;
-    private double replacementCost;
-    private String[] specialFeatures;
-    @EqualsAndHashCode.Exclude private Collection<ActorDtoNoFilm> actors = new ArrayList<>();
-    @EqualsAndHashCode.Exclude private Collection<CategoryDtoNoFilm> categories = new ArrayList<>();
+    @JsonIgnore private int length;
+    @JsonIgnore private double replacementCost;
+    @JsonIgnore private String[] specialFeatures;
+    @EqualsAndHashCode.Exclude @JsonIgnore private Collection<ActorDtoNoFilm> actors = new ArrayList<>();
+    @EqualsAndHashCode.Exclude @JsonIgnore private Collection<CategoryDtoNoFilm> categories = new ArrayList<>();
 }

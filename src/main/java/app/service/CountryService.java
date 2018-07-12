@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
 
-import static app.DTO.ErrorCode.*;
+import static app.ErrorCode.*;
 
 @Service
 public class CountryService {
