@@ -7,6 +7,5 @@ public class CurrentTime {
 
     public static void updateTime() {
         now = LocalDateTime.now().withNano(0);
-        System.out.println("now()");
     }
 }

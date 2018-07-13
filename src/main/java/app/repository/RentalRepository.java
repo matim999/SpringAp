@@ -2,6 +2,7 @@ package app.repository;
 
 import app.entity.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -17,4 +18,7 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
     Optional<List<Rental>> findAllByInventoryFilmFilmIdAndReturnDateIsNullOrderByRentalDateAsc(int filmId);
 
     Optional<Rental> findAllByCustomerCustomerIdAndInventory_Film_FilmIdAndAndReturnDateIsNull(int customerId, int filmId);
+
+    Optional<List<Rental>> findAllByReturnDateIsNull();
+
 }
