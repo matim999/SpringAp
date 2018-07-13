@@ -25,8 +25,7 @@ public class StaffController {
 
     @GetMapping
     private @ResponseBody
-    ResponseEntity<List> findAllStaff()
-    {
+    ResponseEntity<List> findAllStaff() {
         return new ResponseEntity(staffConverter.convertAll(staffFinder.findAllStaff()), HttpStatus.OK);
     }
 

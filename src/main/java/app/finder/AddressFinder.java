@@ -5,9 +5,8 @@ import app.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressFinder {
@@ -17,7 +16,8 @@ public class AddressFinder {
     public AddressFinder(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
-    public Address findAddressById(int id){
+
+    public Address findAddressById(int id) {
         return addressRepository.findById(id).get();
     }
 

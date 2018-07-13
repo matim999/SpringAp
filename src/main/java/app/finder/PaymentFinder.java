@@ -19,16 +19,15 @@ public class PaymentFinder {
         this.paymentRepository = paymentRepository;
     }
 
-    public List<Payment> findAllPayment()
-    {
+    public List<Payment> findAllPayment() {
         return paymentRepository.findAll();
     }
 
-    public Payment findPaymentById(int id){
+    public Payment findPaymentById(int id) {
         return paymentRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Payment> findAllPaymentByAmount(int amount){
+    public List<Payment> findAllPaymentByAmount(int amount) {
         return paymentRepository.findAllByAmount(amount).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

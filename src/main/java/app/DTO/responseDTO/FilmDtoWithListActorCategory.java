@@ -1,16 +1,14 @@
 package app.DTO.responseDTO;
 
-import app.entity.Mpaa_rating;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public @Data
 class FilmDtoWithListActorCategory {
-    @EqualsAndHashCode.Exclude private int filmId;
+    @EqualsAndHashCode.Exclude
+    private int filmId;
     private String title;
     private String description;
     private int releaseYear;

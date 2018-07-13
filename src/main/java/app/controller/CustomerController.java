@@ -5,15 +5,21 @@ import app.DTO.requestDTO.CustomerDtoRequest;
 import app.DTO.requestDTO.RentDto;
 import app.DTO.responseDTO.CustomerDto;
 import app.DTO.responseDTO.InventoryDto;
+import app.DTO.responseDTO.RentResponseDto;
 import app.entity.Customer;
 import app.entity.Inventory;
+import app.exceptions.ConflictException;
+import app.exceptions.MyNotFoundException;
 import app.finder.CustomerFinder;
+import app.service.CurrentTime;
 import app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -30,6 +36,7 @@ public class CustomerController {
         this.customerService = customerService;
         this.customerConverter = customerConverter;
         this.inventoryConverter = inventoryConverter;
+        CurrentTime.updateTime();
     }
 
     @GetMapping
@@ -64,11 +71,41 @@ public class CustomerController {
         return new ResponseEntity(customerConverter.convertAll(categoryFinder.findAllCustomerByFirstName(name)), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}/rent/{filmId}")
+    @GetMapping(path = "/{id}/rent/{filmIds}")
     public @ResponseBody
-    ResponseEntity<Inventory> rentAFilm(@PathVariable int id, @PathVariable int filmId) {
-        RentDto rentDto = new RentDto(id, filmId);
-        Inventory inventory = customerService.rentAFilm(rentDto);
-        return new ResponseEntity(inventoryConverter.convertAll(inventory), HttpStatus.OK);
+    ResponseEntity<List<RentResponseDto>> rentAFilm(@PathVariable int id, @PathVariable List<Integer> filmIds) {
+        HashSet<RentDto> rentDtos = new HashSet<>();
+        List<RentResponseDto> rentResponseDtos = new ArrayList<>();
+        for (int i : filmIds) {
+            rentDtos.add(new RentDto(id, i));
+        }
+        for (RentDto rentDto : rentDtos) {
+            try {
+                rentResponseDtos.add(customerService.rentAFilm(rentDto));
+            } catch (MyNotFoundException | ConflictException ex) {
+                rentResponseDtos.add(new RentResponseDto(ex.getMessage()));
+                continue;
+            }
+        }
+        return new ResponseEntity(rentResponseDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{id}/return/{filmIds}")
+    public @ResponseBody
+    ResponseEntity<List<RentResponseDto>> returnAFilm(@PathVariable int id, @PathVariable List<Integer> filmIds) {
+        HashSet<RentDto> rentDtos = new HashSet<>();
+        List<RentResponseDto> rentResponseDtos = new ArrayList<>();
+        for (int i : filmIds) {
+            rentDtos.add(new RentDto(id, i));
+        }
+        for (RentDto rentDto : rentDtos) {
+            try {
+                rentResponseDtos.add(customerService.returnAFilm(rentDto));
+            } catch (MyNotFoundException | ConflictException ex) {
+                rentResponseDtos.add(new RentResponseDto(ex.getMessage()));
+                continue;
+            }
+        }
+        return new ResponseEntity(rentResponseDtos, HttpStatus.OK);
     }
 }

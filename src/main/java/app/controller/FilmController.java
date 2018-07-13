@@ -4,7 +4,6 @@ import app.DTO.converter.BaseConverter;
 import app.DTO.requestDTO.FilmDtoRequest;
 import app.DTO.responseDTO.FilmDto;
 import app.entity.Film;
-import app.entity.Mpaa_rating;
 import app.finder.FilmFinder;
 import app.repository.FilmRepository;
 import app.service.FilmService;
@@ -33,15 +32,13 @@ public class FilmController {
 
     @GetMapping
     private @ResponseBody
-    ResponseEntity<List> findAllFilm()
-    {
+    ResponseEntity<List> findAllFilm() {
         return new ResponseEntity(filmConverter.convertAll(filmFinder.findAllFilm()), HttpStatus.OK);
     }
 
     @PostMapping
     private @ResponseBody
-    ResponseEntity<List> findAllFilm(@RequestBody FilmDtoRequest filmDtoRequest)
-    {
+    ResponseEntity<List> findAllFilm(@RequestBody FilmDtoRequest filmDtoRequest) {
         filmService.addNewFilm(filmDtoRequest);
         return new ResponseEntity(HttpStatus.OK);
     }

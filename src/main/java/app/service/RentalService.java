@@ -1,14 +1,17 @@
 package app.service;
 
-import app.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.RentalDtoRequest;
 import app.DTO.responseDTO.RentalDto;
+import app.ErrorCode;
 import app.entity.Rental;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
-import app.repository.*;
+import app.repository.CustomerRepository;
+import app.repository.InventoryRepository;
+import app.repository.RentalRepository;
+import app.repository.StaffRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,9 +35,9 @@ public class RentalService {
         this.rentalConverter = rentalConverter;
     }
 
-    public void addNewRental(RentalDtoRequest rentalDtoRequest){
+    public void addNewRental(RentalDtoRequest rentalDtoRequest) {
         Collection<Rental> collection = rentalRepository.findAllByRentalDate(rentalDtoRequest.getRentalDate()).orElse(new ArrayList<>());
-        if (collection.isEmpty()){
+        if (collection.isEmpty()) {
             saveRental(rentalDtoRequest);
             return;
         }
@@ -55,14 +58,25 @@ public class RentalService {
                 inventoryRepository.findById(rentalDtoRequest.getInventoryId()).orElseThrow(() -> new MyNotFoundException("Inventory with Given ID does'nt exist", ErrorCode.DIFFERENT)),
                 customerRepository.findById(rentalDtoRequest.getCustomerId()).orElseThrow(() -> new MyNotFoundException("Inventory with Given ID does'nt exist", ErrorCode.DIFFERENT)),
                 staffRepository.findById(rentalDtoRequest.getStaffId()).orElseThrow(() -> new MyNotFoundException("Inventory with Given ID does'nt exist", ErrorCode.DIFFERENT))));
-        System.out.println(rental.toString());
     }
 
-    public void deleteRentalByID(int id)
-    {
+    public Rental saveRentRental(RentalDtoRequest rentalDtoRequest) {
+        return rentalRepository.saveAndFlush(new Rental(rentalRequestConverter.convertAllToBase(rentalDtoRequest),
+                inventoryRepository.findById(rentalDtoRequest.getInventoryId()).orElseThrow(() -> new MyNotFoundException("Inventory with Given ID does'nt exist", ErrorCode.DIFFERENT)),
+                customerRepository.findById(rentalDtoRequest.getCustomerId()).orElseThrow(() -> new MyNotFoundException("Inventory with Given ID does'nt exist", ErrorCode.DIFFERENT)),
+                staffRepository.findById(rentalDtoRequest.getStaffId()).orElseThrow(() -> new MyNotFoundException("Inventory with Given ID does'nt exist", ErrorCode.DIFFERENT))));
+    }
+
+    public void deleteRentalByID(int id) {
         rentalRepository.findById(id).orElseThrow(() -> new MyNotFoundException("No Actor With Given Id", ErrorCode.DIFFERENT));
         rentalRepository.deleteById(id);
     }
 
 
+    public void updateRental(Rental rental) {
+        RentalDto rentalDto = rentalConverter.convertAll(rental);
+        rentalDto.setReturnDate(CurrentTime.now);
+        rental.update(rentalDto);
+        rentalRepository.saveAndFlush(rental);
+    }
 }

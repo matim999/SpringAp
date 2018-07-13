@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Integer> {
     List<Address> findAllByCity_Country_Country(String country);
+
     Optional<List<Address>> findByAddress(String address);
 }

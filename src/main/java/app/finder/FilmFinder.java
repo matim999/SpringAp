@@ -19,16 +19,15 @@ public class FilmFinder {
         this.filmRepository = filmRepository;
     }
 
-    public List<Film> findAllFilm()
-    {
+    public List<Film> findAllFilm() {
         return filmRepository.findAll();
     }
 
-    public Film findFilmById(int id){
+    public Film findFilmById(int id) {
         return filmRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Film> findAllFilmByTitle(String title){
+    public List<Film> findAllFilmByTitle(String title) {
         return filmRepository.findAllByTitle(title).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

@@ -1,8 +1,8 @@
 package app.DTO.converter;
 
 import app.DTO.requestDTO.ActorDtoRequest;
-import app.DTO.responseDTO.FilmDto;
 import app.DTO.responseDTO.ActorDto;
+import app.DTO.responseDTO.FilmDto;
 import app.entity.Actor;
 import app.entity.Film;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ public class ActorConverter implements BaseConverter<Actor, ActorDto>, ToBaseCon
     public ActorConverter(BaseConverter<Film, FilmDto> filmConverter) {
         this.filmConverter = filmConverter;
     }
+
     @Override
     public ActorDto convert(Actor from) {
         ActorDto actorDto = new ActorDto();

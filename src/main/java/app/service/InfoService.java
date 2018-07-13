@@ -13,7 +13,7 @@ public class InfoService {
     @Value("${profile}")
     String profile;
 
-    public InfoDto getInfo(){
+    public InfoDto getInfo() {
         return new InfoDto(title, description, profile);
     }
 }

@@ -1,16 +1,17 @@
 package app.DTO.responseDTO;
 
-import app.DTO.responseDTO.CustomerDto;
-import app.entity.Rental;
-import app.entity.Staff;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+
 public @Data
 class PaymentDto {
-    @EqualsAndHashCode.Exclude private int paymentId;
+    @EqualsAndHashCode.Exclude
+    private int paymentId;
     private CustomerDto customer;
-    private Staff staff;
-    private Rental rental;
-    private int amount;
+    private StaffDto staff;
+    private RentalDto rental;
+    private double amount;
+    private LocalDateTime paymentDate;
 }

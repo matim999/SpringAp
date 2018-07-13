@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/test")
@@ -30,8 +29,7 @@ public class TestController {
     }
 
     @GetMapping(path = "/{id}")
-    public Collection<RentalDto> test(@PathVariable int id)
-    {
+    public Collection<RentalDto> test(@PathVariable int id) {
         return rentalConverter.convertAll(rentalRepository.findAllByInventoryFilmFilmIdAndReturnDateIsNullOrderByRentalDateAsc(id).orElse(new ArrayList<>()));
     }
 }

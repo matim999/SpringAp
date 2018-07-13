@@ -25,10 +25,10 @@ public class AddressService {
         this.addressConverter = addressConverter;
     }
 
-    Address checkForAddress(AddressDto addressDto){
+    Address checkForAddress(AddressDto addressDto) {
         CityDto cityDto = addressDto.getCity();
         Collection<AddressDto> existingAddresses = addressConverter.convertAll(addressRepository.findByAddress(addressDto.getAddress()).orElse(new ArrayList<>()));
-        if (existingAddresses.isEmpty()){
+        if (existingAddresses.isEmpty()) {
             return saveAddress(addressDto, cityDto);
         }
         return existingAddresses

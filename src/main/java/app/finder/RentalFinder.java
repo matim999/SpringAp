@@ -20,16 +20,15 @@ public class RentalFinder {
         this.rentalRepository = rentalRepository;
     }
 
-    public List<Rental> findAllRental()
-    {
+    public List<Rental> findAllRental() {
         return rentalRepository.findAll();
     }
 
-    public Rental findRentalById(int id){
+    public Rental findRentalById(int id) {
         return rentalRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Rental> findAllRentalByRentalDate(LocalDateTime date){
+    public List<Rental> findAllRentalByRentalDate(LocalDateTime date) {
         return rentalRepository.findAllByRentalDate(date).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

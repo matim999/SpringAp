@@ -1,8 +1,6 @@
 package app.entity;
 
-import app.DTO.requestDTO.CategoryDtoRequest;
 import app.DTO.responseDTO.CategoryDto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -16,29 +14,33 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_category_id_seq")
     @SequenceGenerator(
-            name="category_category_id_seq",
-            sequenceName="category_category_id_seq",
+            name = "category_category_id_seq",
+            sequenceName = "category_category_id_seq",
             allocationSize = 1
     )
     @Column(name = "category_id")
-    @EqualsAndHashCode.Exclude private @Getter int categoryId;
-    private @Getter String name;
+    @EqualsAndHashCode.Exclude
+    private @Getter
+    int categoryId;
+    private @Getter
+    String name;
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
-    @EqualsAndHashCode.Exclude private List<Film> films = new ArrayList<>();
-
-    public List<Film> getFilms() {
-        return films;
-    }
+    @EqualsAndHashCode.Exclude
+    private List<Film> films = new ArrayList<>();
 
     public Category(CategoryDto categoryDto) {
         this.name = categoryDto.getName();
     }
 
-    public void update (CategoryDto categoryDto) {
-        this.name = categoryDto.getName();
-    }
-
     public Category() {
         super();
+    }
+
+    public List<Film> getFilms() {
+        return films;
+    }
+
+    public void update(CategoryDto categoryDto) {
+        this.name = categoryDto.getName();
     }
 }

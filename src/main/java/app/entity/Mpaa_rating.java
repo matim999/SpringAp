@@ -13,10 +13,6 @@ public enum Mpaa_rating {
         this.rating = rating;
     }
 
-    public String getRating() {
-        return rating;
-    }
-
     public static Mpaa_rating fromDbToEntity(String rating) {
         switch (rating) {
             case "G":
@@ -33,5 +29,9 @@ public enum Mpaa_rating {
                 throw new IllegalArgumentException("Rating [" + rating
                         + "] not supported.");
         }
+    }
+
+    public String getRating() {
+        return rating;
     }
 }

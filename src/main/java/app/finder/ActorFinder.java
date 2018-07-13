@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static app.ErrorCode.*;
+import static app.ErrorCode.DIFFERENT;
 
 @Component
 public class ActorFinder {
@@ -19,16 +19,15 @@ public class ActorFinder {
         this.actorRepository = actorRepository;
     }
 
-    public List<Actor> findAlllActor()
-    {
+    public List<Actor> findAlllActor() {
         return actorRepository.findAll();
     }
 
-    public Actor findActorById(int id){
+    public Actor findActorById(int id) {
         return actorRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Actor with given Id not found", DIFFERENT));
     }
 
-    public List<Actor> findActorByFirstName(String name){
+    public List<Actor> findActorByFirstName(String name) {
         return actorRepository.findAllByFirstName(name).orElseThrow(() -> new MyNotFoundException("Actor with given name not found", DIFFERENT));
     }
 }

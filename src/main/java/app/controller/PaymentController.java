@@ -25,8 +25,7 @@ public class PaymentController {
 
     @GetMapping
     private @ResponseBody
-    ResponseEntity<List> findAllPayment()
-    {
+    ResponseEntity<List> findAllPayment() {
         return new ResponseEntity(languageConverter.convertAll(paymentFinder.findAllPayment()), HttpStatus.OK);
     }
 

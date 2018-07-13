@@ -1,15 +1,8 @@
 package app.DTO.requestDTO;
 
-import app.DTO.responseDTO.ActorDtoNoFilm;
-import app.DTO.responseDTO.CategoryDtoNoFilm;
-import app.DTO.responseDTO.LanguageDto;
-import app.entity.Mpaa_rating;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public @Data
 class FilmDtoRequest {

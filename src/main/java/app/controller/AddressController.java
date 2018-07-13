@@ -1,7 +1,7 @@
 package app.controller;
 
-import app.DTO.responseDTO.AddressDto;
 import app.DTO.converter.BaseConverter;
+import app.DTO.responseDTO.AddressDto;
 import app.entity.Address;
 import app.finder.AddressFinder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,29 +26,26 @@ public class AddressController {
 
     @GetMapping()
     public @ResponseBody
-    ResponseEntity<List> getAddressByQuery(@RequestParam(required = false)String address,
-                                           @RequestParam(required = false)String district,
-                                           @RequestParam(required = false, defaultValue = "0")int cityId,
-                                           @RequestParam(required = false)String city,
-                                           @RequestParam(required = false, defaultValue = "0")int countryId,
-                                           @RequestParam(required = false)String country,
-                                           @RequestParam(required = false)String postalCode,
-                                           @RequestParam(required = false)String phone)
-    {
+    ResponseEntity<List> getAddressByQuery(@RequestParam(required = false) String address,
+                                           @RequestParam(required = false) String district,
+                                           @RequestParam(required = false, defaultValue = "0") int cityId,
+                                           @RequestParam(required = false) String city,
+                                           @RequestParam(required = false, defaultValue = "0") int countryId,
+                                           @RequestParam(required = false) String country,
+                                           @RequestParam(required = false) String postalCode,
+                                           @RequestParam(required = false) String phone) {
         return new ResponseEntity(addressConverter.convertAll(addressFinder.findAddressBy(address, district, cityId, city, countryId, country, postalCode, phone)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public @ResponseBody
-    ResponseEntity getAddressById(@PathVariable int id)
-    {
+    ResponseEntity getAddressById(@PathVariable int id) {
         return new ResponseEntity(addressConverter.convertAll(addressFinder.findAddressById(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/search/country/{country}")
     public @ResponseBody
-    ResponseEntity getAddressByCountry(@PathVariable String country)
-    {
+    ResponseEntity getAddressByCountry(@PathVariable String country) {
         return new ResponseEntity(addressConverter.convertAll(addressFinder.findAddressByCountry(country)), HttpStatus.OK);
     }
 }

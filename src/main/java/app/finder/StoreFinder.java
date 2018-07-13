@@ -19,16 +19,15 @@ public class StoreFinder {
         this.storeRepository = storeRepository;
     }
 
-    public List<Store> findAllStore()
-    {
+    public List<Store> findAllStore() {
         return storeRepository.findAll();
     }
 
-    public Store findStoreById(int id){
+    public Store findStoreById(int id) {
         return storeRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Store> findAllStoreByStaffStaffId(int staffId){
+    public List<Store> findAllStoreByStaffStaffId(int staffId) {
         return storeRepository.findAllByStaffStaffId(staffId).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

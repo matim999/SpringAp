@@ -16,8 +16,9 @@ public class AppConfig {
     private String title;
     @Value("${description}")
     private String description;
+
     @Bean
-    public InfoDto getInfoDto(){
-        return new InfoDto( title, description, profile);
+    public InfoDto getInfoDto() {
+        return new InfoDto(title, description, profile);
     }
 }

@@ -19,16 +19,15 @@ public class LanguageFinder {
         this.languageRepository = languageRepository;
     }
 
-    public List<Language> findAllLanguage()
-    {
+    public List<Language> findAllLanguage() {
         return languageRepository.findAll();
     }
 
-    public Language findLanguageById(int id){
+    public Language findLanguageById(int id) {
         return languageRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Language> findAllLanguageByName(String name){
+    public List<Language> findAllLanguageByName(String name) {
         return languageRepository.findAllByName(name).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

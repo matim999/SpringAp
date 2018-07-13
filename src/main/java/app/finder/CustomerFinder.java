@@ -19,16 +19,15 @@ public class CustomerFinder {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> findAllCustomer()
-    {
+    public List<Customer> findAllCustomer() {
         return customerRepository.findAll();
     }
 
-    public Customer findCustomerById(int id){
+    public Customer findCustomerById(int id) {
         return customerRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Customer> findAllCustomerByFirstName(String fname){
+    public List<Customer> findAllCustomerByFirstName(String fname) {
         return customerRepository.findAllByFirstName(fname).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

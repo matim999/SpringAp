@@ -4,13 +4,13 @@ import app.DTO.converter.BaseConverter;
 import app.DTO.responseDTO.CityDto;
 import app.DTO.responseDTO.CountryDto;
 import app.entity.City;
-import app.finder.CityFinder;
 import app.entity.Country;
-import org.springframework.http.HttpStatus;
+import app.finder.CityFinder;
+import app.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import app.service.CityService;
 
 @RestController
 @RequestMapping(path = "/city")
@@ -40,13 +40,13 @@ public class CityController {
         return new ResponseEntity<java.util.Collection<CityDto>>(cityConverter.convertAll(cityFinder.findCityByCityAndCountry(city, country)), HttpStatus.OK);
     }
 
-    @GetMapping(path="/{id}")
+    @GetMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<CityDto> getAllCityById(@PathVariable int id) {
         return new ResponseEntity<>(cityConverter.convertAll(cityFinder.findById(id)), HttpStatus.OK);
     }
 
-    @DeleteMapping(path="/{id}")
+    @DeleteMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity deleteCityById(@PathVariable int id) {
         cityService.deleteCityById(id);
@@ -55,16 +55,14 @@ public class CityController {
 
     @PutMapping(path = "/{id}")
     public @ResponseBody
-    ResponseEntity updateCity(@RequestBody City city, @PathVariable int id)
-    {
+    ResponseEntity updateCity(@RequestBody City city, @PathVariable int id) {
         cityService.updateCity(id, city);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping(path = "/")
     public @ResponseBody
-    ResponseEntity test(@RequestBody CityDto city)
-    {
+    ResponseEntity test(@RequestBody CityDto city) {
         return new ResponseEntity(cityService.checkForCity(city), HttpStatus.OK);
     }
 
@@ -75,13 +73,13 @@ public class CityController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping(path="/{id}/country")
+    @GetMapping(path = "/{id}/country")
     public @ResponseBody
     ResponseEntity<CountryDto> getCityCountry(@PathVariable int id) {
         return new ResponseEntity<>(countryConverter.convertAll(cityFinder.findCityCountry(id)), HttpStatus.OK);
     }
 
-    @PutMapping(path="/{id}/country/{countryId}")
+    @PutMapping(path = "/{id}/country/{countryId}")
     public @ResponseBody
     ResponseEntity getCityCountry(@PathVariable int id, @PathVariable int countryId) {
         cityService.updateCityCountryId(id, countryId);

@@ -1,48 +1,61 @@
 package app.service;
 
-import app.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.CustomerDtoRequest;
+import app.DTO.requestDTO.PaymentDtoRequest;
 import app.DTO.requestDTO.RentDto;
-import app.DTO.responseDTO.AddressDto;
-import app.DTO.responseDTO.CustomerDto;
-import app.entity.Address;
-import app.entity.Customer;
-import app.entity.Inventory;
+import app.DTO.requestDTO.RentalDtoRequest;
+import app.DTO.responseDTO.*;
+import app.entity.*;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
 import app.repository.AddressRepository;
 import app.repository.CustomerRepository;
+import app.repository.StoreRepository;
+import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static app.ErrorCode.*;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
+    private final StoreRepository storeRepository;
+    private final RentalService rentalService;
+    private final PaymentService paymentService;
     private final AddressService addressService;
+    private final BaseConverter<Rental, RentalDto> rentalConverter;
+    private final BaseConverter<Payment, PaymentDto> paymentConverter;
     private final ToBaseConverter<CustomerDtoRequest, CustomerDto> customerRequestConverter;
     private final BaseConverter<Customer, CustomerDto> customerConverter;
     private final InventoryAvailabilityChecker inventoryAvailabilityChecker;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository, AddressService addressService, ToBaseConverter<CustomerDtoRequest, CustomerDto> customerRequestConverter, BaseConverter<Customer, CustomerDto> customerConverter, InventoryAvailabilityChecker inventoryAvailabilityChecker) {
+    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository, StoreRepository storeRepository, RentalService rentalService, PaymentService paymentService, AddressService addressService, BaseConverter<Rental, RentalDto> rentalConverter, BaseConverter<Payment, PaymentDto> paymentConverter, ToBaseConverter<CustomerDtoRequest, CustomerDto> customerRequestConverter, BaseConverter<Customer, CustomerDto> customerConverter, InventoryAvailabilityChecker inventoryAvailabilityChecker) {
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
+        this.storeRepository = storeRepository;
+        this.rentalService = rentalService;
+        this.paymentService = paymentService;
         this.addressService = addressService;
+        this.rentalConverter = rentalConverter;
+        this.paymentConverter = paymentConverter;
         this.customerRequestConverter = customerRequestConverter;
         this.customerConverter = customerConverter;
         this.inventoryAvailabilityChecker = inventoryAvailabilityChecker;
     }
 
-    public void addNewCustomer(CustomerDtoRequest customerDtoRequest)
-    {
+    public void addNewCustomer(CustomerDtoRequest customerDtoRequest) {
         Collection<Customer> collection = customerRepository.findAllByFirstNameAndLastName(customerDtoRequest.getFirstName(), customerDtoRequest.getLastName()).orElse(new ArrayList<>());
-        if(collection.isEmpty()){
+        if (collection.isEmpty()) {
             saveCustomer(customerDtoRequest);
             return;
         }
@@ -50,7 +63,7 @@ public class CustomerService {
         Collection<CustomerDto> customer = customerConverter.convertAll(collection);
         customer.forEach(a -> {
             if (a.equals(customerDto))
-                throw new ConflictException("Customer with given data already exists", ErrorCode.DIFFERENT);
+                throw new ConflictException("Customer with given data already exists", DIFFERENT);
         });
         saveCustomer(customerDtoRequest);
     }
@@ -59,20 +72,19 @@ public class CustomerService {
     private void saveCustomer(CustomerDtoRequest customerDtoRequest) {
         customerRepository.save(new Customer(customerRequestConverter.convertAllToBase(customerDtoRequest),
                 addressRepository.findById(customerDtoRequest.getAddressId())
-                        .orElseThrow(() -> new MyNotFoundException("Address Id not found", ErrorCode.DIFFERENT))));
+                        .orElseThrow(() -> new MyNotFoundException("Address Id not found", DIFFERENT))));
     }
 
-    public void deleteCustomerByID(int id)
-    {
-        customerRepository.findById(id).orElseThrow(() -> new MyNotFoundException("No Actor With Given Id", ErrorCode.DIFFERENT));
+    public void deleteCustomerByID(int id) {
+        customerRepository.findById(id).orElseThrow(() -> new MyNotFoundException("No Actor With Given Id", DIFFERENT));
         customerRepository.deleteById(id);
     }
 
-    Customer checkForCustomer(CustomerDto customerDto){
+    Customer checkForCustomer(CustomerDto customerDto) {
         AddressDto addressDto = customerDto.getAddress();
         Collection<CustomerDto> existingCustomers = customerConverter.convertAll(customerRepository
                 .findAllByFirstNameAndLastName(customerDto.getFirstName(), customerDto.getLastName()).orElse(new ArrayList<>()));
-        if (existingCustomers.isEmpty()){
+        if (existingCustomers.isEmpty()) {
             return saveCustomer(customerDto, addressDto);
         }
         return existingCustomers
@@ -88,7 +100,57 @@ public class CustomerService {
         return customerRepository.saveAndFlush(new Customer(customerDto, address));
     }
 
-    public Inventory rentAFilm(RentDto rentDto){
-        return inventoryAvailabilityChecker.checkAvailability(rentDto.getFilmID()).orElseThrow(() -> new MyNotFoundException("STH WRONG", ErrorCode.DIFFERENT));
+    public RentResponseDto rentAFilm(RentDto rentDto) {
+        Customer customer = customerRepository.findById(rentDto.getCustomerId())
+                .orElseThrow(() -> new MyNotFoundException("Client with given ID not found", FILM_RENT_CUSTOMER_ID_NOT_FOUND));
+        if (inventoryAvailabilityChecker.checkIfAlreadyRentedByThisCustomer(customer, rentDto.getFilmID()))
+            throw new ConflictException(MessageFormat.format("This customer has already rented this film Id; {0}", rentDto.getFilmID()), FILM_RENT_FILM_ALREADY_RENTED_BY_CUSTOMER);
+        Inventory inventory = inventoryAvailabilityChecker.checkAvailability(rentDto.getFilmID(), customer.getStoreId())
+                .orElseThrow(() -> new MyNotFoundException("STH WRONG", DIFFERENT));
+        Store store = storeRepository.findById(customer.getStoreId())
+                .orElseThrow(() -> new MyNotFoundException("Customer Has wrong storeId", FILM_RENT_CUSTOMER_STORE_NOT_FOUND));
+        Rental rental = rentalService.saveRentRental(createRentalRequestDto(customer, inventory, store));
+        Payment payment = paymentService.saveRentPayment(createPaymentDtoRequest(customer, store, rental));
+        return new RentResponseDto(rentalConverter.convertAll(rental), paymentConverter.convertAll(payment));
+    }
+
+    private RentalDtoRequest createRentalRequestDto(Customer customer, Inventory inventory, Store store) {
+        return new RentalDtoRequest(CurrentTime.now,
+                inventory.getInventoryId(),
+                customer.getCustomerId(),
+                null,
+                store.getStaff().getStaffId());
+    }
+
+    private PaymentDtoRequest createPaymentDtoRequest(Customer customer, Store store, Rental rental) {
+        return new PaymentDtoRequest(customer.getCustomerId(),
+                store.getStaff().getStaffId(),
+                rental.getRentalId(),
+                rental.getInventory().getFilm().getRentalRate(),
+                CurrentTime.now);
+    }
+
+    public RentResponseDto returnAFilm(RentDto rentDto) {
+        Customer customer = customerRepository.findById(rentDto.getCustomerId()).orElseThrow(() -> new MyNotFoundException("Client with given ID not found", FILM_RENT_CUSTOMER_ID_NOT_FOUND));
+        Rental rental = inventoryAvailabilityChecker.FindRentalsForCustomerByFilmId(customer.getCustomerId(), rentDto.getFilmID());
+        rentalService.updateRental(rental);
+        Payment payment = null;
+        if (DAYS.between(rental.getRentalDate().toLocalDate(), rental.getReturnDate().toLocalDate()) > rental.getInventory().getFilm().getRentalDuration()) {
+            payment = returnAFilmRetentionFee(rental, customer);
+        }
+        return new RentResponseDto(rentalConverter.convertAll(rental), payment != null ? paymentConverter.convertAll(payment) : null);
+    }
+
+    private Payment returnAFilmRetentionFee(Rental rental, Customer customer) {
+        Store store = storeRepository.findById(customer.getStoreId())
+                .orElseThrow(() -> new MyNotFoundException("Customer Has wrong storeId", FILM_RENT_CUSTOMER_STORE_NOT_FOUND));
+        PaymentDtoRequest paymentDtoRequest = new PaymentDtoRequest(customer.getCustomerId(),
+                store.getStaff().getStaffId(),
+                rental.getRentalId(),
+                Precision.round(
+                        (rental.getInventory().getFilm().getRentalRate() / 10 * (DAYS.between(rental.getRentalDate().toLocalDate(), rental.getReturnDate().toLocalDate()))),
+                        2),
+                CurrentTime.now);
+        return paymentService.saveRentPayment(paymentDtoRequest);
     }
 }

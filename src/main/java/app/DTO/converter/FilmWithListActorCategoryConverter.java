@@ -1,6 +1,5 @@
 package app.DTO.converter;
 
-import app.DTO.converter.BaseConverter;
 import app.DTO.responseDTO.ActorDto;
 import app.DTO.responseDTO.CategoryDto;
 import app.DTO.responseDTO.FilmDtoWithListActorCategory;

@@ -29,15 +29,13 @@ public class InventoryController {
 
     @GetMapping
     private @ResponseBody
-    ResponseEntity<List> findAllInventory()
-    {
+    ResponseEntity<List> findAllInventory() {
         return new ResponseEntity(inventoryConverter.convertAll(inventoryFinder.findAllInventory()), HttpStatus.OK);
     }
 
     @PostMapping
     private @ResponseBody
-    ResponseEntity AddNewInventory(@RequestBody InventoryDtoRequest inventoryDtoRequest)
-    {
+    ResponseEntity AddNewInventory(@RequestBody InventoryDtoRequest inventoryDtoRequest) {
         inventoryService.addNewInventory(inventoryDtoRequest);
         return new ResponseEntity(HttpStatus.OK);
     }

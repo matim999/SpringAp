@@ -7,8 +7,10 @@ import java.util.Collection;
 
 public @Data
 class ActorDto {
-    @EqualsAndHashCode.Exclude private int actorId;
+    @EqualsAndHashCode.Exclude
+    private int actorId;
     private String firstName;
     private String lastName;
-    @EqualsAndHashCode.Exclude private Collection<FilmDto> films;
+    @EqualsAndHashCode.Exclude
+    private Collection<FilmDto> films;
 }

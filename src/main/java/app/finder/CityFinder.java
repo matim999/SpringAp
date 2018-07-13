@@ -1,15 +1,17 @@
 package app.finder;
 
-import app.exceptions.MyNotFoundException;
 import app.entity.City;
 import app.entity.Country;
+import app.exceptions.MyNotFoundException;
+import app.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import app.repository.CityRepository;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
-import static app.ErrorCode.*;
+
+import static app.ErrorCode.CITY_NOT_FOUND_USING_CITY_NAME_OR_COUNTRY_NAME;
+import static app.ErrorCode.CITY_NOT_FOUND_USING_ID;
 
 @Component
 public class CityFinder {
@@ -19,14 +21,15 @@ public class CityFinder {
     public CityFinder(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
+
     public City findById(int id) {
         City city = cityRepository.findById(id).orElse(null);
-        if(city == null)
+        if (city == null)
             throw new MyNotFoundException("City with id does not exist", CITY_NOT_FOUND_USING_ID);
         return city;
     }
-    public List findAll()
-    {
+
+    public List findAll() {
         return cityRepository.findAll();
     }
 
@@ -42,7 +45,7 @@ public class CityFinder {
                 .filter(a -> city == null || a.getCity().equals(city))
                 .filter(a -> country == null || a.getCountry().getCountry().equals(country))
                 .collect(Collectors.toList());
-        if(result.isEmpty())
+        if (result.isEmpty())
             throw new MyNotFoundException("City with given name or country does not exist", CITY_NOT_FOUND_USING_CITY_NAME_OR_COUNTRY_NAME);
         return result;
     }

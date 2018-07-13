@@ -3,10 +3,8 @@ package app.service;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.InventoryDtoRequest;
-import app.DTO.responseDTO.ActorDto;
 import app.DTO.responseDTO.InventoryDto;
 import app.ErrorCode;
-import app.entity.Actor;
 import app.entity.Inventory;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
@@ -33,7 +31,7 @@ public class InventoryService {
 
     public void addNewInventory(InventoryDtoRequest inventoryDtoRequest) {
         Collection<Inventory> collection = inventoryRepository.findAllByStoreIdAndFilmFilmId(inventoryDtoRequest.getStoreId(), inventoryDtoRequest.getFilmId()).orElse(new ArrayList<>());
-        if(collection.isEmpty()){
+        if (collection.isEmpty()) {
             saveInventory(inventoryDtoRequest);
             return;
         }
@@ -46,7 +44,7 @@ public class InventoryService {
         saveInventory(inventoryDtoRequest);
     }
 
-    private void saveInventory(InventoryDtoRequest inventoryDtoRequest){
+    private void saveInventory(InventoryDtoRequest inventoryDtoRequest) {
         inventoryRepository.save(new Inventory(inventoryDtoRequest,
                 filmRepository.findById(inventoryDtoRequest.getFilmId())
                         .orElseThrow(() -> new MyNotFoundException("Film with given Id not found", ErrorCode.DIFFERENT))));

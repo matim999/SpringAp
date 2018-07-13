@@ -1,7 +1,6 @@
 package app.entity;
 
 import app.DTO.requestDTO.InventoryDtoRequest;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -13,21 +12,28 @@ public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_inventory_id_seq")
     @SequenceGenerator(
-            name="inventory_inventory_id_seq",
-            sequenceName="inventory_inventory_id_seq",
+            name = "inventory_inventory_id_seq",
+            sequenceName = "inventory_inventory_id_seq",
             allocationSize = 1
     )
     @Column(name = "inventory_id")
-    @EqualsAndHashCode.Exclude private @Getter int inventoryId;
+    @EqualsAndHashCode.Exclude
+    private @Getter
+    int inventoryId;
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "film_id")
-    private @Getter Film film;
-    private @Getter int storeId;
+    private @Getter
+    Film film;
+    private @Getter
+    int storeId;
 
     public Inventory(InventoryDtoRequest inventoryDtoRequest, Film film) {
         this.film = film;
         this.storeId = inventoryDtoRequest.getStoreId();
     }
 
-    private Inventory(){};
+    private Inventory() {
+    }
+
+    ;
 }

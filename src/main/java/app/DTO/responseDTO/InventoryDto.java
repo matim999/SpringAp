@@ -5,7 +5,8 @@ import lombok.EqualsAndHashCode;
 
 public @Data
 class InventoryDto {
-    @EqualsAndHashCode.Exclude private int inventoryId;
+    @EqualsAndHashCode.Exclude
+    private int inventoryId;
     private FilmDto film;
     private int storeId;
 }

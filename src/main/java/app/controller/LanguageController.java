@@ -29,8 +29,7 @@ public class LanguageController {
 
     @GetMapping
     private @ResponseBody
-    ResponseEntity<List> findAllLanguage()
-    {
+    ResponseEntity<List> findAllLanguage() {
         return new ResponseEntity(languageConverter.convertAll(languageFinder.findAllLanguage()), HttpStatus.OK);
     }
 

@@ -1,10 +1,10 @@
 package app.service;
 
-import app.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.CategoryDtoRequest;
 import app.DTO.responseDTO.CategoryDto;
+import app.ErrorCode;
 import app.entity.Category;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
@@ -29,10 +29,9 @@ public class CategoryService {
     }
 
 
-    public void addNewCategory(CategoryDtoRequest categoryDtoRequest)
-    {
+    public void addNewCategory(CategoryDtoRequest categoryDtoRequest) {
         Collection<Category> collection = categoryRepository.findAllByName(categoryDtoRequest.getName()).orElse(new ArrayList<>());
-        if (collection.isEmpty()){
+        if (collection.isEmpty()) {
             categoryRepository.save(new Category(categoryRequestConverter.convertAllToBase(categoryDtoRequest)));
             return;
         }
@@ -45,8 +44,7 @@ public class CategoryService {
         categoryRepository.save(new Category(categoryRequestConverter.convertAllToBase(categoryDtoRequest)));
     }
 
-    public void deleteCategoryById(int id)
-    {
+    public void deleteCategoryById(int id) {
         categoryRepository.findById(id).orElseThrow(() -> new MyNotFoundException("No Category With Given Id", ErrorCode.DIFFERENT));
         categoryRepository.deleteById(id);
     }

@@ -11,6 +11,10 @@ import java.util.Optional;
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, Integer> {
     List<Rental> findAllByCustomerCustomerId(int customer_id);
+
     Optional<List<Rental>> findAllByRentalDate(LocalDateTime date);
+
     Optional<List<Rental>> findAllByInventoryFilmFilmIdAndReturnDateIsNullOrderByRentalDateAsc(int filmId);
+
+    Optional<Rental> findAllByCustomerCustomerIdAndInventory_Film_FilmIdAndAndReturnDateIsNull(int customerId, int filmId);
 }

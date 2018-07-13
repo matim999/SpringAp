@@ -1,10 +1,10 @@
 package app.service;
 
-import app.ErrorCode;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.FilmDtoRequest;
 import app.DTO.responseDTO.FilmDto;
+import app.ErrorCode;
 import app.entity.Film;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
@@ -38,10 +38,9 @@ public class FilmService {
         this.filmRequestConverter = filmRequestConverter;
     }
 
-    public void addNewFilm(FilmDtoRequest filmDtoRequest)
-    {
+    public void addNewFilm(FilmDtoRequest filmDtoRequest) {
         Collection<Film> collection = filmRepository.findAllByTitle(filmDtoRequest.getTitle()).orElse(new ArrayList());
-        if (collection.isEmpty()){
+        if (collection.isEmpty()) {
             addFilm(filmDtoRequest);
             return;
         }

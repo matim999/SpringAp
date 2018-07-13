@@ -1,15 +1,18 @@
 package app.DTO.requestDTO;
 
-import app.DTO.responseDTO.CustomerDto;
-import app.entity.Rental;
-import app.entity.Staff;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 public @Data
+@AllArgsConstructor
+@NoArgsConstructor
 class PaymentDtoRequest {
     private int customerId;
     private int staffId;
     private int rentalId;
-    private int amount;
+    private double amount;
+    private LocalDateTime paymentDate;
 }

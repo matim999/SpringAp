@@ -1,7 +1,6 @@
 package app.DTO.responseDTO;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
 @Component

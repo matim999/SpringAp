@@ -25,8 +25,7 @@ public class StoreController {
 
     @GetMapping
     private @ResponseBody
-    ResponseEntity<List> findAllStore()
-    {
+    ResponseEntity<List> findAllStore() {
         return new ResponseEntity(storeConverter.convertAll(storeFinder.findAllStore()), HttpStatus.OK);
     }
 

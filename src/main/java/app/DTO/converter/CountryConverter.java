@@ -1,8 +1,8 @@
 package app.DTO.converter;
 
 import app.DTO.responseDTO.CountryDto;
-import org.springframework.stereotype.Component;
 import app.entity.Country;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CountryConverter implements BaseConverter<Country, CountryDto> {

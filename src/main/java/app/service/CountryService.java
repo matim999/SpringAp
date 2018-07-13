@@ -14,40 +14,38 @@ import static app.ErrorCode.*;
 
 @Service
 public class CountryService {
-    private final CountryRepository countryRepository;
     private static final Logger logger = Logger.getLogger(CountryService.class.getName());
+    private final CountryRepository countryRepository;
 
     @Autowired
     public CountryService(CountryRepository countryRepository) {
         this.countryRepository = countryRepository;
     }
 
-    public void addNewCountry(Country country){
+    public void addNewCountry(Country country) {
         Country existingCountry = countryRepository.findByCountry(country.getCountry()).orElse(null);
-        if(existingCountry != null)
+        if (existingCountry != null)
             throw new ConflictException("Country with given name already exist", COUNTRY_ADD_COUNTRY_WITH_NAME_ALREADY_EXISTS);
         countryRepository.save(country);
         logger.info("Added new country: Id = " + country.getCountryId() + " name = " + country.getCountry());
     }
 
-    public void deleteCountryById(int id){
+    public void deleteCountryById(int id) {
         Country country = countryRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Country with given Id = " + id + " does not exist",
-                        COUNTRY_DELETE_COUNTRY_NOT_FOUND));
+                COUNTRY_DELETE_COUNTRY_NOT_FOUND));
 //        countryRepository.findById(id).orElseThrow(new MyNotFoundException("Country with given Id = " + id + " does not exist",
 //                COUNTRY_DELETE_COUNTRY_NOT_FOUND));
         countryRepository.deleteById(id);
         logger.info("Deleted country: Id = " + country.getCountryId() + " name = " + country.getCountry());
     }
 
-    public void updateCountryByID(int id, Country country)
-    {
+    public void updateCountryByID(int id, Country country) {
         Country existingCountry = countryRepository.findById(id).orElse(null);
-        if(existingCountry != null) {
-            if(existingCountry.getCountry().equals(country.getCountry())) {
+        if (existingCountry != null) {
+            if (existingCountry.getCountry().equals(country.getCountry())) {
                 throw new ConflictException("County with given Id = " + id + " and name = " + country.getCountry() + " already exists",
                         COUNTRY_UPDATE_COUNTRY_WITH_ID_AND_NAME_ALREADY_EXISTS);
-            }
-            else if(countryRepository.findByCountry(country.getCountry()).isPresent()){
+            } else if (countryRepository.findByCountry(country.getCountry()).isPresent()) {
                 throw new ConflictException("County with given name = " + country.getCountry() + " already exists (Id = "
                         + countryRepository.findByCountry(country.getCountry()).get().getCountryId() + ", "
                         + countryRepository.findByCountry(country.getCountry()).get().getCountry() + ")",
@@ -63,7 +61,7 @@ public class CountryService {
         logger.info("Added new country: Id = " + country.getCountryId() + " name = " + country.getCountry());
     }
 
-    Country checkForCountry(CountryDto countryDto){
+    Country checkForCountry(CountryDto countryDto) {
         return countryRepository.findByCountry(countryDto.getCountry()).orElse(new Country(countryDto));
     }
 }

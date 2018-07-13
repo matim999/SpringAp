@@ -5,7 +5,8 @@ import lombok.EqualsAndHashCode;
 
 public @Data
 class ActorDtoNoFilm {
-    @EqualsAndHashCode.Exclude private int actorId;
+    @EqualsAndHashCode.Exclude
+    private int actorId;
     private String firstName;
     private String lastName;
 }

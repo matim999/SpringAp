@@ -1,6 +1,5 @@
 package app.DTO.converter;
 
-import app.DTO.converter.BaseConverter;
 import app.DTO.responseDTO.CategoryDtoNoFilm;
 import app.entity.Category;
 import org.springframework.stereotype.Component;

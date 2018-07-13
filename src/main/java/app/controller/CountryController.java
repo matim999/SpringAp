@@ -33,8 +33,7 @@ public class CountryController {
 
     @PostMapping
     public @ResponseBody
-    ResponseEntity addNewCountry(@RequestBody Country country)
-    {
+    ResponseEntity addNewCountry(@RequestBody Country country) {
         countryService.addNewCountry(country);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -48,8 +47,7 @@ public class CountryController {
 
     @DeleteMapping("/{id}")
     public @ResponseBody
-    ResponseEntity deleteCountryById(@PathVariable int id)
-    {
+    ResponseEntity deleteCountryById(@PathVariable int id) {
         countryService.deleteCountryById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -62,7 +60,7 @@ public class CountryController {
 
     @PutMapping(path = "/{id}")
     public @ResponseBody
-    ResponseEntity updateCountryById(@RequestBody Country country, @PathVariable int id){
+    ResponseEntity updateCountryById(@RequestBody Country country, @PathVariable int id) {
         countryService.updateCountryByID(id, country);
         return new ResponseEntity(HttpStatus.OK);
     }

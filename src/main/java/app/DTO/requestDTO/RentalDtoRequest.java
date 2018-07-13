@@ -1,14 +1,14 @@
 package app.DTO.requestDTO;
 
-import app.DTO.responseDTO.CustomerDto;
-import app.DTO.responseDTO.InventoryDto;
-import app.DTO.responseDTO.StaffDto;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 public @Data
+@AllArgsConstructor
+@NoArgsConstructor
 class RentalDtoRequest {
     private LocalDateTime rentalDate;
     private int inventoryId;

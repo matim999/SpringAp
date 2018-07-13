@@ -19,16 +19,15 @@ public class CategoryFinder {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> findAllCategory()
-    {
+    public List<Category> findAllCategory() {
         return categoryRepository.findAll();
     }
 
-    public Category findCategoryById(int id){
+    public Category findCategoryById(int id) {
         return categoryRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Category> findAllCategoryByName(String name){
+    public List<Category> findAllCategoryByName(String name) {
         return categoryRepository.findAllByName(name).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

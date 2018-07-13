@@ -1,11 +1,11 @@
 package app.service;
 
-import app.ErrorCode;
 import app.DTO.converter.ActorConverter;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
 import app.DTO.requestDTO.ActorDtoRequest;
 import app.DTO.responseDTO.ActorDto;
+import app.ErrorCode;
 import app.entity.Actor;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
@@ -29,10 +29,9 @@ public class ActorService {
         this.actorRequestConverter = actorRequestConverter;
     }
 
-    public void addNewActor(ActorDtoRequest actorDtoRequest)
-    {
+    public void addNewActor(ActorDtoRequest actorDtoRequest) {
         Collection<Actor> collection = actorRepository.findAllByFirstNameAndLastName(actorDtoRequest.getFirstName(), actorDtoRequest.getLastName()).orElse(new ArrayList<>());
-        if(collection.isEmpty()){
+        if (collection.isEmpty()) {
             actorRepository.save(new Actor(actorRequestConverter.convertAllToBase(actorDtoRequest)));
             return;
         }
@@ -45,8 +44,7 @@ public class ActorService {
         actorRepository.save(new Actor(actorRequestConverter.convertAllToBase(actorDtoRequest)));
     }
 
-    public void updateActor(int id, ActorDtoRequest actorDtoRequest)
-    {
+    public void updateActor(int id, ActorDtoRequest actorDtoRequest) {
         ActorDto actorDto = actorConverter.convertAll(actorRepository.findById(id)
                 .orElseThrow(
                         () -> new MyNotFoundException("Blad", ErrorCode.DIFFERENT)));
@@ -54,8 +52,7 @@ public class ActorService {
         System.out.println(Thread.currentThread().getStackTrace());
     }
 
-    public void deleteActorById(int id)
-    {
+    public void deleteActorById(int id) {
         actorRepository.findById(id).orElseThrow(() -> new MyNotFoundException("No Actor With Given Id", ErrorCode.DIFFERENT));
         actorRepository.deleteById(id);
     }

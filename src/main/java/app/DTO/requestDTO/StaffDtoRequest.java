@@ -1,8 +1,6 @@
 package app.DTO.requestDTO;
 
-import app.DTO.responseDTO.AddressDto;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 public @Data
 class StaffDtoRequest {

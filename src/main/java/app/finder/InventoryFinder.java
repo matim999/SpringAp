@@ -19,16 +19,15 @@ public class InventoryFinder {
         this.inventoryRepository = inventoryRepository;
     }
 
-    public List<Inventory> findAllInventory()
-    {
+    public List<Inventory> findAllInventory() {
         return inventoryRepository.findAll();
     }
 
-    public Inventory findInventoryById(int id){
+    public Inventory findInventoryById(int id) {
         return inventoryRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Inventory> findAllInventoryByFilmTitle(String title){
+    public List<Inventory> findAllInventoryByFilmTitle(String title) {
         return inventoryRepository.findAllByFilmTitle(title).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

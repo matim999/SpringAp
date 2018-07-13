@@ -19,16 +19,15 @@ public class StaffFinder {
         this.staffRepository = staffRepository;
     }
 
-    public List<Staff> findAllStaff()
-    {
+    public List<Staff> findAllStaff() {
         return staffRepository.findAll();
     }
 
-    public Staff findStaffById(int id){
+    public Staff findStaffById(int id) {
         return staffRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
     }
 
-    public List<Staff> findAllStaffByFirstName(String fname){
+    public List<Staff> findAllStaffByFirstName(String fname) {
         return staffRepository.findAllByFirstName(fname).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
     }
 }

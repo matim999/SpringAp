@@ -34,15 +34,13 @@ public class RentalController {
 
     @GetMapping
     private @ResponseBody
-    ResponseEntity<List> findAllRental()
-    {
+    ResponseEntity<List> findAllRental() {
         return new ResponseEntity(rentalConverter.convertAll(rentalFinder.findAllRental()), HttpStatus.OK);
     }
 
     @PostMapping
     private @ResponseBody
-    ResponseEntity addNewRental(@RequestBody RentalDtoRequest rentalDtoRequest)
-    {
+    ResponseEntity addNewRental(@RequestBody RentalDtoRequest rentalDtoRequest) {
         rentalService.addNewRental(rentalDtoRequest);
         return new ResponseEntity(HttpStatus.OK);
     }
