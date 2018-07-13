@@ -40,7 +40,7 @@ public class InventoryAvailabilityChecker implements InventoryChecker {
                                 FILM_RENT_FILM_WITH_GIVEN_ID_NOT_FOUND));
         Collection<Inventory> inventories = inventoryRepository.findAllByFilmFilmIdAndStoreId(filmId, storeId)
                 .orElseThrow(() ->
-                        new MyNotFoundException(MessageFormat.format("Currently we don't have any \"{0}\" DVD's in our offer.", film.getTitle()),
+                        new MyNotFoundException("Currently we don't have any \"" + film.getTitle() + "\" DVD's in our offer.",
                                 FILM_RENT_INVENTORY_FOR_FILM_NOT_FOUND));
         Collection<Rental> rentals = rentalRepository.findAllByInventoryFilmFilmIdAndReturnDateIsNullOrderByRentalDateAsc(filmId)
                 .orElse(new ArrayList<>());
