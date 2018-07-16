@@ -36,7 +36,7 @@ public class CustomerService {
     private final BaseConverter<Payment, PaymentDto> paymentConverter;
     private final ToBaseConverter<CustomerDtoRequest, CustomerDto> customerRequestConverter;
     private final BaseConverter<Customer, CustomerDto> customerConverter;
-    private final InventoryAvailabilityChecker inventoryAvailabilityChecker;
+    private final InventoryChecker inventoryAvailabilityChecker;
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository, StoreRepository storeRepository, RentalService rentalService, PaymentService paymentService, AddressService addressService, BaseConverter<Rental, RentalDto> rentalConverter, BaseConverter<Payment, PaymentDto> paymentConverter, ToBaseConverter<CustomerDtoRequest, CustomerDto> customerRequestConverter, BaseConverter<Customer, CustomerDto> customerConverter, InventoryAvailabilityChecker inventoryAvailabilityChecker) {
