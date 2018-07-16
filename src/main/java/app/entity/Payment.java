@@ -1,6 +1,6 @@
 package app.entity;
 
-import app.DTO.requestDTO.PaymentDtoRequest;
+import app.repository.requestDTO.PaymentDtoRequest;
 import app.DTO.responseDTO.PaymentDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;

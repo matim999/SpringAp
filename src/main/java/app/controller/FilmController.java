@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.DTO.converter.BaseConverter;
-import app.DTO.requestDTO.FilmDtoRequest;
+import app.repository.requestDTO.FilmDtoRequest;
 import app.DTO.responseDTO.FilmDto;
 import app.entity.Film;
 import app.finder.FilmFinder;

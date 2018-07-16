@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.DTO.converter.BaseConverter;
-import app.DTO.requestDTO.InventoryDtoRequest;
+import app.repository.requestDTO.InventoryDtoRequest;
 import app.DTO.responseDTO.InventoryDto;
 import app.entity.Inventory;
 import app.finder.InventoryFinder;

@@ -2,7 +2,7 @@ package app.service;
 
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
-import app.DTO.requestDTO.LanguageDtoRequest;
+import app.repository.requestDTO.LanguageDtoRequest;
 import app.DTO.responseDTO.LanguageDto;
 import app.ErrorCode;
 import app.entity.Language;

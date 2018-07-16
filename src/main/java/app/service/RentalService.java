@@ -2,7 +2,7 @@ package app.service;
 
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
-import app.DTO.requestDTO.RentalDtoRequest;
+import app.repository.requestDTO.RentalDtoRequest;
 import app.DTO.responseDTO.RentalDto;
 import app.ErrorCode;
 import app.entity.Rental;

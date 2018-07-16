@@ -2,10 +2,10 @@ package app.service;
 
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
-import app.DTO.requestDTO.CustomerDtoRequest;
-import app.DTO.requestDTO.PaymentDtoRequest;
-import app.DTO.requestDTO.RentDto;
-import app.DTO.requestDTO.RentalDtoRequest;
+import app.repository.requestDTO.CustomerDtoRequest;
+import app.repository.requestDTO.PaymentDtoRequest;
+import app.repository.requestDTO.RentDto;
+import app.repository.requestDTO.RentalDtoRequest;
 import app.DTO.responseDTO.*;
 import app.entity.*;
 import app.exceptions.ConflictException;
@@ -14,12 +14,16 @@ import app.repository.AddressRepository;
 import app.repository.CustomerRepository;
 import app.repository.StoreRepository;
 import org.apache.commons.math3.util.Precision;
+import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 import static app.ErrorCode.*;
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -100,7 +104,20 @@ public class CustomerService {
         return customerRepository.saveAndFlush(new Customer(customerDto, address));
     }
 
-    public RentResponseDto rentAFilm(RentDto rentDto) {
+    public List<Pair> rentMultipleFilms(int id, List<Integer> filmIds)
+    {
+        HashSet<RentDto> rentDtos = new HashSet<>();
+        List<Pair> rentPairs = new ArrayList<>();
+        for (int i : filmIds) {
+            rentDtos.add(new RentDto(id, i));
+        }
+        for (RentDto rentDto : rentDtos) {
+            rentPairs.add(rentAFilm(rentDto));
+        }
+        return rentPairs;
+    }
+
+    private Pair<Integer, Integer> rentAFilm(RentDto rentDto) {
         Customer customer = customerRepository.findById(rentDto.getCustomerId())
                 .orElseThrow(() -> new MyNotFoundException("Client with given ID not found", FILM_RENT_CUSTOMER_ID_NOT_FOUND));
         if (inventoryAvailabilityChecker.checkIfAlreadyRentedByThisCustomer(customer, rentDto.getFilmID()))
@@ -111,7 +128,7 @@ public class CustomerService {
                 .orElseThrow(() -> new MyNotFoundException("Customer Has wrong storeId", FILM_RENT_CUSTOMER_STORE_NOT_FOUND));
         Rental rental = rentalService.saveRentRental(createRentalRequestDto(customer, inventory, store));
         Payment payment = paymentService.saveRentPayment(createPaymentDtoRequest(customer, store, rental));
-        return new RentResponseDto(rentalConverter.convertAll(rental), paymentConverter.convertAll(payment));
+        return new Pair<>(rental.getRentalId(), payment.getPaymentId());
     }
 
     private RentalDtoRequest createRentalRequestDto(Customer customer, Inventory inventory, Store store) {

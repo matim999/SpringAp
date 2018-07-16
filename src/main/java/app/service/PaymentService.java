@@ -1,6 +1,6 @@
 package app.service;
 
-import app.DTO.requestDTO.PaymentDtoRequest;
+import app.repository.requestDTO.PaymentDtoRequest;
 import app.ErrorCode;
 import app.entity.Payment;
 import app.exceptions.MyNotFoundException;

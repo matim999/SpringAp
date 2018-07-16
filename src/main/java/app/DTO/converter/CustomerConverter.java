@@ -1,6 +1,6 @@
 package app.DTO.converter;
 
-import app.DTO.requestDTO.CustomerDtoRequest;
+import app.repository.requestDTO.CustomerDtoRequest;
 import app.DTO.responseDTO.AddressDto;
 import app.DTO.responseDTO.CustomerDto;
 import app.ErrorCode;

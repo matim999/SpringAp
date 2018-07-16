@@ -1,6 +1,6 @@
 package app.DTO.converter;
 
-import app.DTO.requestDTO.ActorDtoRequest;
+import app.repository.requestDTO.ActorDtoRequest;
 import app.DTO.responseDTO.ActorDto;
 import app.DTO.responseDTO.FilmDto;
 import app.entity.Actor;

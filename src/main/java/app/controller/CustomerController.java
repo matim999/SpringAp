@@ -1,8 +1,6 @@
 package app.controller;
 
 import app.DTO.converter.BaseConverter;
-import app.DTO.requestDTO.CustomerDtoRequest;
-import app.DTO.requestDTO.RentDto;
 import app.DTO.responseDTO.CustomerDto;
 import app.DTO.responseDTO.InventoryDto;
 import app.DTO.responseDTO.RentResponseDto;
@@ -11,9 +9,13 @@ import app.entity.Inventory;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
 import app.finder.CustomerFinder;
+import app.repository.requestDTO.CustomerDtoRequest;
+import app.repository.requestDTO.RentDto;
 import app.service.CurrentTime;
 import app.service.CustomerService;
+import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -71,23 +73,16 @@ public class CustomerController {
         return new ResponseEntity(customerConverter.convertAll(categoryFinder.findAllCustomerByFirstName(name)), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}/rent/{filmIds}")
+    @PostMapping(path = "/{id}/rent/{filmIds}")
     public @ResponseBody
     ResponseEntity<List<RentResponseDto>> rentAFilm(@PathVariable int id, @PathVariable List<Integer> filmIds) {
-        HashSet<RentDto> rentDtos = new HashSet<>();
-        List<RentResponseDto> rentResponseDtos = new ArrayList<>();
-        for (int i : filmIds) {
-            rentDtos.add(new RentDto(id, i));
+        List<Pair> rentResponsePairs = customerService.rentMultipleFilms(id, filmIds);
+        HttpHeaders headers = new HttpHeaders();
+        int i = 0;
+        for (Pair pair : rentResponsePairs) {
+            headers.add("Rental" + ++i, "/rental/" + pair.getValue0().toString());
         }
-        for (RentDto rentDto : rentDtos) {
-            try {
-                rentResponseDtos.add(customerService.rentAFilm(rentDto));
-            } catch (MyNotFoundException | ConflictException ex) {
-                rentResponseDtos.add(new RentResponseDto(ex.getMessage()));
-                continue;
-            }
-        }
-        return new ResponseEntity(rentResponseDtos, HttpStatus.OK);
+        return new ResponseEntity(headers, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}/return/{filmIds}")
