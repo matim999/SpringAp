@@ -27,6 +27,7 @@ import java.util.List;
                 typeClass = StringArrayType.class
         )
 })
+@Table(name = "film")
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_film_id_seq")
@@ -63,10 +64,10 @@ public class Film {
 //    @Type( type = "pgsql_enum" )
 //    @Convert(converter = MpaaRatingConverter.class)
 //    private @Getter Mpaa_rating rating;
-    @Column(columnDefinition = "text[]")
-    @Type(type = "string-array")
-    private @Getter
-    String[] specialFeatures;
+//    @Column(columnDefinition = "text[]")
+//    @Type(type = "string-array")
+//    private @Getter
+//    String[] specialFeatures;
     @ManyToMany
     @JoinTable(name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id"),
@@ -93,7 +94,7 @@ public class Film {
         this.rentalRate = filmDto.getRentalRate();
         this.length = filmDto.getLength();
         this.replacementCost = filmDto.getReplacementCost();
-        this.specialFeatures = filmDto.getSpecialFeatures();
+//        this.specialFeatures = filmDto.getSpecialFeatures();
         this.actors = new ArrayList<>();
         this.categories = new ArrayList<>();
     }
@@ -110,7 +111,7 @@ public class Film {
         this.rentalRate = filmDto.getRentalRate();
         this.length = filmDto.getLength();
         this.replacementCost = filmDto.getReplacementCost();
-        this.specialFeatures = filmDto.getSpecialFeatures();
+//        this.specialFeatures = filmDto.getSpecialFeatures();
     }
 
     public void addActor(Collection<Actor> actors) {

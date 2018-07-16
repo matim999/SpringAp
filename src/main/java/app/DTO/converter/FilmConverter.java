@@ -51,7 +51,7 @@ public class FilmConverter implements BaseConverter<Film, FilmDto>, ToBaseConver
         filmDto.setRentalRate(from.getRentalRate());
         filmDto.setLength(from.getLength());
         filmDto.setReplacementCost(from.getReplacementCost());
-        filmDto.setSpecialFeatures(from.getSpecialFeatures());
+//        filmDto.setSpecialFeatures(from.getSpecialFeatures());
         filmDto.setActors(actorConverter.convertAll(from.getActors()));
         filmDto.setCategories(categoryConverter.convertAll(from.getCategories()));
         return filmDto;

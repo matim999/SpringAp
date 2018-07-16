@@ -4,6 +4,7 @@ import app.DTO.responseDTO.RentalDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @EqualsAndHashCode
+@ToString
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rental_rental_id_seq")
@@ -27,7 +29,7 @@ public class Rental {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private @Getter
     LocalDateTime rentalDate;
-    @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "inventory_id")
     private @Getter
     Inventory inventory;

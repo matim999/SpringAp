@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("classpath:lang/${lang}.properties")
-@PropertySource("classpath:application1.properties")
+@PropertySource("classpath:application.properties")
 public class AppConfig {
     @Value("${profile}")
     public String profile;

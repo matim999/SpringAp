@@ -25,7 +25,7 @@ public class MailSenderImpl implements MailSender {
     }
 
     @Override
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 500000)
     public void sendEmailToCustomersAboutRetentionFee() {
         CurrentTime.updateTime();
         HashSet<Integer> customerSet = new HashSet<>();

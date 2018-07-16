@@ -4,6 +4,7 @@ import app.DTO.responseDTO.CustomerDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Date;
 //gg
 @Entity
 @EqualsAndHashCode
+@ToString
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_customer_id_seq")
