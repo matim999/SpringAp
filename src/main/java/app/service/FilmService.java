@@ -2,7 +2,7 @@ package app.service;
 
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
-import app.repository.requestDTO.FilmDtoRequest;
+import app.DTO.requestDTO.FilmDtoRequest;
 import app.DTO.responseDTO.FilmDto;
 import app.ErrorCode;
 import app.entity.Film;

@@ -9,8 +9,8 @@ import app.entity.Inventory;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
 import app.finder.CustomerFinder;
-import app.repository.requestDTO.CustomerDtoRequest;
-import app.repository.requestDTO.RentDto;
+import app.DTO.requestDTO.CustomerDtoRequest;
+import app.DTO.requestDTO.RentDto;
 import app.service.CurrentTime;
 import app.service.CustomerService;
 import org.javatuples.Pair;
@@ -78,29 +78,20 @@ public class CustomerController {
     ResponseEntity<List<RentResponseDto>> rentAFilm(@PathVariable int id, @PathVariable List<Integer> filmIds) {
         List<Pair> rentResponsePairs = customerService.rentMultipleFilms(id, filmIds);
         HttpHeaders headers = new HttpHeaders();
-        int i = 0;
         for (Pair pair : rentResponsePairs) {
-            headers.add("Rental" + ++i, "/rental/" + pair.getValue0().toString());
+            headers.add("Rental", "/rental/" + pair.getValue0().toString());
         }
         return new ResponseEntity(headers, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}/return/{filmIds}")
+    @PostMapping(path = "/{id}/return/{filmIds}")
     public @ResponseBody
     ResponseEntity<List<RentResponseDto>> returnAFilm(@PathVariable int id, @PathVariable List<Integer> filmIds) {
-        HashSet<RentDto> rentDtos = new HashSet<>();
-        List<RentResponseDto> rentResponseDtos = new ArrayList<>();
-        for (int i : filmIds) {
-            rentDtos.add(new RentDto(id, i));
+        List<Pair> returnResponsePairs  = customerService.returnMultipleFilms(id, filmIds);
+        HttpHeaders headers = new HttpHeaders();
+        for (Pair pair : returnResponsePairs) {
+            headers.add("Payment", "/rental/" + pair.getValue0().toString());
         }
-        for (RentDto rentDto : rentDtos) {
-            try {
-                rentResponseDtos.add(customerService.returnAFilm(rentDto));
-            } catch (MyNotFoundException | ConflictException ex) {
-                rentResponseDtos.add(new RentResponseDto(ex.getMessage()));
-                continue;
-            }
-        }
-        return new ResponseEntity(rentResponseDtos, HttpStatus.OK);
+        return new ResponseEntity(headers, HttpStatus.OK);
     }
 }

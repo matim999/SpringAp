@@ -1,6 +1,6 @@
 package app.DTO.converter;
 
-import app.repository.requestDTO.CategoryDtoRequest;
+import app.DTO.requestDTO.CategoryDtoRequest;
 import app.DTO.responseDTO.CategoryDto;
 import app.DTO.responseDTO.FilmDto;
 import app.entity.Category;

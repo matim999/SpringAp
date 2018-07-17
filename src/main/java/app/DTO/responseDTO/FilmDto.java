@@ -24,8 +24,6 @@ class FilmDto {
     private int length;
     @JsonIgnore
     private double replacementCost;
-    @JsonIgnore
-    private String[] specialFeatures;
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private Collection<ActorDtoNoFilm> actors = new ArrayList<>();

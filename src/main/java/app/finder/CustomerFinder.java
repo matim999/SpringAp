@@ -24,10 +24,10 @@ public class CustomerFinder {
     }
 
     public Customer findCustomerById(int id) {
-        return customerRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Category with given Id not found", DIFFERENT));
+        return customerRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Customer with given Id not found", DIFFERENT));
     }
 
     public List<Customer> findAllCustomerByFirstName(String fname) {
-        return customerRepository.findAllByFirstName(fname).orElseThrow(() -> new MyNotFoundException("Category with given name not found", DIFFERENT));
+        return customerRepository.findAllByFirstName(fname).orElseThrow(() -> new MyNotFoundException("Customer with given name not found", DIFFERENT));
     }
 }

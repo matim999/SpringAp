@@ -1,6 +1,6 @@
 package app.DTO.converter;
 
-import app.repository.requestDTO.InventoryDtoRequest;
+import app.DTO.requestDTO.InventoryDtoRequest;
 import app.DTO.responseDTO.FilmDto;
 import app.DTO.responseDTO.InventoryDto;
 import app.ErrorCode;

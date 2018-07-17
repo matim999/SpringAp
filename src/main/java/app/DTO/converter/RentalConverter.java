@@ -1,6 +1,6 @@
 package app.DTO.converter;
 
-import app.repository.requestDTO.RentalDtoRequest;
+import app.DTO.requestDTO.RentalDtoRequest;
 import app.DTO.responseDTO.CustomerDto;
 import app.DTO.responseDTO.InventoryDto;
 import app.DTO.responseDTO.RentalDto;

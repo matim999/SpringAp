@@ -1,6 +1,6 @@
 package app.DTO.converter;
 
-import app.repository.requestDTO.FilmDtoRequest;
+import app.DTO.requestDTO.FilmDtoRequest;
 import app.DTO.responseDTO.ActorDtoNoFilm;
 import app.DTO.responseDTO.CategoryDtoNoFilm;
 import app.DTO.responseDTO.FilmDto;
@@ -51,7 +51,6 @@ public class FilmConverter implements BaseConverter<Film, FilmDto>, ToBaseConver
         filmDto.setRentalRate(from.getRentalRate());
         filmDto.setLength(from.getLength());
         filmDto.setReplacementCost(from.getReplacementCost());
-//        filmDto.setSpecialFeatures(from.getSpecialFeatures());
         filmDto.setActors(actorConverter.convertAll(from.getActors()));
         filmDto.setCategories(categoryConverter.convertAll(from.getCategories()));
         return filmDto;
@@ -68,7 +67,6 @@ public class FilmConverter implements BaseConverter<Film, FilmDto>, ToBaseConver
         filmDto.setRentalRate(from.getRentalRate());
         filmDto.setLength(from.getLength());
         filmDto.setReplacementCost(from.getReplacementCost());
-        filmDto.setSpecialFeatures(from.getSpecialFeatures());
         filmDto.setActors(setActorsById(from.getActors()));
         filmDto.setCategories(setCategoriesById(from.getCategories()));
         return filmDto;

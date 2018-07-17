@@ -2,7 +2,7 @@ package app.service;
 
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
-import app.repository.requestDTO.CategoryDtoRequest;
+import app.DTO.requestDTO.CategoryDtoRequest;
 import app.DTO.responseDTO.CategoryDto;
 import app.ErrorCode;
 import app.entity.Category;

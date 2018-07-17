@@ -1,4 +1,4 @@
-package app.repository.requestDTO;
+package app.DTO.requestDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

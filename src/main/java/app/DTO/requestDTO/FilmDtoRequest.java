@@ -1,4 +1,4 @@
-package app.repository.requestDTO;
+package app.DTO.requestDTO;
 
 import lombok.Data;
 
@@ -14,7 +14,6 @@ class FilmDtoRequest {
     private double rentalRate;
     private int length;
     private double replacementCost;
-    private String[] specialFeatures;
     private Collection<Integer> actors;
     private Collection<Integer> categories;
 }

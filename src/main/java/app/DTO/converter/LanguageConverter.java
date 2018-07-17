@@ -1,6 +1,6 @@
 package app.DTO.converter;
 
-import app.repository.requestDTO.LanguageDtoRequest;
+import app.DTO.requestDTO.LanguageDtoRequest;
 import app.DTO.responseDTO.LanguageDto;
 import app.entity.Language;
 import org.springframework.stereotype.Component;

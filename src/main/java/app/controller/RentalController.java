@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.DTO.converter.BaseConverter;
-import app.repository.requestDTO.RentalDtoRequest;
+import app.DTO.requestDTO.RentalDtoRequest;
 import app.DTO.responseDTO.RentalDto;
 import app.entity.Rental;
 import app.finder.RentalFinder;

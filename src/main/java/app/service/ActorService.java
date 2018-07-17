@@ -3,7 +3,7 @@ package app.service;
 import app.DTO.converter.ActorConverter;
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
-import app.repository.requestDTO.ActorDtoRequest;
+import app.DTO.requestDTO.ActorDtoRequest;
 import app.DTO.responseDTO.ActorDto;
 import app.ErrorCode;
 import app.entity.Actor;

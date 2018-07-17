@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.DTO.converter.BaseConverter;
-import app.repository.requestDTO.LanguageDtoRequest;
+import app.DTO.requestDTO.LanguageDtoRequest;
 import app.DTO.responseDTO.LanguageDto;
 import app.entity.Language;
 import app.finder.LanguageFinder;

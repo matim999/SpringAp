@@ -1,6 +1,6 @@
 package app.entity;
 
-import app.repository.requestDTO.InventoryDtoRequest;
+import app.DTO.requestDTO.InventoryDtoRequest;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 

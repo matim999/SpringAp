@@ -2,7 +2,7 @@ package app.service;
 
 import app.DTO.converter.BaseConverter;
 import app.DTO.converter.ToBaseConverter;
-import app.repository.requestDTO.InventoryDtoRequest;
+import app.DTO.requestDTO.InventoryDtoRequest;
 import app.DTO.responseDTO.InventoryDto;
 import app.ErrorCode;
 import app.entity.Inventory;
