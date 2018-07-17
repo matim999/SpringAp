@@ -31,6 +31,7 @@ public class Payment {
     Customer customer;
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "staff_id")
+    @EqualsAndHashCode.Exclude
     private @Getter
     Staff staff;
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})

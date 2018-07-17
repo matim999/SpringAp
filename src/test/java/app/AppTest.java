@@ -1,13 +1,12 @@
 package app;
 
-import app.entity.Rental;
-import app.exceptions.MyNotFoundException;
 import app.repository.CustomerRepository;
+import app.repository.FilmRepository;
 import app.repository.PaymentRepository;
 import app.repository.RentalRepository;
 import app.service.CustomerService;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,17 +15,16 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.Assert;
-import app.exceptions.*;
 
 import javax.annotation.Resource;
 
-import java.util.Optional;
+import java.util.List;
 
-import static org.hamcrest.Matchers.equalTo;
 import static app.ErrorCode.*;
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -47,7 +45,8 @@ public class AppTest {
 
     @Autowired
     private RentalRepository rentalRepository;
-    private CustomerService customerService;
+    @Autowired
+    private FilmRepository filmRepository;
 
     @Test
     public void getHello() throws Exception {
@@ -89,6 +88,23 @@ public class AppTest {
     public void testCreateRentalAndPayment() throws Exception {
         mvc.perform(MockMvcRequestBuilders.post("/customer/1/rent/2"))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Rental1", "/rental/5"));
+                .andExpect(header().string("Location", "/rental/5"));
+        rentalRepository.findById(5);
+        Assert.assertEquals(customerRepository.findById(1).get(), rentalRepository.findById(5).get().getCustomer());
+        Assert.assertEquals(filmRepository.findById(2).get(), rentalRepository.findById(5).get().getInventory().getFilm());
+        Assert.assertEquals(rentalRepository.findById(5).get(), paymentRepository.findByRentalRentalId(5).get().getRental());
+    }
+
+    @Test
+    public void testCreateMultipleRentalAndPayment() throws Exception {
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/customer/1/rent/2,4"))
+                .andExpect(status().isOk()).andReturn();
+        List<String> headers = mvcResult.getResponse().getHeaders("Location");
+        int i = 2;
+        for (String s : headers){
+            Assert.assertEquals("/rental/" + i++, );
+            s.equals("/rental/" + i++);
+            System.out.println(s + "/rental/" + i + s.equals("/rental/" + i));
+        }
     }
 }

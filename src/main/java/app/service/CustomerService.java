@@ -19,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static app.ErrorCode.*;
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -105,7 +102,7 @@ public class CustomerService {
 
     public List<Pair> rentMultipleFilms(int id, List<Integer> filmIds)
     {
-        HashSet<RentDto> rentDtos = new HashSet<>();
+        Set<RentDto> rentDtos = new LinkedHashSet<>();
         List<Pair> rentPairs = new ArrayList<>();
         for (int i : filmIds) {
             rentDtos.add(new RentDto(id, i));
@@ -147,7 +144,7 @@ public class CustomerService {
     }
 
     public List<Pair> returnMultipleFilms(int id, List<Integer> filmIds) {
-        HashSet<RentDto> rentDtos = new HashSet<>();
+        Set<RentDto> rentDtos = new LinkedHashSet<>();
         List<Pair> rentPairs = new ArrayList<>();
         for (int i : filmIds) {
             rentDtos.add(new RentDto(id, i));

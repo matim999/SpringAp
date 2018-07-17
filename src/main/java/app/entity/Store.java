@@ -2,10 +2,12 @@ package app.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
+@ToString
 @Table(name = "Store")
 public class Store {
     @Id
@@ -22,6 +24,8 @@ public class Store {
     @OneToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "staff_id")
     @PrimaryKeyJoinColumn
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private @Getter
     Staff staff;
     @ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})

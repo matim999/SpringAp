@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     Optional<List<Payment>> findAllByAmount(int amount);
+    Optional<Payment> findByRentalRentalId(int rentalId);
 }

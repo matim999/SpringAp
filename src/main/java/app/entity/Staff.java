@@ -4,10 +4,12 @@ import app.DTO.responseDTO.StaffDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
+@ToString
 @Table(name = "Staff")
 public class Staff {
     @Id

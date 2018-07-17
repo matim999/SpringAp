@@ -43,6 +43,7 @@ public class Rental {
     LocalDateTime returnDate;
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = Staff.class)
     @JoinColumn(name = "staff_id")
+    @EqualsAndHashCode.Exclude
     private @Getter
     Staff staff;
 
