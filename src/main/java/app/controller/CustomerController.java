@@ -79,7 +79,7 @@ public class CustomerController {
         List<Pair> rentResponsePairs = customerService.rentMultipleFilms(id, filmIds);
         HttpHeaders headers = new HttpHeaders();
         for (Pair pair : rentResponsePairs) {
-            headers.add("Location", "/rental/" + pair.getValue0().toString());
+            headers.add("Payload", "/rental/" + pair.getValue0().toString());
         }
         return new ResponseEntity(headers, HttpStatus.OK);
     }
@@ -90,7 +90,7 @@ public class CustomerController {
         List<Pair> returnResponsePairs  = customerService.returnMultipleFilms(id, filmIds);
         HttpHeaders headers = new HttpHeaders();
         for (Pair pair : returnResponsePairs) {
-            headers.add("Location", "/payment/" + pair.getValue0().toString());
+            headers.add("Payload", "/payment/" + pair.getValue0().toString());
         }
         return new ResponseEntity(headers, HttpStatus.OK);
     }
