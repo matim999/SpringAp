@@ -1,7 +1,5 @@
 package app.DTO.responseDTO;
 
-import app.exceptions.MyNotFoundException;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

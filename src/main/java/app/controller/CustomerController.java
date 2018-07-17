@@ -1,16 +1,13 @@
 package app.controller;
 
 import app.DTO.converter.BaseConverter;
+import app.DTO.requestDTO.CustomerDtoRequest;
 import app.DTO.responseDTO.CustomerDto;
 import app.DTO.responseDTO.InventoryDto;
 import app.DTO.responseDTO.RentResponseDto;
 import app.entity.Customer;
 import app.entity.Inventory;
-import app.exceptions.ConflictException;
-import app.exceptions.MyNotFoundException;
 import app.finder.CustomerFinder;
-import app.DTO.requestDTO.CustomerDtoRequest;
-import app.DTO.requestDTO.RentDto;
 import app.service.CurrentTime;
 import app.service.CustomerService;
 import org.javatuples.Pair;
@@ -20,8 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -87,7 +82,7 @@ public class CustomerController {
     @PostMapping(path = "/{id}/return/{filmIds}")
     public @ResponseBody
     ResponseEntity<List<RentResponseDto>> returnAFilm(@PathVariable int id, @PathVariable List<Integer> filmIds) {
-        List<Pair> returnResponsePairs  = customerService.returnMultipleFilms(id, filmIds);
+        List<Pair> returnResponsePairs = customerService.returnMultipleFilms(id, filmIds);
         HttpHeaders headers = new HttpHeaders();
         for (Pair pair : returnResponsePairs) {
             headers.add("Payload", "/payment/" + pair.getValue0().toString());

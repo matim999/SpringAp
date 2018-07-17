@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class AppConfig {
     @Value("${profile}")
     public String profile;
+    @Autowired
+    Environment env;
     @Value("${title}")
     private String title;
     @Value("${description}")
     private String description;
-    @Autowired
-    Environment env;
 
     @Bean
     public InfoDto getInfoDto() {

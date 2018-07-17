@@ -3,7 +3,6 @@ package app.service;
 import app.entity.Rental;
 import app.repository.CustomerRepository;
 import app.repository.RentalRepository;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

@@ -6,7 +6,10 @@ import app.DTO.requestDTO.CustomerDtoRequest;
 import app.DTO.requestDTO.PaymentDtoRequest;
 import app.DTO.requestDTO.RentDto;
 import app.DTO.requestDTO.RentalDtoRequest;
-import app.DTO.responseDTO.*;
+import app.DTO.responseDTO.AddressDto;
+import app.DTO.responseDTO.CustomerDto;
+import app.DTO.responseDTO.PaymentDto;
+import app.DTO.responseDTO.RentalDto;
 import app.entity.*;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
@@ -100,8 +103,7 @@ public class CustomerService {
         return customerRepository.saveAndFlush(new Customer(customerDto, address));
     }
 
-    public List<Pair> rentMultipleFilms(int id, List<Integer> filmIds)
-    {
+    public List<Pair> rentMultipleFilms(int id, List<Integer> filmIds) {
         Set<RentDto> rentDtos = new LinkedHashSet<>();
         List<Pair> rentPairs = new ArrayList<>();
         for (int i : filmIds) {
