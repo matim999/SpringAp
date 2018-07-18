@@ -3,27 +3,27 @@ package app.service;
 import app.entity.Staff;
 import app.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.authentication.*;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
+
+import static java.util.Collections.emptyList;
 
 @Service
 public class AppUserDetailService implements UserDetailsService {
-    @Autowired
-    private final PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    private final MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final StaffRepository staffRepository;
 
     @Autowired
-    private StaffRepository staffRepository;
-
-    public AppUserDetailService() throws NoSuchAlgorithmException {
+    public AppUserDetailService(BCryptPasswordEncoder bCryptPasswordEncoder, StaffRepository staffRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.staffRepository = staffRepository;
     }
 
     @Override
@@ -32,15 +32,19 @@ public class AppUserDetailService implements UserDetailsService {
         Staff user = staffRepository.findOneByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
 
-        return org.springframework.security.core.userdetails.User
-                .withUsername(username)
-                .password(messageDigest.(encoder.encode(user.getPassword())))
-                .authorities(Collections.emptyList())
-                .accountExpired(false)
-                .accountLocked(false)
-                .credentialsExpired(false)
-                .disabled(false)
-                .build();
+//        return org.springframework.security.core.userdetails.User
+//                .withUsername(username)
+//                .password(passwordEncoder.encode(user.getPassword()))
+//                .authorities(emptyList())
+//                .accountExpired(false)
+//                .accountLocked(false)
+//                .credentialsExpired(false)
+//                .disabled(false)
+//                .build();
+        System.out.println(user.getPassword());
+        System.out.println(bCryptPasswordEncoder.encode(user.getPassword()));
+        System.out.println(bCryptPasswordEncoder.encode(user.getPassword()));
+        return new User(user.getUsername(), user.getPassword(), emptyList());
     }
 
 }
