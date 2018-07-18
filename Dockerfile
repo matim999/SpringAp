@@ -1,3 +1,4 @@
-FROM demo/maven:3.3-jdk-8
-WORKDIR /var/www/java
-RUN javac app.java
+FROM openjdk:8
+ADD target/docker-spring-boot.jar docker-spring-boot.jar
+EXPOSE 8082
+ENTRYPOINT ["java", "-jar", "docker-spring-boot.jar"]
