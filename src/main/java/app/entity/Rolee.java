@@ -17,8 +17,10 @@ public class Rolee {
     )
     @Column(name = "rolee_id")
     private @Getter
-    int rolee_id;
-    @ManyToMany(mappedBy = "roles")
+    int roleeId;
+    private @Getter
+    String rolee;
+    @ManyToMany(mappedBy = "rolees")
     private @Getter
     List<Staff> staff;
 }

@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Collection;
+import java.util.List;
+
 public @Data
 class StaffDto {
     @EqualsAndHashCode.Exclude
@@ -25,4 +28,5 @@ class StaffDto {
     @JsonIgnore
     private String password;
     private int storeId;
+    private Collection<RoleeDtoNoStaff> rolee;
 }

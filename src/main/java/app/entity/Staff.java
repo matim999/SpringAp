@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @ToString
@@ -53,6 +55,8 @@ public class Staff {
             joinColumns = @JoinColumn(name = "staff_id"),
             inverseJoinColumns = @JoinColumn(name = "rolee_id")
     )
+    private @Getter
+    List<Rolee> rolees;
 
     public void update(StaffDto staffDto) {
         this.firstName = staffDto.getFirstName();

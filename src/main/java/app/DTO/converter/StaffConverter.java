@@ -2,9 +2,11 @@ package app.DTO.converter;
 
 import app.DTO.requestDTO.StaffDtoRequest;
 import app.DTO.responseDTO.AddressDto;
+import app.DTO.responseDTO.RoleeDtoNoStaff;
 import app.DTO.responseDTO.StaffDto;
 import app.ErrorCode;
 import app.entity.Address;
+import app.entity.Rolee;
 import app.entity.Staff;
 import app.exceptions.MyNotFoundException;
 import app.repository.AddressRepository;
@@ -15,11 +17,13 @@ import org.springframework.stereotype.Component;
 public class StaffConverter implements BaseConverter<Staff, StaffDto>, ToBaseConverter<StaffDtoRequest, StaffDto> {
     private final BaseConverter<Address, AddressDto> addressConverter;
     private final AddressRepository addressRepository;
+    private final BaseConverter<Rolee, RoleeDtoNoStaff> roleNoStaffConverter;
 
     @Autowired
-    public StaffConverter(BaseConverter<Address, AddressDto> addressConverter, AddressRepository addressRepository) {
+    public StaffConverter(BaseConverter<Address, AddressDto> addressConverter, AddressRepository addressRepository, BaseConverter<Rolee, RoleeDtoNoStaff> roleNoStaffConverter) {
         this.addressConverter = addressConverter;
         this.addressRepository = addressRepository;
+        this.roleNoStaffConverter = roleNoStaffConverter;
     }
 
 
@@ -35,6 +39,7 @@ public class StaffConverter implements BaseConverter<Staff, StaffDto>, ToBaseCon
         staffDto.setUsername(from.getUsername());
         staffDto.setPassword(from.getPassword());
         staffDto.setStoreId(from.getStore().getStore_id());
+        staffDto.setRolee(roleNoStaffConverter.convertAll(from.getRolees()));
         return staffDto;
     }
 
