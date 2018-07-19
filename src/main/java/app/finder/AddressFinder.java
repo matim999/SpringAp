@@ -38,6 +38,5 @@ public class AddressFinder {
                 .filter(a -> countryId == 0 || a.getCity().getCountry().getCountryId() == countryId)
                 .filter(a -> country == null || a.getCity().getCountry().getCountry().equals(country))
                 .collect(Collectors.toList());
-        //return addressRepository.findQuery(address, district, /*cityId,*/ city, /*countryId,*/ country, postalCode, phone);
     }
 }

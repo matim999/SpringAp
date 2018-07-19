@@ -1,5 +1,6 @@
 package app.entity;
 
+import app.DTO.requestDTO.ActorDtoRequest;
 import app.DTO.responseDTO.ActorDto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -49,8 +50,8 @@ public class Actor implements Serializable {
         films.add(film);
     }
 
-    public void update(ActorDto actorDto) {
-        this.firstName = actorDto.getFirstName();
-        this.lastName = actorDto.getLastName();
+    public void update(ActorDtoRequest actorDtoRequest) {
+        this.firstName = actorDtoRequest.getFirstName();
+        this.lastName = actorDtoRequest.getLastName();
     }
 }

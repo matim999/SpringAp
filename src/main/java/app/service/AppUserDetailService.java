@@ -32,18 +32,6 @@ public class AppUserDetailService implements UserDetailsService {
         Staff user = staffRepository.findOneByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
 
-//        return org.springframework.security.core.userdetails.User
-//                .withUsername(username)
-//                .password(passwordEncoder.encode(user.getPassword()))
-//                .authorities(emptyList())
-//                .accountExpired(false)
-//                .accountLocked(false)
-//                .credentialsExpired(false)
-//                .disabled(false)
-//                .build();
-        System.out.println(user.getPassword());
-        System.out.println(bCryptPasswordEncoder.encode(user.getPassword()));
-        System.out.println(bCryptPasswordEncoder.encode(user.getPassword()));
         return new User(user.getUsername(), user.getPassword(), emptyList());
     }
 

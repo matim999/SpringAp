@@ -66,10 +66,17 @@ public class CityController {
         return new ResponseEntity(cityService.checkForCity(city), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(path = "/")
     public @ResponseBody
     ResponseEntity addNewCity(@RequestBody City city) {
         cityService.addNewCity(city);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping
+    public @ResponseBody
+    ResponseEntity addCity(@RequestBody City city) {
+        cityService.addCity(city);
         return new ResponseEntity(HttpStatus.OK);
     }
 

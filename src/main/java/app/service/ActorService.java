@@ -45,11 +45,11 @@ public class ActorService {
     }
 
     public void updateActor(int id, ActorDtoRequest actorDtoRequest) {
-        ActorDto actorDto = actorConverter.convertAll(actorRepository.findById(id)
+        Actor actor = actorRepository.findById(id)
                 .orElseThrow(
-                        () -> new MyNotFoundException("Blad", ErrorCode.DIFFERENT)));
-        System.out.println(this.getClass().getEnclosingMethod());
-        System.out.println(Thread.currentThread().getStackTrace());
+                        () -> new MyNotFoundException("Blad", ErrorCode.DIFFERENT));
+        actor.update(actorDtoRequest);
+        actorRepository.save(actor);
     }
 
     public void deleteActorById(int id) {

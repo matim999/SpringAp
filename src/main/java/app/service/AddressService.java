@@ -1,10 +1,14 @@
 package app.service;
 
 import app.DTO.converter.BaseConverter;
+import app.DTO.converter.ToBaseConverter;
+import app.DTO.requestDTO.AddressDtoRequest;
 import app.DTO.responseDTO.AddressDto;
 import app.DTO.responseDTO.CityDto;
+import app.ErrorCode;
 import app.entity.Address;
 import app.entity.City;
+import app.exceptions.ConflictException;
 import app.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,20 @@ public class AddressService {
         this.addressRepository = addressRepository;
         this.cityService = cityService;
         this.addressConverter = addressConverter;
+    }
+
+    public void addNewAddress(Address address){
+        AddressDto addressDto = addressConverter.convertAll(address);
+        Collection<AddressDto> existingAddresses = addressConverter.convertAll(addressRepository.findByAddress(addressDto.getAddress()).orElse(new ArrayList<>()));
+        if (!existingAddresses.isEmpty()) {
+            if ( existingAddresses
+                    .stream()
+                    .filter(a -> a.equals(addressDto))
+                    .findFirst()
+                    .isPresent() )
+                throw new ConflictException("This address already exists", ErrorCode.DIFFERENT);
+        }
+        checkForAddress(addressDto);
     }
 
     Address checkForAddress(AddressDto addressDto) {

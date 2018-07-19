@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-//@PropertySource("classpath:lang/${lang}.properties")
+@PropertySource("classpath:lang/${language}.properties")
 @PropertySource("classpath:application.properties")
 public class AppConfig {
     @Value("${profile}")
@@ -30,11 +30,6 @@ public class AppConfig {
     public InfoDto getInfoDto() {
         return new InfoDto(title, description, profile);
     }
-
-//    @Bean
-//    PasswordEncoder passwordEncoder(){
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

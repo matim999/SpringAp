@@ -5,6 +5,7 @@ import app.DTO.requestDTO.StaffDtoRequest;
 import app.DTO.responseDTO.StaffDto;
 import app.entity.Staff;
 import app.finder.StaffFinder;
+import app.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,13 @@ import java.util.List;
 @RequestMapping("/staff")
 public class StaffController {
     private final StaffFinder staffFinder;
+    private final StaffService staffService;
     private final BaseConverter<Staff, StaffDto> staffConverter;
 
     @Autowired
-    public StaffController(StaffFinder staffFinder, BaseConverter<Staff, StaffDto> staffConverter) {
+    public StaffController(StaffFinder staffFinder, StaffService staffService, BaseConverter<Staff, StaffDto> staffConverter) {
         this.staffFinder = staffFinder;
+        this.staffService = staffService;
         this.staffConverter = staffConverter;
     }
 
@@ -40,6 +43,13 @@ public class StaffController {
     public @ResponseBody
     ResponseEntity<List> findAllStaffByFirstName(@RequestParam String fname) {
         return new ResponseEntity(staffConverter.convertAll(staffFinder.findAllStaffByFirstName(fname)), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/sign-up")
+    public @ResponseBody
+    ResponseEntity addNewStaffSignUp(@RequestParam StaffDtoRequest staffDtoRequest) {
+        staffService.signUp(staffDtoRequest);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

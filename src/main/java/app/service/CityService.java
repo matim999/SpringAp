@@ -3,6 +3,7 @@ package app.service;
 import app.DTO.converter.BaseConverter;
 import app.DTO.responseDTO.CityDto;
 import app.DTO.responseDTO.CountryDto;
+import app.ErrorCode;
 import app.entity.City;
 import app.entity.Country;
 import app.exceptions.ConflictException;
@@ -114,6 +115,20 @@ public class CityService {
             throw new MyNotFoundException("Country with given name doesn't exist", CITY_UPDATE_COUNTRY_WITH_GIVEN_NAME_NOT_FOUND);
         cityRepository.saveAndFlush(city);
         logger.info("Added new city: Id = " + city.getCityId() + " name = " + city.getCity());
+    }
+
+    public void addCity(City city){
+        CityDto cityDto = cityConverter.convertAll(city);
+        Collection<CityDto> existingCities = cityConverter.convertAll(cityRepository.findByCity(cityDto.getCity()).orElse(new ArrayList<>()));
+        if (!existingCities.isEmpty()) {
+            if ( existingCities
+                    .stream()
+                    .filter(a -> a.equals(cityDto))
+                    .findFirst()
+                    .isPresent() )
+                throw new ConflictException("This address already exists", ErrorCode.DIFFERENT);
+        }
+        checkForCity(cityDto);
     }
 
     public City checkForCity(CityDto cityDto) {

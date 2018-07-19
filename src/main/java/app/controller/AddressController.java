@@ -4,6 +4,7 @@ import app.DTO.converter.BaseConverter;
 import app.DTO.responseDTO.AddressDto;
 import app.entity.Address;
 import app.finder.AddressFinder;
+import app.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,13 @@ import java.util.List;
 public class AddressController {
     private final AddressFinder addressFinder;
     private final BaseConverter<Address, AddressDto> addressConverter;
+    private final AddressService addressService;
 
     @Autowired
-    public AddressController(AddressFinder addressFinder, BaseConverter<Address, AddressDto> addressConverter) {
+    public AddressController(AddressFinder addressFinder, BaseConverter<Address, AddressDto> addressConverter, AddressService addressService) {
         this.addressFinder = addressFinder;
         this.addressConverter = addressConverter;
+        this.addressService = addressService;
     }
 
     @GetMapping()
@@ -47,5 +50,12 @@ public class AddressController {
     public @ResponseBody
     ResponseEntity getAddressByCountry(@PathVariable String country) {
         return new ResponseEntity(addressConverter.convertAll(addressFinder.findAddressByCountry(country)), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public @ResponseBody
+    ResponseEntity addNewAddress(@RequestBody Address address){
+        addressService.addNewAddress(address);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

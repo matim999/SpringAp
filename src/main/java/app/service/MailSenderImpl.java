@@ -3,6 +3,7 @@ package app.service;
 import app.entity.Rental;
 import app.repository.CustomerRepository;
 import app.repository.RentalRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class MailSenderImpl implements MailSender {
     }
 
     @Override
-//    @Scheduled(fixedRate = 500000)
+    @Scheduled(fixedRate = 50000000)
     public void sendEmailToCustomersAboutRetentionFee() {
         CurrentTime.updateTime();
         HashSet<Integer> customerSet = new HashSet<>();

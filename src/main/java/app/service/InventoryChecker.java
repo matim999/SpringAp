@@ -12,5 +12,4 @@ public interface InventoryChecker {
     boolean checkIfAlreadyRentedByThisCustomer(Customer customer, int FilmId);
 
     Rental FindRentalsForCustomerByFilmId(int CustomerId, int filmId);
-
 }

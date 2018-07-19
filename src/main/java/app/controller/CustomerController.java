@@ -55,6 +55,13 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PostMapping(path = "/")
+    public @ResponseBody
+    ResponseEntity addCustomer(@RequestBody Customer customer) {
+        customerService.addCustomer(customer);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public @ResponseBody
     ResponseEntity deleteCustomerByID(@PathVariable int id) {

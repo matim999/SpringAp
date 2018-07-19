@@ -10,6 +10,7 @@ import app.DTO.responseDTO.AddressDto;
 import app.DTO.responseDTO.CustomerDto;
 import app.DTO.responseDTO.PaymentDto;
 import app.DTO.responseDTO.RentalDto;
+import app.ErrorCode;
 import app.entity.*;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
@@ -69,6 +70,21 @@ public class CustomerService {
                 throw new ConflictException("Customer with given data already exists", DIFFERENT);
         });
         saveCustomer(customerDtoRequest);
+    }
+
+    public void addCustomer(Customer customer) {
+        CustomerDto customerDto = customerConverter.convertAll(customer);
+        Collection<CustomerDto> existingCustomers = customerConverter.convertAll(customerRepository
+                .findAllByFirstNameAndLastName(customerDto.getFirstName(), customerDto.getLastName()).orElse(new ArrayList<>()));
+        if (!existingCustomers.isEmpty()) {
+            if ( existingCustomers
+                    .stream()
+                    .filter(a -> a.equals(customerDto))
+                    .findFirst()
+                    .isPresent() )
+                throw new ConflictException("This address already exists", ErrorCode.DIFFERENT);
+        }
+        checkForCustomer(customerDto);
     }
 
 
