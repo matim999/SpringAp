@@ -47,10 +47,8 @@ public class Staff {
     @JsonIgnore
     private @Getter
     Store store;
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany(
+            fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "staff_rolee",
             joinColumns = @JoinColumn(name = "staff_id"),
             inverseJoinColumns = @JoinColumn(name = "rolee_id")

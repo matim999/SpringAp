@@ -1,5 +1,6 @@
 package app.security;
 
+import app.entity.Staff;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -7,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -15,8 +18,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
+
 import static app.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -30,14 +33,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            AccountCredentials creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), AccountCredentials.class);
-
+            Staff creds = new ObjectMapper()
+                    .readValue(req.getInputStream(), Staff.class);
+            Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),
                             creds.getPassword(),
-                            new ArrayList<>())
+                            new HashSet<>())
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -50,8 +53,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
+        System.out.println(Arrays.toString(auth.getAuthorities().toArray()));
         String token = Jwts.builder()
                 .setSubject(((User) auth.getPrincipal()).getUsername())
+                .claim(AUTHORITIES_KEY, auth.getAuthorities())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
                 .compact();

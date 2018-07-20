@@ -2,6 +2,7 @@ package app.restControllerAdvice;
 
 import app.DTO.responseDTO.ResponseMsg;
 import app.exceptions.ConflictException;
+import app.exceptions.MyAuthenticationServiceException;
 import app.exceptions.MyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(MyNotFoundException.class)
     public ResponseEntity<ResponseMsg> handleNotFoundException(MyNotFoundException ex) {
-        logger.warning("Exception: MyNotFoundException, cause: " + ex.getMessage());
+        logger.info("Exception: MyNotFoundException, cause: " + ex.getMessage());
         ResponseMsg responseMsg = new ResponseMsg(ex.getMessage(), ex.getErrorCode());
         return new ResponseEntity<>(responseMsg, HttpStatus.NOT_FOUND);
     }
@@ -29,6 +30,13 @@ public class ExceptionControllerAdvice {
         logger.warning("Exception: ConflictException, cause: " + ex.getMessage());
         ResponseMsg responseMsg = new ResponseMsg(ex.getMessage(), ex.getErrorCode());
         return new ResponseEntity<>(responseMsg, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(MyAuthenticationServiceException.class)
+    public ResponseEntity<ResponseMsg> handleMyAuthenticationServiceException(MyAuthenticationServiceException ex) {
+        logger.warning("Exception: MyAuthenticationServiceException, cause: " + ex.getMessage());
+        ResponseMsg responseMsg = new ResponseMsg(ex.getMessage(), ex.getErrorCode());
+        return new ResponseEntity<>(responseMsg, HttpStatus.I_AM_A_TEAPOT);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)

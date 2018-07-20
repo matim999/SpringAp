@@ -1,9 +1,9 @@
 package app.entity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +20,7 @@ public class Rolee {
     int roleeId;
     private @Getter
     String rolee;
-    @ManyToMany(mappedBy = "rolees")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "rolees", cascade = CascadeType.ALL)
     private @Getter
     List<Staff> staff;
 }
