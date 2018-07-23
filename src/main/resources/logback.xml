@@ -25,6 +25,13 @@
         </encoder>
     </appender>
 
+    <!--<appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+        <!--<file>logshort.log</file>-->
+        <!--<encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
+            <!--<customFields>{"application":"log-odyssey"}</customFields>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
     <logger name="com.lul" level="TRACE"/>
 
     <root level="INFO">

@@ -42,6 +42,12 @@ public class InfoController {
         return new ResponseEntity<>(infoService.getInfo(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/info4")
+    public @ResponseBody
+    InfoDto printInfo4() {
+        return infoService.getInfo();
+    }
+
 //
 //    @GetMapping(path = "/info4")
 //    @PreAuthorize("hasRole('Role2')")
