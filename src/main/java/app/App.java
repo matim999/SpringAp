@@ -1,5 +1,8 @@
 package app;
 
+import app.DTO.responseDTO.InfoDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,5 +16,8 @@ public class App {
     public static void main(String[] args) {
         ConfigurableApplicationContext context =
                 SpringApplication.run(App.class, "AppConfig.java");
+        Logger logger = LoggerFactory.getLogger(App.class.getName());
+        InfoDto infoDto = new InfoDto("gdgsdgdsg", "gdsgsgsd", "gdagdsgds");
+        logger.info("message {}", infoDto);
     }
 }

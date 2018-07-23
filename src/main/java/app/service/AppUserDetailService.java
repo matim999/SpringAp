@@ -1,9 +1,11 @@
 package app.service;
 
+import app.ErrorCode;
 import app.entity.RolesList;
 import app.entity.Staff;
 import app.exceptions.MyAuthenticationServiceException;
 import app.repository.StaffRepository;
+import app.security.MyErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -14,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Set;
@@ -46,15 +49,12 @@ public class AppUserDetailService implements UserDetailsService {
 
     private RolesList getRolesFromOtherService(Staff user) {
         RestTemplate restTemplate = new RestTemplate();
-        String authUrl = AUTHORITIES_URL + user.getStaffId();
-        System.out.println(authUrl);
-        RolesList rolesList;
-        try{
-            rolesList = restTemplate.getForObject(authUrl, RolesList.class);
-        }catch (Exception ex){
-            throw new MyAuthenticationServiceException("Auth server not responding", AUTHORITIES_SERVER_NOR_RESPONDING);
-        }
-        return rolesList;
+
+//        restTemplate.setErrorHandler(new MyErrorHandler());
+            String authUrl = AUTHORITIES_URL + user.getStaffId();
+            RolesList rolesList = restTemplate.getForObject(authUrl, RolesList.class);
+            return rolesList;
+
     }
 
 }

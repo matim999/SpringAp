@@ -1,6 +1,8 @@
 package app.security;
 
+import app.ErrorCode;
 import app.entity.Rolee;
+import app.exceptions.MyAuthenticationServiceException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -59,13 +61,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .flatMap(map -> map.values().stream())
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
+            throw new MyAuthenticationServiceException("gdsgdsg", ErrorCode.AUTHORITIES_SERVER_NOR_RESPONDING);
             //List<GrantedAuthority> grantedAuthorities = authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
             //List<GrantedAuthority> authorities = new ArrayList<>();
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, authorities);
-            }
-            return null;
+//            if (user != null) {
+//                return new UsernamePasswordAuthenticationToken(user, null, authorities);
+//            }
+//            return null;
         }
         return null;
     }

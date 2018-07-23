@@ -1,15 +1,18 @@
 package app.security;
 
+import app.ErrorCode;
 import app.entity.Staff;
+import app.exceptions.MyAuthenticationServiceException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -18,7 +21,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
 
 import static app.security.SecurityConstants.*;
 
@@ -35,7 +39,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             Staff creds = new ObjectMapper()
                     .readValue(req.getInputStream(), Staff.class);
-            Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),
@@ -53,7 +56,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-        System.out.println(Arrays.toString(auth.getAuthorities().toArray()));
         String token = Jwts.builder()
                 .setSubject(((User) auth.getPrincipal()).getUsername())
                 .claim(AUTHORITIES_KEY, auth.getAuthorities())
@@ -62,4 +64,23 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .compact();
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        if (failed.getClass().isAssignableFrom(InternalAuthenticationServiceException.class)) {
+            System.out.println("BAD_CREDENTIAL");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, failed.getMessage());
+            response.addHeader("test", "test1");
+            response.flushBuffer();
+            response.setStatus(500);
+            System.out.println("HDSHS");
+//            throw new MyAuthenticationServiceException("AGGSG", ErrorCode.AUTHORITIES_SERVER_NOR_RESPONDING);
+        } else if (failed.getClass().isAssignableFrom(BadCredentialsException.class)) {
+            System.out.println("USER_DISABLED");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, failed.getMessage());
+            response.addHeader("test", "test1");
+        }
+    }
+
+
 }
