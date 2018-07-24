@@ -61,14 +61,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .flatMap(map -> map.values().stream())
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
-            throw new MyAuthenticationServiceException("gdsgdsg", ErrorCode.AUTHORITIES_SERVER_NOR_RESPONDING);
-            //List<GrantedAuthority> grantedAuthorities = authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-
-            //List<GrantedAuthority> authorities = new ArrayList<>();
-//            if (user != null) {
-//                return new UsernamePasswordAuthenticationToken(user, null, authorities);
-//            }
-//            return null;
+//            List<GrantedAuthority> grantedAuthorities = authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+//            List<GrantedAuthority> authorities = new ArrayList<>();
+            if (user != null) {
+                return new UsernamePasswordAuthenticationToken(user, null, authorities);
+            }
+            return null;
         }
         return null;
     }

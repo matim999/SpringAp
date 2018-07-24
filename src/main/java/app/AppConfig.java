@@ -1,12 +1,11 @@
 package app;
 
 import app.DTO.responseDTO.InfoDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -17,12 +16,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class AppConfig {
     @Value("${profile}")
     public String profile;
-    @Autowired
-    Environment env;
     @Value("${title}")
     private String title;
     @Value("${description}")
     private String description;
+
 
     @Bean
     public InfoDto getInfoDto() {

@@ -14,11 +14,8 @@ public final class LoggingHelper {
 
     public static String getJsonRepresentation(Object object) {
         ObjectWriter writer = new ObjectMapper()
-                .writer()
-                .withDefaultPrettyPrinter();
-        String representation = "JSON representation of ["
-                + object.getClass().getSimpleName()
-                + "] object:\n";
+                .writer();
+        String representation = "\", \"" + object.getClass().getSimpleName() + "\":";
         try {
             representation += writer.writeValueAsString(object);
         } catch (JsonProcessingException e) {
