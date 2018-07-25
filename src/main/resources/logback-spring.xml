@@ -34,7 +34,7 @@
 
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>loggg.log</file>
+        <file>./datavolume/loggg.log</file>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{
                 "AppVersion":"${version}",
