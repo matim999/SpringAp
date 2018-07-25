@@ -55,9 +55,9 @@ public class AppUserDetailService implements UserDetailsService {
     private RolesList getRolesFromOtherService(Staff user) {
         RestTemplate restTemplate = new RestTemplate();
         String authUrl = AUTHORITIES_URL + user.getStaffId();
-        RolesList rolesList = null;
+        RolesList rolesList;
         try {
-            restTemplate.getForObject(authUrl, RolesList.class);
+            rolesList = restTemplate.getForObject(authUrl, RolesList.class);
         } catch (RestClientException e) {
             logger.info(Markers.authorityServerErrorMarker, "{}, service {}", value("action", "Connect to authority server"),
                     value("service", "failed"));

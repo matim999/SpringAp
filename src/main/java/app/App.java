@@ -30,12 +30,6 @@ public class App {
     public static void main(String[] args) throws JsonProcessingException {
         ConfigurableApplicationContext context =
                 SpringApplication.run(App.class, "AppConfig.java");
-        ContextIdApplicationContextInitializer contextInitializer = new ContextIdApplicationContextInitializer();
-
-        Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
-        System.out.println(context.getApplicationName());
-//        System.out.println(context.);
-//        contextInitializer.initialize(context);
 
 //
         MDC.put("VERSION", "1.0");
