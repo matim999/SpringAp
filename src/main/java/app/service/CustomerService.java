@@ -11,6 +11,7 @@ import app.DTO.responseDTO.CustomerDto;
 import app.DTO.responseDTO.PaymentDto;
 import app.DTO.responseDTO.RentalDto;
 import app.ErrorCode;
+import app.Markers;
 import app.entity.*;
 import app.exceptions.ConflictException;
 import app.exceptions.MyNotFoundException;
@@ -19,8 +20,12 @@ import app.repository.CustomerRepository;
 import app.repository.StoreRepository;
 import org.apache.commons.math3.util.Precision;
 import org.javatuples.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import static net.logstash.logback.argument.StructuredArguments.value;
+
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -30,6 +35,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class CustomerService {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class.getSimpleName());
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
     private final StoreRepository storeRepository;
@@ -142,6 +148,9 @@ public class CustomerService {
                 .orElseThrow(() -> new MyNotFoundException("Customer Has wrong storeId", FILM_RENT_CUSTOMER_STORE_NOT_FOUND));
         Rental rental = rentalService.saveRentRental(createRentalRequestDto(customer, inventory, store));
         Payment payment = paymentService.saveRentPayment(createPaymentDtoRequest(customer, store, rental));
+        logger.info(Markers.rentalMarker, "{}, {}, for customer {}, payment {}", value("action", "New film rental"),
+                value("rental", rental.getRentalId()), value("customer", customer.getCustomerId()),
+                value("payment", payment.getPaymentId()));
         return new Pair<>(rental.getRentalId(), payment.getPaymentId());
     }
 
@@ -181,6 +190,9 @@ public class CustomerService {
         if (DAYS.between(rental.getRentalDate().toLocalDate(), rental.getReturnDate().toLocalDate()) > rental.getInventory().getFilm().getRentalDuration()) {
             payment = returnAFilmRetentionFee(rental, customer);
         }
+        logger.info(Markers.returnMarker, "{}, {}, for customer {}, payment {}", value("action", "Film return"),
+                value("rental", rental.getRentalId()), value("customer", customer.getCustomerId()),
+                value("payment", payment.getPaymentId()));
         return new Pair<>(rental.getRentalId(), payment != null ? payment.getPaymentId() : null);
     }
 

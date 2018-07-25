@@ -1,20 +1,22 @@
 package app.security;
 
-import app.ErrorCode;
+import app.Markers;
 import app.entity.Staff;
-import app.exceptions.MyAuthenticationServiceException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import static net.logstash.logback.argument.StructuredArguments.keyValue;
+import static net.logstash.logback.argument.StructuredArguments.value;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,6 +29,7 @@ import java.util.HashSet;
 import static app.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    private static final Logger logger = LoggerFactory.getLogger(UsernamePasswordAuthenticationFilter.class.getSimpleName());
     private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -39,6 +42,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             Staff creds = new ObjectMapper()
                     .readValue(req.getInputStream(), Staff.class);
+            logger.info(Markers.loginMarker, "{} for username: \"{}\" password: \"{}\"", value("action", "Attempt Login"),
+                    value("username", creds.getUsername()), value("password", creds.getPassword()));
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),
@@ -55,7 +60,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-
+        logger.info(Markers.loginMarker, "{} for username: \"{}\"", value("action", "Success Login"),
+                value("username", ((User) auth.getPrincipal()).getUsername()));
         String token = Jwts.builder()
                 .setSubject(((User) auth.getPrincipal()).getUsername())
                 .claim(AUTHORITIES_KEY, auth.getAuthorities())
@@ -73,10 +79,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             response.addHeader("test", "test1");
             response.flushBuffer();
             response.setStatus(500);
-            System.out.println("HDSHS");
 //            throw new MyAuthenticationServiceException("AGGSG", ErrorCode.AUTHORITIES_SERVER_NOR_RESPONDING);
         } else if (failed.getClass().isAssignableFrom(BadCredentialsException.class)) {
             System.out.println("USER_DISABLED");
+            System.out.println(request.getParameter("j_username"));
+            System.out.println(request.getParameter("password"));
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, failed.getMessage());
             response.addHeader("test", "test1");
         }

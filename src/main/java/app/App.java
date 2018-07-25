@@ -3,9 +3,7 @@ package app;
 import app.DTO.responseDTO.InfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -40,8 +38,8 @@ public class App {
 //        contextInitializer.initialize(context);
 
 //
-//        MDC.put("VERSION", "gdgdsgs");
-//        Logger logger = LoggerFactory.getLogger(App.class.getName());
+        MDC.put("VERSION", "1.0");
+        Logger logger = LoggerFactory.getLogger(App.class.getName());
 //        InfoDto infoDto = new InfoDto("gdgsdgdsg", "gdsgsgsd", "gdagdsgds");
 //        ObjectMapper mapper = new ObjectMapper();
 //        String s1 = LoggingHelper.getJsonRepresentation(infoDto);
@@ -52,22 +50,16 @@ public class App {
 //        MDC.put("hasMessage", "true");
 //        logger.info("{\"type\":\"example\",\"msg\":\"example of json message with type\"}");
 //        int customerId = 132;
-//        int orderId = 151;
+//        Marker marker = MarkerFactory.getMarker("TestMarker");
+//        logger.info(marker, "{}; {} {}", value("action", "accepted order"),
+//                keyValue("customer", customerId), keyValue("order", infoDto));
+//        customerId = 137;
+//        logger.info(marker, "{}; {} {}", value("action", "accepted order"),
+//                keyValue("customer", customerId), keyValue("order", infoDto));
+//        customerId = 139;
+//        logger.info(marker, "{}; {} {}", value("action", "accepted order"),
+//                keyValue("customer", customerId), keyValue("order", infoDto));
 //        logger.info("{}; {} {}", value("action", "accepted order"),
 //                keyValue("customer", customerId), keyValue("order", infoDto));
-    }
-
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-        return args -> {
-
-            System.out.println("Let's inspect the beans provided by Spring Boot:");
-
-            String[] beanNames = ctx.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-        };
     }
 }
