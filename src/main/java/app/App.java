@@ -1,24 +1,15 @@
 package app;
 
-import app.DTO.responseDTO.InfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.ContextIdApplicationContextInitializer;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import java.util.Arrays;
-
-import static net.logstash.logback.argument.StructuredArguments.keyValue;
-import static net.logstash.logback.argument.StructuredArguments.value;
 
 @SpringBootApplication
 @EnableScheduling

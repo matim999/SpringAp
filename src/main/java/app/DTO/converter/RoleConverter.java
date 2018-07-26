@@ -1,10 +1,9 @@
 package app.DTO.converter;
 
-import app.DTO.responseDTO.*;
-import app.entity.Address;
+import app.DTO.responseDTO.RoleeDto;
+import app.DTO.responseDTO.StaffDtoNoRole;
 import app.entity.Rolee;
 import app.entity.Staff;
-import app.entity.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

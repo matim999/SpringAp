@@ -54,7 +54,7 @@ public class AddressController {
 
     @PostMapping
     public @ResponseBody
-    ResponseEntity addNewAddress(@RequestBody Address address){
+    ResponseEntity addNewAddress(@RequestBody Address address) {
         addressService.addNewAddress(address);
         return new ResponseEntity(HttpStatus.OK);
     }

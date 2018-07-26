@@ -117,15 +117,15 @@ public class CityService {
         logger.info("Added new city: Id = " + city.getCityId() + " name = " + city.getCity());
     }
 
-    public void addCity(City city){
+    public void addCity(City city) {
         CityDto cityDto = cityConverter.convertAll(city);
         Collection<CityDto> existingCities = cityConverter.convertAll(cityRepository.findByCity(cityDto.getCity()).orElse(new ArrayList<>()));
         if (!existingCities.isEmpty()) {
-            if ( existingCities
+            if (existingCities
                     .stream()
                     .filter(a -> a.equals(cityDto))
                     .findFirst()
-                    .isPresent() )
+                    .isPresent())
                 throw new ConflictException("This address already exists", ErrorCode.DIFFERENT);
         }
         checkForCity(cityDto);

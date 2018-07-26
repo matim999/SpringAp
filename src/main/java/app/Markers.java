@@ -8,4 +8,5 @@ public class Markers {
     public static Marker rentalMarker = MarkerFactory.getMarker("rentalMarker");
     public static Marker returnMarker = MarkerFactory.getMarker("returnMarker");
     public static Marker authorityServerErrorMarker = MarkerFactory.getMarker("authorityServerErrorMarker");
+    public static Marker exceptionMerker = MarkerFactory.getMarker("exceptionMarker");
 }

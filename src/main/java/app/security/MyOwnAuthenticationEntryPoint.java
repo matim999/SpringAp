@@ -1,7 +1,5 @@
 package app.security;
 
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -13,9 +11,9 @@ import java.io.IOException;
 
 @Component
 public class MyOwnAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        System.out.println(authException.getMessage());
-        response.setStatus(500);
-        //        response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, "Auth server not responding: " + authException.getMessage());
+
+    @Override
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+
     }
 }

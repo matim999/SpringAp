@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.List;
 

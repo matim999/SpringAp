@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.Collection;
-import java.util.List;
 
 @Data
 public class RoleeDto {

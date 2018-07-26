@@ -1,77 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <logger name="org.springframework.web" level="DEBUG"/>
-
-    <!--<appender name="CONSOLE"-->
-              <!--class="ch.qos.logback.core.ConsoleAppender">-->
-        <!--<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
-            <!--<customFields>{-->
-                <!--"AppVersion":"${version}",-->
-                <!--"AppVersionn":"${name}"-->
-                <!--}-->
-            <!--</customFields>-->
-            <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
-                <!--<Pattern>-->
-                    <!--%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable-->
-                <!--</Pattern>-->
-            <!--</layout>-->
-        <!--</encoder>-->
-    <!--</appender>-->
 
     <springProperty scope="context" name="version" source="version.number"/>
     <springProperty scope="context" name="name" source="spring.application.name"/>
 
-    <property name="LOG_PATH" value="${version.number}"/>
-    <!--<appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
-        <!--<file>logFile.log</file>-->
-        <!--<append>true</append>-->
-        <!--<encoder>-->
-            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss} | %-5p | [%thread] %logger{5}:%L - %msg%n</pattern>-->
-        <!--</encoder>-->
-    <!--</appender>-->
+    <springProfile name="!docker">
+        <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+            <file>./datavolume/loggg.log</file>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{
+                    "AppVersion":"${version}",
+                    "AppName":"${name}"
+                    }
+                </customFields>
+            </encoder>
+        </appender>
+    </springProfile>
 
-
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>./datavolume/loggg.log</file>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{
-                "AppVersion":"${version}",
-                "AppName":"${name}"
-                }
-            </customFields>
-        </encoder>
-    </appender>
-
-    <!--<appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
-        <!--<file>logshort.log</file>-->
-        <!--<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">-->
-            <!--<jsonFactoryDecorator class="net.logstash.logback.decorate.CharacterEscapesJsonFactoryDecorator">-->
-                <!--<includeStandardAsciiEscapesForJSON>false</includeStandardAsciiEscapesForJSON>-->
-            <!--</jsonFactoryDecorator>-->
-            <!--<filedNames>-->
-                <!--<message>msg</message>-->
-            <!--</filedNames>-->
-            <!--<providers>-->
-                <!--<timestamp/>-->
-                <!--<message/>-->
-                <!--<loggerName/>-->
-                <!--<pattern>-->
-                    <!--&lt;!&ndash; the pattern that defines what to include &ndash;&gt;-->
-                    <!--<pattern>-->
-                        <!--{ "level": "%rawMessage" }-->
-                    <!--</pattern>-->
-                <!--</pattern>-->
-            <!--</providers>-->
-        <!--</encoder>-->
-    <!--</appender>-->
+    <springProfile name="!docker">
+        <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+            <file>/loggg.log</file>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{
+                    "AppVersion":"${version}",
+                    "AppName":"${name}"
+                    }
+                </customFields>
+            </encoder>
+        </appender>
+    </springProfile>
 
     <logger name="com.lul" level="TRACE"/>
 
     <root level="INFO">
-        <appender-ref ref="FILE" />
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
-
 </configuration>

@@ -19,7 +19,7 @@ public class StaffService {
         this.staffRequestConverter = staffRequestConverter;
     }
 
-    public void signUp(StaffDtoRequest staffDtoRequest){
+    public void signUp(StaffDtoRequest staffDtoRequest) {
 
     }
 }

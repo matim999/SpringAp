@@ -12,10 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandlerImpl;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,12 +23,14 @@ import static app.security.SecurityConstants.SIGN_UP_URL;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final MyOwnAuthenticationEntryPoint myOwnAuthenticationEntryPoint;
+    private final MyOwnAccessDeniedHandler myOwnAccessDeniedHandler;
     private final AppUserDetailService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public WebSecurity(MyOwnAuthenticationEntryPoint myOwnAuthenticationEntryPoint, AppUserDetailService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(MyOwnAuthenticationEntryPoint myOwnAuthenticationEntryPoint, MyOwnAccessDeniedHandler myOwnAccessDeniedHandler, AppUserDetailService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.myOwnAuthenticationEntryPoint = myOwnAuthenticationEntryPoint;
+        this.myOwnAccessDeniedHandler = myOwnAccessDeniedHandler;
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -48,8 +46,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 .exceptionHandling()
+                .accessDeniedHandler(myOwnAccessDeniedHandler)
                 .authenticationEntryPoint(myOwnAuthenticationEntryPoint);
-
     }
 
     @Override

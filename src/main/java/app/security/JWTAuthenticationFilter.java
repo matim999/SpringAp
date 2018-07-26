@@ -15,8 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import static net.logstash.logback.argument.StructuredArguments.keyValue;
-import static net.logstash.logback.argument.StructuredArguments.value;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,9 +25,10 @@ import java.util.Date;
 import java.util.HashSet;
 
 import static app.security.SecurityConstants.*;
+import static net.logstash.logback.argument.StructuredArguments.value;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private static final Logger logger = LoggerFactory.getLogger(UsernamePasswordAuthenticationFilter.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(UsernamePasswordAuthenticationFilter.class.getSimpleName() + "Logger");
     private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -42,8 +41,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             Staff creds = new ObjectMapper()
                     .readValue(req.getInputStream(), Staff.class);
-            logger.info(Markers.loginMarker, "{} for username: \"{}\" password: \"{}\"", value("action", "Attempt Login"),
-                    value("username", creds.getUsername()), value("password", creds.getPassword()));
+            logger.info(Markers.loginMarker, "{} for username: \"{}\"", value("action", "Attempt Login"),
+                    value("username", creds.getUsername()));
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),
@@ -73,21 +72,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        if (failed.getClass().isAssignableFrom(InternalAuthenticationServiceException.class)) {
-            System.out.println("BAD_CREDENTIAL");
+        if (failed.getClass().isAssignableFrom(BadCredentialsException.class)) {
+            response.addHeader("Error", "Bad Credentials");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, failed.getMessage());
+            logger.info(Markers.loginMarker, "{}, result: {}, reason: {}", value("action", "Attempt Login"),
+                    value("result", "Failed"), value("reason", failed.getMessage()));
+        } else if (failed.getClass().isAssignableFrom(InternalAuthenticationServiceException.class)) {
+            response.addHeader("Error", "Internal Authentication Service Error");
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, failed.getMessage());
-            response.addHeader("test", "test1");
-            response.flushBuffer();
-            response.setStatus(500);
-//            throw new MyAuthenticationServiceException("AGGSG", ErrorCode.AUTHORITIES_SERVER_NOR_RESPONDING);
-        } else if (failed.getClass().isAssignableFrom(BadCredentialsException.class)) {
-            System.out.println("USER_DISABLED");
-            System.out.println(request.getParameter("j_username"));
-            System.out.println(request.getParameter("password"));
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, failed.getMessage());
-            response.addHeader("test", "test1");
+            logger.info(Markers.loginMarker, "{}, result: {}, reason: {}", value("action", "Attempt Login"),
+                    value("result", "Failed"), value("reason", "Internal Authentication Service Error"));
         }
     }
-
 
 }

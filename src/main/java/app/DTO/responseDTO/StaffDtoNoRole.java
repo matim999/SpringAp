@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
 public @Data
 class StaffDtoNoRole {
     @EqualsAndHashCode.Exclude

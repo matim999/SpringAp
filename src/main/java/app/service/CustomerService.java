@@ -24,18 +24,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import static net.logstash.logback.argument.StructuredArguments.value;
-
 
 import java.text.MessageFormat;
 import java.util.*;
 
 import static app.ErrorCode.*;
 import static java.time.temporal.ChronoUnit.DAYS;
+import static net.logstash.logback.argument.StructuredArguments.value;
 
 @Service
 public class CustomerService {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class.getSimpleName() + "Logger");
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
     private final StoreRepository storeRepository;
@@ -83,11 +82,11 @@ public class CustomerService {
         Collection<CustomerDto> existingCustomers = customerConverter.convertAll(customerRepository
                 .findAllByFirstNameAndLastName(customerDto.getFirstName(), customerDto.getLastName()).orElse(new ArrayList<>()));
         if (!existingCustomers.isEmpty()) {
-            if ( existingCustomers
+            if (existingCustomers
                     .stream()
                     .filter(a -> a.equals(customerDto))
                     .findFirst()
-                    .isPresent() )
+                    .isPresent())
                 throw new ConflictException("This address already exists", ErrorCode.DIFFERENT);
         }
         checkForCustomer(customerDto);

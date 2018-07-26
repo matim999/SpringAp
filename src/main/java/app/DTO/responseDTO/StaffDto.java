@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.Collection;
-import java.util.List;
 
 public @Data
 class StaffDto {

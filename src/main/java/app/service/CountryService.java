@@ -29,7 +29,6 @@ public class CountryService {
     }
 
 
-
     public void deleteCountryById(int id) {
         Country country = countryRepository.findById(id).orElseThrow(() -> new MyNotFoundException("Country with given Id = " + id + " does not exist",
                 COUNTRY_DELETE_COUNTRY_NOT_FOUND));
@@ -65,11 +64,11 @@ public class CountryService {
         CountryDto countryDto = countryConverter.convertAll(country);
         Collection<Country> existingCountry = countryRepository.findAllByCountry(country.getCountry()).orElse(new ArrayList<>());
         if (!existingCountry.isEmpty()) {
-            if ( existingCountry
+            if (existingCountry
                     .stream()
                     .filter(a -> a.equals(countryDto))
                     .findFirst()
-                    .isPresent() )
+                    .isPresent())
                 throw new ConflictException("This address already exists", ErrorCode.DIFFERENT);
         }
         checkForCountry(countryDto);

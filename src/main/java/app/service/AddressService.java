@@ -1,8 +1,6 @@
 package app.service;
 
 import app.DTO.converter.BaseConverter;
-import app.DTO.converter.ToBaseConverter;
-import app.DTO.requestDTO.AddressDtoRequest;
 import app.DTO.responseDTO.AddressDto;
 import app.DTO.responseDTO.CityDto;
 import app.ErrorCode;
@@ -29,15 +27,15 @@ public class AddressService {
         this.addressConverter = addressConverter;
     }
 
-    public void addNewAddress(Address address){
+    public void addNewAddress(Address address) {
         AddressDto addressDto = addressConverter.convertAll(address);
         Collection<AddressDto> existingAddresses = addressConverter.convertAll(addressRepository.findByAddress(addressDto.getAddress()).orElse(new ArrayList<>()));
         if (!existingAddresses.isEmpty()) {
-            if ( existingAddresses
+            if (existingAddresses
                     .stream()
                     .filter(a -> a.equals(addressDto))
                     .findFirst()
-                    .isPresent() )
+                    .isPresent())
                 throw new ConflictException("This address already exists", ErrorCode.DIFFERENT);
         }
         checkForAddress(addressDto);

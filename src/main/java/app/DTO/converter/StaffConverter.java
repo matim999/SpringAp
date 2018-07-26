@@ -49,7 +49,7 @@ public class StaffConverter implements BaseConverter<Staff, StaffDto>, ToBaseCon
         staffDto.setFirstName(from.getFirstName());
         staffDto.setLastName(from.getLastName());
         staffDto.setAddress(addressConverter.convertAll(addressRepository.findById(from.getAddressId())
-        .orElseThrow(() -> new MyNotFoundException("Address with given ID does no exist", ErrorCode.DIFFERENT))));
+                .orElseThrow(() -> new MyNotFoundException("Address with given ID does no exist", ErrorCode.DIFFERENT))));
         staffDto.setEmail(from.getEmail());
         staffDto.setActive(from.isActive());
         staffDto.setUsername(from.getUsername());
