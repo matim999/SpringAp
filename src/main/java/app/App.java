@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableAutoConfiguration
 public class App {
     @Value("${version.number}")
     private static String version;
